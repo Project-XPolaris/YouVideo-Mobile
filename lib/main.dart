@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:youvideo/ui/home/HomePage.dart';
+import 'package:youvideo/ui/init/init.dart';
 
 void main() {
   runApp(MyApp());
@@ -34,6 +35,6 @@ class MyApp extends StatelessWidget {
 class Index extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return HomePage();
+    return InitPage();
   }
 }

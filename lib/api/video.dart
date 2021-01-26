@@ -1,4 +1,5 @@
 import 'package:youvideo/api/base.dart';
+import 'package:youvideo/api/file.dart';
 import 'package:youvideo/api/loader.dart';
 
 import '../config.dart';
@@ -10,6 +11,7 @@ class Video {
   String cover;
   String path;
   int library_id;
+  List<File> files;
 
   Video.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -17,15 +19,9 @@ class Video {
     path = json['path'];
     cover = json['cover'];
     library_id = json['library_id'];
-  }
-  getCoverUrl(){
-    if (cover != null){
-      return ApplicationConfig().serviceUrl + cover;
+    if (json.containsKey("files")){
+      files = List<File>.from(json['files'].map((it) => File.fromJson(it)).toList());
     }
-  }
-
-  String getStreamUrl(){
-    return '${ApplicationConfig.apiUrl}/video/$id/stream';
   }
 }
 class VideoLoader extends ApiDataLoader<Video> {
