@@ -19,24 +19,32 @@ class VideosTabPage extends StatelessWidget {
           provider.loadData();
           print(provider.loader.list);
           return Container(
-            child: ListView(
-              controller: controller,
-              children: provider.loader.list.map((video) {
-                File file = video.files.first;
-                return VideoItem(
-                  coverUrl: file.getCoverUrl(),
-                  name: video.name,
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => VideoPage(
-                                videoId: video.id,
-                              )),
-                    );
-                  },
-                );
-              }).toList(),
+            child: RefreshIndicator(
+              onRefresh: () async {
+                provider.loader.firstLoad = true;
+                await provider.loader.loadData();
+                return true;
+              },
+              child: ListView(
+                controller: controller,
+                physics: AlwaysScrollableScrollPhysics(),
+                children: provider.loader.list.map((video) {
+                  File file = video.files.first;
+                  return VideoItem(
+                    coverUrl: file.getCoverUrl(),
+                    name: video.name,
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => VideoPage(
+                                  videoId: video.id,
+                                )),
+                      );
+                    },
+                  );
+                }).toList(),
+              ),
             ),
           );
         }));

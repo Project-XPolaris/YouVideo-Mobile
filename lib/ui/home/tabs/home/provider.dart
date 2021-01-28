@@ -4,8 +4,8 @@ import 'package:youvideo/api/video.dart';
 class HomeTabProvider extends ChangeNotifier {
   bool first = true;
   VideoLoader latestVideoLoader = new VideoLoader();
-  loadData() async {
-    if (!first) {
+  loadData({force = false}) async {
+    if (!first && !force) {
       return;
     }
     first = false;
