@@ -19,7 +19,7 @@ class HomeTabPage extends StatelessWidget {
                 await provider.loadData(force: true);
               },
               child: ListView(
-                physics: BouncingScrollPhysics(),
+                physics: AlwaysScrollableScrollPhysics(),
                 children: [
                   VideosHorizonCollection(videos:provider.latestVideoLoader.list ?? [])
                 ],

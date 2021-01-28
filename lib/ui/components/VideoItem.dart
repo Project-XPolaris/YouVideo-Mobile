@@ -27,18 +27,23 @@ class VideoItem extends StatelessWidget {
                 width: 175,
                 height: 120,
               ),
-              Padding(
-                padding: EdgeInsets.only(left: 16, right: 16,top: 16,bottom: 16),
-                child: Column(
-                  children: [
-                    Text(
-                      name,
-                      style: TextStyle(color: Colors.white,fontSize: 16),
-                      textAlign: TextAlign.left,
-                    )
-                  ],
-                ),
-              )
+              Expanded(
+                  child: Padding(
+                    padding: EdgeInsets.only(left: 16, right: 16,top: 16,bottom: 16),
+                    child: Column(
+                      children: [
+                        Text(
+                          name,
+                          style: TextStyle(color: Colors.white,fontSize: 16),
+                          textAlign: TextAlign.left,
+                          overflow: TextOverflow.ellipsis,
+                          maxLines: 3,
+                        )
+                      ],
+                    ),
+                  )
+              ),
+
             ],
           ),
           Container(

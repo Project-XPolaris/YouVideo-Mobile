@@ -40,6 +40,8 @@ class VideoItemHorizon extends StatelessWidget {
               child: Text(
                 name,
                 style: TextStyle(fontWeight: FontWeight.w300,fontSize: 16),
+                overflow: TextOverflow.ellipsis,
+                maxLines: 3,
               ),
             )
           ],
