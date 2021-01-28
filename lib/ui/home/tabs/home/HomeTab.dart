@@ -1,11 +1,25 @@
 import 'package:flutter/cupertino.dart';
+import 'package:provider/provider.dart';
+import 'package:youvideo/ui/components/HorizonCollection.dart';
+import 'package:youvideo/ui/components/VideosHorizonCollection.dart';
+import 'package:youvideo/ui/home/tabs/home/provider.dart';
 
 class HomeTabPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Container(
-        child: Center(
-      child: Text("Home"),
-    ));
+    return ChangeNotifierProvider<HomeTabProvider>(
+        create: (_) => HomeTabProvider(),
+        child: Consumer<HomeTabProvider>(builder: (context, provider, child) {
+          provider.loadData();
+          return Padding(
+            padding: EdgeInsets.only(top: 32, left: 16, right: 16),
+            child: ListView(
+              physics: BouncingScrollPhysics(),
+              children: [
+                VideosHorizonCollection(videos:provider.latestVideoLoader.list ?? [])
+              ],
+            ),
+          );
+        }));
   }
 }

@@ -3,8 +3,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:youvideo/api/file.dart';
-import 'package:youvideo/ui/components/video-item.dart';
+import 'package:youvideo/ui/components/VideoItem.dart';
 import 'package:youvideo/ui/home/tabs/videos/provider.dart';
+import 'package:youvideo/ui/video/VideoPage.dart';
 import 'package:youvideo/util/listview.dart';
 
 class VideosTabPage extends StatelessWidget {
@@ -21,19 +22,18 @@ class VideosTabPage extends StatelessWidget {
             child: ListView(
               controller: controller,
               children: provider.loader.list.map((video) {
-                File file  = video.files.first;
+                File file = video.files.first;
                 return VideoItem(
                   coverUrl: file.getCoverUrl(),
                   name: video.name,
                   onTap: () {
-                    print(file.getStreamUrl());
-                    final AndroidIntent intent = AndroidIntent(
-                      action: 'action_view',
-                      data: file.getStreamUrl(),
-                      type: "video/*",
-                      arguments: <String, dynamic>{},
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => VideoPage(
+                                videoId: video.id,
+                              )),
                     );
-                    intent.launch();
                   },
                 );
               }).toList(),

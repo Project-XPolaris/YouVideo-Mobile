@@ -16,6 +16,7 @@ class HomePage extends StatelessWidget {
           return Scaffold(
             appBar: AppBar(
               title: Text("YouVideo"),
+              backgroundColor: Color(0x1F1F1F),
             ),
             drawer: Drawer(
               // Add a ListView to the drawer. This ensures the user can scroll
@@ -62,7 +63,7 @@ class HomePage extends StatelessWidget {
               currentIndex: provider.activeTab,
               selectedItemColor: Colors.red,
               unselectedItemColor: Colors.white54,
-              backgroundColor: Colors.black,
+              backgroundColor: Color(0x1F1F1F),
               elevation: 0,
               items: [
                 BottomNavigationBarItem(icon: Icon(Icons.home), label: "Home"),
@@ -70,7 +71,8 @@ class HomePage extends StatelessWidget {
                     icon: Icon(Icons.videocam_rounded), label: "Video")
               ],
             ),
-            body: Center(
+            body: Container(
+              color: Color(0xFF121212),
               child: IndexedStack(
                 index: provider.activeTab,
                 children: <Widget>[HomeTabPage(), VideosTabPage()],
