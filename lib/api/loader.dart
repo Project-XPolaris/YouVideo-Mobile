@@ -24,13 +24,15 @@ abstract class ApiDataLoader<T> {
     var response = await fetchData(params);
     list = response.result;
     hasMore = list.length < response.count;
+    print("current = ${response.page * response.pageSize} , total = ${response.count}");
     isLoading = false;
     return true;
   }
 
   Future<bool> loadMore({Map<String,String> extraFilter}) async{
-
-    if (isLoading || !hasMore){
+    print(isLoading);
+    print(hasMore);
+    if (!hasMore){
       return false;
     }
     isLoading = true;
@@ -39,12 +41,9 @@ abstract class ApiDataLoader<T> {
     if (extraFilter != null) {
       params.addAll(extraFilter);
     }
-    var response = await fetchData(queryParams);
+    var response = await fetchData(params);
     list.addAll(response.result);
-    print(list.length);
-    print(response.count);
-    hasMore = list.length < response.count;
-    print(hasMore);
+    hasMore = response.page * response.pageSize < response.count;
     page += 1;
     isLoading = false;
     return true;

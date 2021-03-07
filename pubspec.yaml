@@ -23,10 +23,10 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  provider: ^4.3.3
+  provider: ^5.0.0
   dio: 3.0.10
-  android_intent: ^0.3.7+7
-  shared_preferences: ^0.5.12+4
+  android_intent: ^2.0.0
+  shared_preferences: ^2.0.3
   filesize: ^1.0.4
 
 
@@ -42,7 +42,7 @@ dev_dependencies:
 flutter_icons:
   android: "launcher_icon"
   ios: true
-  image_path: "assets/app-icon.png"
+  image_path: "assets/appicon.png"
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

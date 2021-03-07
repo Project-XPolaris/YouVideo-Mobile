@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:youvideo/api/library.dart';
 import 'package:youvideo/api/video.dart';
 
 import '../config.dart';
@@ -22,8 +23,17 @@ class ApiClient {
   Future<ListResponseWrap<Video>> fetchVideoList(
       Map<String, String> params) async {
     var response = await _dio.get("/videos", queryParameters: params);
+    print(params);
     ListResponseWrap<Video> responseBody = ListResponseWrap.fromJson(
         response.data, (data) => Video.fromJson(data));
+    return responseBody;
+  }
+
+  Future<ListResponseWrap<Library>> fetchLibraryList(
+      Map<String, String> params) async {
+    var response = await _dio.get("/library", queryParameters: params);
+    ListResponseWrap<Library> responseBody = ListResponseWrap.fromJson(
+        response.data, (data) => Library.fromJson(data));
     return responseBody;
   }
 

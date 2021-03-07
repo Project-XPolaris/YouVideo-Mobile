@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:youvideo/ui/home/tabs/home/HomeTab.dart';
+import 'package:youvideo/ui/home/tabs/library/library.dart';
 import 'package:youvideo/ui/home/tabs/videos/videos.dart';
 import 'package:youvideo/ui/setting/SettingsPage.dart';
 
@@ -68,14 +69,16 @@ class HomePage extends StatelessWidget {
               items: [
                 BottomNavigationBarItem(icon: Icon(Icons.home), label: "Home"),
                 BottomNavigationBarItem(
-                    icon: Icon(Icons.videocam_rounded), label: "Video")
+                    icon: Icon(Icons.videocam_rounded), label: "Video"),
+                BottomNavigationBarItem(
+                    icon: Icon(Icons.video_library), label: "Library")
               ],
             ),
             body: Container(
               color: Color(0xFF121212),
               child: IndexedStack(
                 index: provider.activeTab,
-                children: <Widget>[HomeTabPage(), VideosTabPage()],
+                children: <Widget>[HomeTabPage(), VideosTabPage(),LibrariesTabPage()],
               ),
             ),
           );

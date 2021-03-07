@@ -8,7 +8,7 @@ class File {
   String cover;
   String path;
   String name;
-  double duration;
+  num duration;
   int size;
   String main_video_codec;
   String main_audio_codec;

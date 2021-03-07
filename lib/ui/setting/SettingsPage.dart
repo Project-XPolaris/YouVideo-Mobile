@@ -16,12 +16,12 @@ class SettingsPage extends StatelessWidget {
               title: Text("Reset Api"),
               onTap: () async {
                 SharedPreferences sha = await SharedPreferences.getInstance();
-                sha.setString("apiUrl", null);
+                sha.remove("apiUrl");
                 final snackBar = SnackBar(
                   content: Text('apply it! try to restart',style: TextStyle(color: Colors.white),),
                   backgroundColor: Colors.black,
                 );
-                Scaffold.of(context).showSnackBar(snackBar);
+                ScaffoldMessenger.of(context).showSnackBar(snackBar);
               },
             )
           ],

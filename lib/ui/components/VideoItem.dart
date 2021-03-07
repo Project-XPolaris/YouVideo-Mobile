@@ -15,42 +15,37 @@ class VideoItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: EdgeInsets.only(),
-      child: Column(
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.start,
         children: [
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              VideoCover(
-                coverUrl: coverUrl,
-                onTap: onTap,
-                width: 175,
-                height: 120,
-              ),
-              Expanded(
-                  child: Padding(
-                    padding: EdgeInsets.only(left: 16, right: 16,top: 16,bottom: 16),
-                    child: Column(
-                      children: [
-                        Text(
-                          name,
-                          style: TextStyle(color: Colors.white,fontSize: 16),
-                          textAlign: TextAlign.left,
-                          overflow: TextOverflow.ellipsis,
-                          maxLines: 3,
-                        )
-                      ],
-                    ),
-                  )
-              ),
 
-            ],
+          VideoCover(
+            coverUrl: coverUrl,
+            onTap: onTap,
+            width: 120,
+            height: 75,
+            borderRadius: 6,
           ),
-          Container(
-            width: double.infinity,
-            height: 1,
-            color: Colors.white12,
-          )
+          Expanded(
+              child: Padding(
+                padding: EdgeInsets.only(left: 16, right: 16),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      name,
+                      style: TextStyle(color: Colors.white,fontSize: 16),
+                      textAlign: TextAlign.left,
+                      overflow: TextOverflow.ellipsis,
+                      maxLines: 3,
+                    )
+                  ],
+                ),
+              )
+          ),
+
         ],
       ),
     );
