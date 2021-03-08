@@ -1,40 +1,39 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:youvideo/ui/components/LibraryItem.dart';
-import 'package:youvideo/ui/home/tabs/library/provider.dart';
-import 'package:youvideo/ui/library/library.dart';
+import 'package:youvideo/ui/home/tabs/tags/provider.dart';
 import 'package:youvideo/ui/videos/videos.dart';
 import 'package:youvideo/util/listview.dart';
 
-class LibrariesTabPage extends StatelessWidget {
+class TagsTabPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider<HomeLibrariesProvider>(
-        create: (_) => HomeLibrariesProvider(),
-        child: Consumer<HomeLibrariesProvider>(
-            builder: (context, provider, child) {
+    return ChangeNotifierProvider<HomeTagsProvider>(
+        create: (_) => HomeTagsProvider(),
+        child:
+        Consumer<HomeTagsProvider>(builder: (context, provider, child) {
           var controller = createLoadMoreController(() => provider.loadMore());
           provider.loadData();
           return Container(
             child: RefreshIndicator(
               onRefresh: () async {
-                await provider.loadData(force: true);
+                await provider.loader.loadData(force: true);
                 return true;
               },
               child: ListView(
                 controller: controller,
                 physics: AlwaysScrollableScrollPhysics(),
-                children: provider.loader.list.map((library) {
-                  return LibraryItem(
-                    library: library,
-                    onTap: () {
+                children: provider.loader.list.map((tag) {
+                  return ListTile(
+                    title: Text(tag.name),
+                    leading: Icon(Icons.label),
+                    onTap: (){
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => LibraryPage(
-                                  title: library.name,
-                                  libraryId: library.id,
-                                )),
+                            builder: (context) => VideosPage(
+                              title: tag.name,
+                              filter: {"tag": tag.id.toString()},
+                            )),
                       );
                     },
                   );

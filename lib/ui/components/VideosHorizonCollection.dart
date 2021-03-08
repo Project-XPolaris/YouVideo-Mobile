@@ -7,12 +7,13 @@ import 'package:youvideo/ui/components/VideoItem.dart';
 import 'package:youvideo/ui/video/VideoPage.dart';
 
 class VideosHorizonCollection extends StatelessWidget {
+  final String title;
   final List<Video> videos;
-  VideosHorizonCollection({this.videos});
+  VideosHorizonCollection({this.videos,this.title = "Videos"});
   @override
   Widget build(BuildContext context) {
     return HorizonCollection(
-      title: "Videos",
+      title: title,
       children: [
         ...videos.map((video) {
           File file  = video.files.first;

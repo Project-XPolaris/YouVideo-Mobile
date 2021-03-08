@@ -36,7 +36,7 @@ class VideoPage extends StatelessWidget {
               },
               body: Container(
                 padding: EdgeInsets.only(top: 32, left: 16, right: 16),
-                child: Column(
+                child: ListView(
                   children: [
                     Row(
                       crossAxisAlignment: CrossAxisAlignment.start,

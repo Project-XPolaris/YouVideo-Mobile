@@ -25,10 +25,10 @@ class VideosPage extends StatelessWidget {
               title: Text(title),
             ),
             body: Container(
+              color: Color(0xFF121212),
               child: RefreshIndicator(
                 onRefresh: () async {
-                  provider.loader.firstLoad = true;
-                  await provider.loader.loadData();
+                  await provider.loadData(force: true);
                   return true;
                 },
                 child: ListView(

@@ -53,7 +53,7 @@ class _StartPageState extends State<StartPage> {
                   children: [
                     TextField(
                       decoration:
-                          InputDecoration(hintText: 'Enter a search term'),
+                          InputDecoration(hintText: 'Service url'),
                       onChanged: (text) {
                         setState(() {
                           inputUrl = text;

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:youvideo/ui/home/tabs/home/HomeTab.dart';
 import 'package:youvideo/ui/home/tabs/library/library.dart';
+import 'package:youvideo/ui/home/tabs/tags/tags.dart';
 import 'package:youvideo/ui/home/tabs/videos/videos.dart';
 import 'package:youvideo/ui/setting/SettingsPage.dart';
 
@@ -33,7 +34,10 @@ class HomePage extends StatelessWidget {
                         Positioned(
                           bottom: 0,
                           left: 0,
-                          child: Text("YouVideo",style: TextStyle(fontSize: 28),),
+                          child: Text(
+                            "YouVideo",
+                            style: TextStyle(fontSize: 28),
+                          ),
                         ),
                       ],
                     ),
@@ -48,9 +52,7 @@ class HomePage extends StatelessWidget {
                       Navigator.pop(context);
                       Navigator.push(
                         context,
-                        MaterialPageRoute(
-                            builder: (context) => SettingsPage()
-                        ),
+                        MaterialPageRoute(builder: (context) => SettingsPage()),
                       );
                     },
                   ),
@@ -61,6 +63,7 @@ class HomePage extends StatelessWidget {
               onTap: (idx) {
                 provider.setActiveTab(idx);
               },
+              type: BottomNavigationBarType.fixed,
               currentIndex: provider.activeTab,
               selectedItemColor: Colors.red,
               unselectedItemColor: Colors.white54,
@@ -69,16 +72,23 @@ class HomePage extends StatelessWidget {
               items: [
                 BottomNavigationBarItem(icon: Icon(Icons.home), label: "Home"),
                 BottomNavigationBarItem(
-                    icon: Icon(Icons.videocam_rounded), label: "Video"),
+                    icon: Icon(Icons.videocam_rounded), label: "Videos"),
                 BottomNavigationBarItem(
-                    icon: Icon(Icons.video_library), label: "Library")
+                    icon: Icon(Icons.video_library), label: "Libraries"),
+                BottomNavigationBarItem(
+                    icon: Icon(Icons.label), label: "Tags")
               ],
             ),
             body: Container(
               color: Color(0xFF121212),
               child: IndexedStack(
                 index: provider.activeTab,
-                children: <Widget>[HomeTabPage(), VideosTabPage(),LibrariesTabPage()],
+                children: <Widget>[
+                  HomeTabPage(),
+                  VideosTabPage(),
+                  LibrariesTabPage(),
+                  TagsTabPage()
+                ],
               ),
             ),
           );

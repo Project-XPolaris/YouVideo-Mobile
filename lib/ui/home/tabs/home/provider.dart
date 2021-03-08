@@ -11,8 +11,8 @@ class HomeTabProvider extends ChangeNotifier {
       return;
     }
     first = false;
-    await latestVideoLoader.loadData();
-    await libraryLoader.loadData(extraFilter: {"pageSize":"5"});
+    await latestVideoLoader.loadData(force: force,extraFilter: {"order":"id desc"});
+    await libraryLoader.loadData(extraFilter: {"pageSize":"5"},force: force);
     notifyListeners();
   }
 }

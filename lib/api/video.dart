@@ -9,15 +9,17 @@ class Video {
   int id;
   String name;
   String cover;
-  String path;
+  String baseDir;
+  String dirName;
   int library_id;
   List<File> files;
 
   Video.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     name = json['name'];
-    path = json['path'];
+    baseDir = json['base_dir'];
     cover = json['cover'];
+    dirName = json['dirName'];
     library_id = json['library_id'];
     if (json.containsKey("files")){
       files = List<File>.from(json['files'].map((it) => File.fromJson(it)).toList());

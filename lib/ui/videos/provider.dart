@@ -5,8 +5,8 @@ class VideosProvider extends ChangeNotifier {
   final Map<String,String> extraFilter;
   VideosProvider({this.extraFilter});
   VideoLoader loader = new VideoLoader();
-  loadData() async {
-    if (await loader.loadData(extraFilter: extraFilter)){
+  loadData({force = false}) async {
+    if (await loader.loadData(extraFilter: extraFilter,force: force)){
       notifyListeners();
     }
   }

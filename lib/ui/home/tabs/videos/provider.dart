@@ -3,8 +3,8 @@ import 'package:youvideo/api/video.dart';
 
 class HomeVideosProvider extends ChangeNotifier {
     VideoLoader loader = new VideoLoader();
-    loadData() async {
-      if (await loader.loadData()){
+    loadData({force = false}) async {
+      if (await loader.loadData(force: force)){
         notifyListeners();
       }
     }

@@ -8,7 +8,6 @@ class LibraryItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print(library.name);
     return ListTile(
       onTap: onTap,
       leading: Icon(Icons.video_library),
