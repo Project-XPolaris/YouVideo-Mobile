@@ -8,14 +8,14 @@ import 'package:youvideo/util/listview.dart';
 class LibraryPage extends StatelessWidget {
   final String title;
   final int libraryId;
-  LibraryPage({this.title,this.libraryId});
+
+  LibraryPage({this.title, this.libraryId});
 
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider<LibraryProvider>(
         create: (_) => LibraryProvider(libraryId: libraryId),
-        child:
-        Consumer<LibraryProvider>(builder: (context, provider, child) {
+        child: Consumer<LibraryProvider>(builder: (context, provider, child) {
           provider.loadData();
           return DefaultTabController(
             length: 2,
@@ -41,8 +41,12 @@ class LibraryPage extends StatelessWidget {
                   },
                   child: TabBarView(
                     children: [
-                      LibraryVideos(provider: provider,),
-                      LibraryFolders(provider: provider,)
+                      LibraryVideos(
+                        provider: provider,
+                      ),
+                      LibraryFolders(
+                        provider: provider,
+                      )
                     ],
                   ),
                 ),

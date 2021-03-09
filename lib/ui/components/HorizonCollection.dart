@@ -20,7 +20,7 @@ class HorizonCollection extends StatelessWidget {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(title),
+                  Text(title,style: TextStyle(fontWeight: FontWeight.w600),),
                   onMore != null ? TextButton(
                     child: Text(
                       "more",

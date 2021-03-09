@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:youvideo/api/file.dart';
+import 'package:youvideo/ui/components/VideoFilter.dart';
 import 'package:youvideo/ui/components/VideoItem.dart';
 import 'package:youvideo/ui/video/VideoPage.dart';
 import 'package:youvideo/ui/videos/provider.dart';
@@ -56,6 +57,22 @@ class VideosPage extends StatelessWidget {
                   }).toList(),
                 ),
               ),
+            ),
+            floatingActionButton: FloatingActionButton(
+              onPressed: () {
+                showModalBottomSheet(
+                    context: context,
+                    builder: (ctx) {
+                      return VideoFilterView(
+                        filter: provider.filter,
+                        onChange: (filter) {
+                          provider.filter = filter;
+                          provider.loadData(force: true);
+                        },
+                      );
+                    });
+              },
+              child: Icon(Icons.filter_list),
             ),
           );
         }));

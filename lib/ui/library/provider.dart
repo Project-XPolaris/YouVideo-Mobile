@@ -1,14 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:youvideo/api/video.dart';
+import 'package:youvideo/ui/components/VideoFilter.dart';
 
 class LibraryProvider extends ChangeNotifier {
   final int libraryId;
   bool first = true;
+  VideoFilter filter = new VideoFilter(order: "id desc");
 
   LibraryProvider({this.libraryId});
 
   VideoLoader loader = new VideoLoader();
   VideoLoader folderLoader = new VideoLoader();
+
+  Map<String, String> _getVideosExtraParams() {
+    Map<String, String> result = {
+      "order": filter.order,
+      "libraryId": libraryId.toString()
+    };
+    return result;
+  }
 
   loadData() async {
     if (!first) {
@@ -22,23 +32,22 @@ class LibraryProvider extends ChangeNotifier {
 
   loadDirectory({force = false}) async {
     await folderLoader.loadData(
-        extraFilter: {"libraryId": libraryId.toString(), "group": "base_dir"},force: force);
+        extraFilter: {"libraryId": libraryId.toString(), "group": "base_dir"},
+        force: force);
     if (force) {
       notifyListeners();
     }
   }
 
   loadVideos({force = false}) async {
-    print("force load = " + force.toString());
-    await loader.loadData(extraFilter: {"libraryId": libraryId.toString()},force: force);
+    await loader.loadData(extraFilter: _getVideosExtraParams(), force: force);
     if (force) {
       notifyListeners();
     }
   }
 
   loadMoreVideo() async {
-    if (await loader
-        .loadMore(extraFilter: {"libraryId": libraryId.toString()})) {
+    if (await loader.loadMore(extraFilter: _getVideosExtraParams())) {
       notifyListeners();
     }
   }

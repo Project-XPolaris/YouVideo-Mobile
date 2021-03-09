@@ -24,13 +24,20 @@ class HomeTabPage extends StatelessWidget {
               child: ListView(
                 physics: AlwaysScrollableScrollPhysics(),
                 children: [
-                  VideosHorizonCollection(
-                    videos: provider.latestVideoLoader.list ?? [],
-                    title: "Recently added",
+                  Container(
+                    height: 200,
+                    child: VideosHorizonCollection(
+                      videos: provider.latestVideoLoader.list ?? [],
+                      title: "Recently added",
+                    ),
                   ),
-                  Text(
-                    "Libraries",
-                    style: TextStyle(color: Colors.white),
+                  Padding(
+                    padding: const EdgeInsets.only(bottom: 8),
+                    child: Text(
+                      "Libraries",
+                      style: TextStyle(
+                          color: Colors.white, fontWeight: FontWeight.w600),
+                    ),
                   ),
                   ...provider.libraryLoader.list.map((library) {
                     return LibraryItem(
@@ -46,7 +53,40 @@ class HomeTabPage extends StatelessWidget {
                         );
                       },
                     );
-                  }).toList()
+                  }).toList(),
+                  Padding(
+                    padding: const EdgeInsets.only(top: 16, bottom: 8),
+                    child: Text(
+                      "Tags",
+                      style: TextStyle(
+                          color: Colors.white, fontWeight: FontWeight.w600),
+                    ),
+                  ),
+                  Wrap(
+                    children: [
+                      ...provider.tagLoader.list.map((tag) {
+                        return Padding(
+                          padding: const EdgeInsets.only(right: 8),
+                          child: ActionChip(
+                            label: Text(tag.name),
+                            avatar: CircleAvatar(
+                              child: Text("#"),
+                            ),
+                            onPressed: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => VideosPage(
+                                          title: tag.name,
+                                          filter: {"tag": tag.id.toString()},
+                                        )),
+                              );
+                            },
+                          ),
+                        );
+                      })
+                    ],
+                  )
                 ],
               ),
             ),

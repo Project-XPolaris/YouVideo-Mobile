@@ -1,6 +1,26 @@
 import 'package:flutter/material.dart';
 
-class VideoFilter extends StatelessWidget {
+const OrderFilterKeys = [
+  "id asc", "id desc", "name asc", "name desc", "created_at asc", "created_at desc"
+];
+
+class VideoFilter {
+  String order;
+  VideoFilter({this.order});
+}
+
+class VideoFilterView extends StatefulWidget {
+  final VideoFilter filter;
+  final Function(VideoFilter filter) onChange;
+  VideoFilterView({this.filter,this.onChange});
+
+  @override
+  _VideoFilterViewState createState() => _VideoFilterViewState(order: filter.order);
+}
+
+class _VideoFilterViewState extends State<VideoFilterView> {
+  String order;
+  _VideoFilterViewState({this.order});
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -21,18 +41,28 @@ class VideoFilter extends StatelessWidget {
           Container(
             width: double.infinity,
             padding: EdgeInsets.all(16),
-            child: Text("Order",style: TextStyle(color: Colors.white70),),
+            child: Text("Order", style: TextStyle(color: Colors.white70),),
           ),
           Wrap(
             children: [
-              FilterChip(label: Text("id asc"), onSelected: (selected) {},selected: true, selectedColor: Colors.red,),
-              FilterChip(label: Text("id asc"), onSelected: (selected) {},selected: true,),
-              FilterChip(label: Text("id asc"), onSelected: (selected) {},selected: true,),
-              FilterChip(label: Text("id asc"), onSelected: (selected) {},selected: true,)
+              ...OrderFilterKeys.map((key) {
+
+                return Padding(padding: EdgeInsets.only(left: 4,right: 4),
+                  child: FilterChip(label: Text(key),
+                    onSelected: (selected) {
+                      widget.filter.order = key;
+                      widget.onChange(widget.filter);
+                      setState(() {
+                        order = key;
+                      });
+                    },
+                    selected: order == key,
+                    selectedColor: Colors.red,
+                  ),
+                );
+              })
             ],
           )
-
-
         ],
       ),
     );

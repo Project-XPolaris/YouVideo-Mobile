@@ -57,10 +57,18 @@ class VideosTabPage extends StatelessWidget {
                 right: 16,
                 child: FloatingActionButton(
                   child: Icon(Icons.filter_list),
-                  onPressed: (){
-                    showModalBottomSheet(context: context, builder: (ctx){
-                      return VideoFilter();
-                    });
+                  onPressed: () {
+                    showModalBottomSheet(
+                        context: context,
+                        builder: (ctx) {
+                          return VideoFilterView(
+                            filter: provider.filter,
+                            onChange: (filter) {
+                              provider.filter = filter;
+                              provider.loadData(force: true);
+                            },
+                          );
+                        });
                   },
                 ),
               )
