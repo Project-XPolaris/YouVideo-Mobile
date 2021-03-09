@@ -1,6 +1,8 @@
 import 'package:android_intent/android_intent.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:youvideo/ui/components/ActionSelectBottomSheet.dart';
+import 'package:youvideo/ui/player/player.dart';
 import 'package:youvideo/ui/video/provider.dart';
 
 class VideoPage extends StatelessWidget {
@@ -30,7 +32,9 @@ class VideoPage extends StatelessWidget {
                               color: Colors.white,
                               fontSize: 16.0,
                             )),
-                        background: HeaderCover(url: provider.coverUrl,)),
+                        background: HeaderCover(
+                          url: provider.coverUrl,
+                        )),
                   ),
                 ];
               },
@@ -41,7 +45,9 @@ class VideoPage extends StatelessWidget {
                     Row(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Cover(url: provider.coverUrl,),
+                        Cover(
+                          url: provider.coverUrl,
+                        ),
                         Expanded(
                           child: Container(
                             padding: EdgeInsets.only(left: 16),
@@ -67,30 +73,59 @@ class VideoPage extends StatelessWidget {
                       ),
                     ),
                     ...provider.files.map((e) => Column(
-                      children: [
-                        ListTile(
-                          contentPadding: EdgeInsets.all(0),
-                          onTap: () {
-                            final AndroidIntent intent = AndroidIntent(
-                              action: 'action_view',
-                              data: e.getStreamUrl(),
-                              type: "video/*",
-                              arguments: <String, dynamic>{},
-                            );
-                            intent.launch();
-                          },
-                          title: Text(e.name),
-                          subtitle: Text(e.getDescriptionText()),
-                          leading: CircleAvatar(
-                            child: Icon(Icons.videocam_rounded),
-                          ),
-                          trailing: Text(e.getDurationText()),
-                        ),
-                        Divider(
-                          color: Colors.white24,
-                        ),
-                      ],
-                    )),
+                          children: [
+                            ListTile(
+                              contentPadding: EdgeInsets.all(0),
+                              onTap: () {
+                                List<ActionItem> actions = [
+                                  ActionItem(
+                                      title: "Integrated player",
+                                      onTap: () {
+                                        Navigator.pop(context);
+                                        Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) => Player(
+                                                    playUrl: e.getPlayUrl(),
+                                                  )),
+                                        );
+                                      }),
+                                  ActionItem(
+                                      title: "External player",
+                                      onTap: () {
+                                        Navigator.pop(context);
+                                        final AndroidIntent intent =
+                                            AndroidIntent(
+                                          action: 'action_view',
+                                          data: e.getStreamUrl(),
+                                          type: "video/*",
+                                          arguments: <String, dynamic>{},
+                                        );
+                                        intent.launch();
+                                      })
+                                ];
+                                showModalBottomSheet(
+                                    context: context,
+                                    builder: (ctx) {
+                                      return ActionSelectBottomSheet(
+                                        height: 200,
+                                        actions: actions,
+                                        title: "Select to play",
+                                      );
+                                    });
+                              },
+                              title: Text(e.name),
+                              subtitle: Text(e.getDescriptionText()),
+                              leading: CircleAvatar(
+                                child: Icon(Icons.videocam_rounded),
+                              ),
+                              trailing: Text(e.getDurationText()),
+                            ),
+                            Divider(
+                              color: Colors.white24,
+                            ),
+                          ],
+                        )),
                   ],
                 ),
               ),
@@ -111,12 +146,16 @@ class HeaderCover extends StatelessWidget {
       return Container(
         color: Colors.white24,
         child: Center(
-          child: Icon(Icons.videocam_rounded, size: 48, color: Colors.white24,),
+          child: Icon(
+            Icons.videocam_rounded,
+            size: 48,
+            color: Colors.white24,
+          ),
         ),
       );
     }
     return Image.network(
-     url,
+      url,
       fit: BoxFit.cover,
     );
   }
@@ -145,4 +184,3 @@ class Cover extends StatelessWidget {
     );
   }
 }
-

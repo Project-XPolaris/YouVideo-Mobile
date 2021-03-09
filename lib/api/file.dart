@@ -43,4 +43,8 @@ class File {
     List<String> parts = [getSizeText(),main_video_codec,main_audio_codec];
     return parts.join(" | ");
   }
+
+  String getPlayUrl(){
+    return "${ApplicationConfig().serviceUrl}/video/file/$id/stream";
+  }
 }
