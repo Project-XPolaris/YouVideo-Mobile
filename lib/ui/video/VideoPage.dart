@@ -2,8 +2,10 @@ import 'package:android_intent/android_intent.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:youvideo/ui/components/ActionSelectBottomSheet.dart';
+import 'package:youvideo/ui/components/AddTagBottomDialog.dart';
 import 'package:youvideo/ui/player/player.dart';
 import 'package:youvideo/ui/video/provider.dart';
+import 'package:youvideo/ui/videos/videos.dart';
 
 class VideoPage extends StatelessWidget {
   final int videoId;
@@ -39,7 +41,7 @@ class VideoPage extends StatelessWidget {
                 ];
               },
               body: Container(
-                padding: EdgeInsets.only(top: 32, left: 16, right: 16),
+                padding: EdgeInsets.only(top: 0, left: 16, right: 16),
                 child: ListView(
                   children: [
                     Row(
@@ -53,6 +55,52 @@ class VideoPage extends StatelessWidget {
                             padding: EdgeInsets.only(left: 16),
                             child: Text(provider.video?.name ?? ""),
                           ),
+                        )
+                      ],
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(top: 16,bottom: 8),
+                      child: Text(
+                        "Tags",
+                        style: TextStyle(
+                            color: Colors.white70,
+                            fontWeight: FontWeight.w600),
+                      ),
+                    ),
+                    Wrap(
+                      children: [
+                        ...provider.tagLoader.list.map((tag) {
+                          return Padding(
+                            padding: const EdgeInsets.only(right: 8),
+                            child: ActionChip(
+                              label: Text(tag.name),
+                              onPressed: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => VideosPage(
+                                        title: tag.name,
+                                        filter: {"tag": tag.id.toString()},
+                                      )),
+                                );
+                              },
+                              avatar: CircleAvatar(child: Text("#"),),
+                            ),
+                          );
+                        }).toList(),
+                        ActionChip(
+                          label: Text("add tag"),
+                          onPressed: () {
+                            showModalBottomSheet(context: context, builder: (context) {
+                              return AddTagBottomDialog(
+                                onCreate: (text) {
+                                  Navigator.pop(context);
+                                  provider.addTag(text);
+                                },
+                              );
+                            },isScrollControlled: true,useRootNavigator: true);
+                          },
+                          avatar: CircleAvatar(child: Icon(Icons.add),),
                         )
                       ],
                     ),
@@ -72,7 +120,8 @@ class VideoPage extends StatelessWidget {
                         ],
                       ),
                     ),
-                    ...provider.files.map((e) => Column(
+                    ...provider.files.map((e) =>
+                        Column(
                           children: [
                             ListTile(
                               contentPadding: EdgeInsets.all(0),
@@ -85,7 +134,8 @@ class VideoPage extends StatelessWidget {
                                         Navigator.push(
                                           context,
                                           MaterialPageRoute(
-                                              builder: (context) => Player(
+                                              builder: (context) =>
+                                                  Player(
                                                     playUrl: e.getPlayUrl(),
                                                   )),
                                         );
@@ -95,7 +145,7 @@ class VideoPage extends StatelessWidget {
                                       onTap: () {
                                         Navigator.pop(context);
                                         final AndroidIntent intent =
-                                            AndroidIntent(
+                                        AndroidIntent(
                                           action: 'action_view',
                                           data: e.getStreamUrl(),
                                           type: "video/*",
@@ -126,6 +176,7 @@ class VideoPage extends StatelessWidget {
                             ),
                           ],
                         )),
+
                   ],
                 ),
               ),

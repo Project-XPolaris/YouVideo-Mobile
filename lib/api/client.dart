@@ -50,5 +50,9 @@ class ApiClient {
     return Video.fromJson(response.data);
   }
 
+  Future createTag(String name,List<int> ids) async {
+    var response = await _dio.post("/tag/videos", data: {"name":name,"ids":ids});
+    return response;
+  }
   ApiClient._internal();
 }
