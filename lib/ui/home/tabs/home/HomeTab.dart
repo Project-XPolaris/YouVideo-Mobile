@@ -25,7 +25,7 @@ class HomeTabPage extends StatelessWidget {
                 physics: AlwaysScrollableScrollPhysics(),
                 children: [
                   Container(
-                    height: 200,
+                    height: 240,
                     child: VideosHorizonCollection(
                       videos: provider.latestVideoLoader.list ?? [],
                       title: "Recently added",

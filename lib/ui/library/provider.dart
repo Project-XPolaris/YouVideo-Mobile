@@ -15,7 +15,7 @@ class LibraryProvider extends ChangeNotifier {
   Map<String, String> _getVideosExtraParams() {
     Map<String, String> result = {
       "order": filter.order,
-      "libraryId": libraryId.toString()
+      "library": libraryId.toString()
     };
     return result;
   }
@@ -32,7 +32,7 @@ class LibraryProvider extends ChangeNotifier {
 
   loadDirectory({force = false}) async {
     await folderLoader.loadData(
-        extraFilter: {"libraryId": libraryId.toString(), "group": "base_dir"},
+        extraFilter: {"library": libraryId.toString(), "group": "base_dir"},
         force: force);
     if (force) {
       notifyListeners();
