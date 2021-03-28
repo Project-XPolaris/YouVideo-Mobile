@@ -1,11 +1,14 @@
 import 'package:chewie/chewie.dart';
 import 'package:flutter/material.dart';
+import 'package:subtitle_wrapper_package/data/models/style/subtitle_style.dart';
+import 'package:subtitle_wrapper_package/subtitle_controller.dart';
+import 'package:subtitle_wrapper_package/subtitle_wrapper_package.dart';
 import 'package:video_player/video_player.dart';
 
 class Player extends StatefulWidget {
   final String playUrl;
-
-  Player({this.playUrl});
+  final String subtitlesUrl;
+  Player({this.playUrl,this.subtitlesUrl});
 
   @override
   _PlayerState createState() => _PlayerState();
@@ -14,6 +17,8 @@ class Player extends StatefulWidget {
 class _PlayerState extends State<Player> {
   VideoPlayerController videoPlayerController;
   ChewieController _chewieController;
+
+  SubtitleController subtitleController;
 
   @override
   void dispose() {
@@ -25,16 +30,30 @@ class _PlayerState extends State<Player> {
   @override
   void initState() {
     super.initState();
+    subtitleController = SubtitleController(
+      subtitleUrl: widget.subtitlesUrl,
+      subtitleType: SubtitleType.srt,
+    );
     initializePlayer();
   }
 
   Future<void> initializePlayer() async {
     videoPlayerController = VideoPlayerController.network(widget.playUrl);
     await videoPlayerController.initialize();
+
     _chewieController = ChewieController(
       videoPlayerController: videoPlayerController,
       autoPlay: true,
       looping: true,
+      fullScreenByDefault: true,
+      // deviceOrientationsAfterFullScreen: [
+      //   DeviceOrientation.landscapeRight,
+      //   DeviceOrientation.landscapeLeft,
+      // ],
+      // deviceOrientationsOnEnterFullScreen: [
+      //   DeviceOrientation.landscapeRight,
+      //   DeviceOrientation.landscapeLeft,
+      // ],
       // Try playing around with some of these other options:
 
       // showControls: false,
@@ -48,14 +67,31 @@ class _PlayerState extends State<Player> {
       //   color: Colors.grey,
       // ),
       // autoInitialize: true,
+      overlay: SubTitleWrapper(
+        videoPlayerController: videoPlayerController,
+        subtitleController: subtitleController,
+        subtitleStyle: SubtitleStyle(
+          textColor: Colors.white,
+          hasBorder: true,
+        ),
+        videoChild: Container(),
+      )
     );
     setState(() {});
   }
 
   @override
   Widget build(BuildContext context) {
-    final playerWidget = Chewie(
-      controller: _chewieController,
+    final playerWidget = GestureDetector(
+      onPanUpdate: (details) {
+        print(details.delta.dx);
+        if (details.delta.dx > 0) {
+          print(details.delta.dx);
+        }
+      },
+      child: Chewie(
+        controller: _chewieController,
+      ),
     );
     Widget loadingView = Container(
       child: Center(

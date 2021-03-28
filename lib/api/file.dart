@@ -12,6 +12,7 @@ class File {
   int size;
   String main_video_codec;
   String main_audio_codec;
+  String subtitles;
 
   File.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -22,6 +23,7 @@ class File {
     size = json['size'];
     main_audio_codec = json['main_audio_codec'];
     main_video_codec = json['main_video_codec'];
+    subtitles = json['subtitles'];
   }
   getCoverUrl(){
     if (cover != null){
@@ -31,6 +33,9 @@ class File {
 
   String getStreamUrl(){
     return '${ApplicationConfig().serviceUrl}/video/file/$id/stream';
+  }
+  String getSubtitlesUrl(){
+    return '${ApplicationConfig().serviceUrl}/video/file/$id/subtitles';
   }
   String getDurationText(){
    return formatDuration(Duration(seconds: duration.ceil()));

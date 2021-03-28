@@ -1,6 +1,9 @@
 import 'package:android_intent/android_intent.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
+import 'package:youvideo/config.dart';
+import 'package:youvideo/plugin/mx.dart';
 import 'package:youvideo/ui/components/ActionSelectBottomSheet.dart';
 import 'package:youvideo/ui/components/AddTagBottomDialog.dart';
 import 'package:youvideo/ui/player/player.dart';
@@ -11,6 +14,7 @@ class VideoPage extends StatelessWidget {
   final int videoId;
 
   VideoPage({this.videoId});
+  static const _methodMessageChannel = MethodChannel("mxplugin");
 
   @override
   Widget build(BuildContext context) {
@@ -59,12 +63,11 @@ class VideoPage extends StatelessWidget {
                       ],
                     ),
                     Padding(
-                      padding: const EdgeInsets.only(top: 16,bottom: 8),
+                      padding: const EdgeInsets.only(top: 16, bottom: 8),
                       child: Text(
                         "Tags",
                         style: TextStyle(
-                            color: Colors.white70,
-                            fontWeight: FontWeight.w600),
+                            color: Colors.white70, fontWeight: FontWeight.w600),
                       ),
                     ),
                     Wrap(
@@ -79,28 +82,36 @@ class VideoPage extends StatelessWidget {
                                   context,
                                   MaterialPageRoute(
                                       builder: (context) => VideosPage(
-                                        title: tag.name,
-                                        filter: {"tag": tag.id.toString()},
-                                      )),
+                                            title: tag.name,
+                                            filter: {"tag": tag.id.toString()},
+                                          )),
                                 );
                               },
-                              avatar: CircleAvatar(child: Text("#"),),
+                              avatar: CircleAvatar(
+                                child: Text("#"),
+                              ),
                             ),
                           );
                         }).toList(),
                         ActionChip(
                           label: Text("add tag"),
                           onPressed: () {
-                            showModalBottomSheet(context: context, builder: (context) {
-                              return AddTagBottomDialog(
-                                onCreate: (text) {
-                                  Navigator.pop(context);
-                                  provider.addTag(text);
+                            showModalBottomSheet(
+                                context: context,
+                                builder: (context) {
+                                  return AddTagBottomDialog(
+                                    onCreate: (text) {
+                                      Navigator.pop(context);
+                                      provider.addTag(text);
+                                    },
+                                  );
                                 },
-                              );
-                            },isScrollControlled: true,useRootNavigator: true);
+                                isScrollControlled: true,
+                                useRootNavigator: true);
                           },
-                          avatar: CircleAvatar(child: Icon(Icons.add),),
+                          avatar: CircleAvatar(
+                            child: Icon(Icons.add),
+                          ),
                         )
                       ],
                     ),
@@ -120,8 +131,7 @@ class VideoPage extends StatelessWidget {
                         ],
                       ),
                     ),
-                    ...provider.files.map((e) =>
-                        Column(
+                    ...provider.files.map((e) => Column(
                           children: [
                             ListTile(
                               contentPadding: EdgeInsets.all(0),
@@ -134,24 +144,27 @@ class VideoPage extends StatelessWidget {
                                         Navigator.push(
                                           context,
                                           MaterialPageRoute(
-                                              builder: (context) =>
-                                                  Player(
+                                              builder: (context) => Player(
                                                     playUrl: e.getPlayUrl(),
+                                                subtitlesUrl: e.getSubtitlesUrl(),
                                                   )),
                                         );
                                       }),
                                   ActionItem(
                                       title: "External player",
-                                      onTap: () {
+                                      onTap: () async {
                                         Navigator.pop(context);
-                                        final AndroidIntent intent =
-                                        AndroidIntent(
-                                          action: 'action_view',
-                                          data: e.getStreamUrl(),
-                                          type: "video/*",
-                                          arguments: <String, dynamic>{},
-                                        );
-                                        intent.launch();
+                                        MXPlayerPlugin plugin = MXPlayerPlugin();
+                                        var config = ApplicationConfig();
+                                        String playUrl = e.getStreamUrl();
+                                        if (config.token != null && config.token.isNotEmpty) {
+                                          playUrl += "?token=${config.token}";
+                                        }
+                                        if (e.subtitles == null) {
+                                          plugin.play(playUrl);
+                                        }else{
+                                          plugin.playWithSubtitles(playUrl, e.getSubtitlesUrl());
+                                        }
                                       })
                                 ];
                                 showModalBottomSheet(
@@ -176,7 +189,6 @@ class VideoPage extends StatelessWidget {
                             ),
                           ],
                         )),
-
                   ],
                 ),
               ),

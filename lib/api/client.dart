@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:youvideo/api/info.dart';
 import 'package:youvideo/api/library.dart';
 import 'package:youvideo/api/tag.dart';
 import 'package:youvideo/api/video.dart';
@@ -13,8 +14,11 @@ class ApiClient {
   factory ApiClient() {
     _dio.interceptors.add(InterceptorsWrapper(
       onRequest: (RequestOptions options) async {
-        print(ApplicationConfig().serviceUrl);
-        options.baseUrl = ApplicationConfig().serviceUrl;
+        var config = ApplicationConfig();
+        options.baseUrl = config.serviceUrl;
+        if (config.token != null && config.token.isNotEmpty) {
+          options.headers["Authorization"] = "Bearer ${config.token}";
+        }
         return options; //continue
       },
     ));
@@ -53,6 +57,10 @@ class ApiClient {
   Future createTag(String name,List<int> ids) async {
     var response = await _dio.post("/tag/videos", data: {"name":name,"ids":ids});
     return response;
+  }
+  Future<Info> fetchInfo() async {
+    var response = await _dio.get("/info");
+    return Info.fromJson(response.data);
   }
   ApiClient._internal();
 }

@@ -24,13 +24,13 @@ dependencies:
   flutter:
     sdk: flutter
   provider: ^5.0.0
-  dio: 3.0.10
+  dio: 4.0.0-beta5
   android_intent: ^2.0.0
   shared_preferences: ^2.0.3
   filesize: ^1.0.4
   video_player: ^2.0.0
   chewie: ^1.0.0
-
+  subtitle_wrapper_package: ^2.0.0
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.

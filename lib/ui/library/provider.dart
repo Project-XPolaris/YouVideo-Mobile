@@ -53,8 +53,8 @@ class LibraryProvider extends ChangeNotifier {
   }
 
   loadMoreFolders() async {
-    if (await loader.loadMore(extraFilter: {
-      "libraryId": libraryId.toString(),
+    if (await folderLoader.loadMore(extraFilter: {
+      "library": libraryId.toString(),
       "group": "base_dir"
     })) {
       notifyListeners();
