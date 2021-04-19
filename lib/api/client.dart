@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:youvideo/api/history.dart';
 import 'package:youvideo/api/info.dart';
 import 'package:youvideo/api/library.dart';
 import 'package:youvideo/api/tag.dart';
@@ -48,6 +49,13 @@ class ApiClient {
         response.data, (data) => Library.fromJson(data));
     return responseBody;
   }
+  Future<ListResponseWrap<History>> fetchHistoryList(
+      Map<String, String> params) async {
+    var response = await _dio.get("/history", queryParameters: params);
+    ListResponseWrap<History> responseBody = ListResponseWrap.fromJson(
+        response.data, (data) => History.fromJson(data));
+    return responseBody;
+  }
 
   Future<Video> fetchVideo(int id) async {
     var response = await _dio.get("/video/$id");
@@ -55,7 +63,15 @@ class ApiClient {
   }
 
   Future createTag(String name,List<int> ids) async {
-    var response = await _dio.post("/tag/videos", data: {"name":name,"ids":ids});
+    var response = await _dio.post("/tag/videos", data: {"name":[name],"ids":ids});
+    return response;
+  }
+  Future removeTag(int id) async {
+    var response = await _dio.delete("/tag/$id");
+    return response;
+  }
+  Future removeVideoFromTag(int id,List<int> videoIds) async {
+    var response = await _dio.delete("/tag/$id/videos", data: {"ids":videoIds});
     return response;
   }
   Future<Info> fetchInfo() async {

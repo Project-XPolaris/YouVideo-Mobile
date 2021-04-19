@@ -13,7 +13,6 @@ class ApplicationConfig {
   Future<bool> loadConfig() async {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     serviceUrl = sharedPreferences.getString("apiUrl");
-    print("load config complete");
     return true;
   }
 

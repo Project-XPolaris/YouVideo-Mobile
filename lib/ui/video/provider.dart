@@ -30,4 +30,9 @@ class VideoProvider extends ChangeNotifier {
     await tagLoader.loadData(force: true,extraFilter: {"video":video.id.toString()});
     notifyListeners();
   }
+  Future removeTag(int tagId) async {
+    await ApiClient().removeVideoFromTag(tagId, [videoId]);
+    await tagLoader.loadData(force: true,extraFilter: {"video":video.id.toString()});
+    notifyListeners();
+  }
 }

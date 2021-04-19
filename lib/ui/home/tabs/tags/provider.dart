@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:youvideo/api/client.dart';
 import 'package:youvideo/api/tag.dart';
 
 class HomeTagsProvider extends ChangeNotifier {
@@ -9,9 +10,12 @@ class HomeTagsProvider extends ChangeNotifier {
     }
   }
   loadMore() async {
-    print("load more");
     if (await loader.loadMore()){
       notifyListeners();
     }
+  }
+  removeTag(int id)async{
+    await ApiClient().removeTag(id);
+    await loadData(force: true);
   }
 }

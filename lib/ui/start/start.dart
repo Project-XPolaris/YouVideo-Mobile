@@ -60,9 +60,6 @@ class _StartPageState extends State<StartPage> {
 
     Future<bool> _init() async {
       await LoginHistoryManager().refreshHistory();
-      LoginHistoryManager().list.forEach((element) {
-        print(element.username);
-      });
       return true;
     }
 

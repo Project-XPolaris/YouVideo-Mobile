@@ -19,7 +19,6 @@ class VideosPage extends StatelessWidget {
         Consumer<VideosProvider>(builder: (context, provider, child) {
           var controller = createLoadMoreController(() => provider.loadMore());
           provider.loadData();
-          print(provider.loader.list);
           return Scaffold(
             appBar: AppBar(
               backgroundColor: Color(0x1F1F1F),

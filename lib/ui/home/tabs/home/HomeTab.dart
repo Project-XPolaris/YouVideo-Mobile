@@ -18,7 +18,6 @@ class HomeTabPage extends StatelessWidget {
             padding: EdgeInsets.only(top: 32, left: 16, right: 16),
             child: RefreshIndicator(
               onRefresh: () async {
-                print("pull to refresh");
                 await provider.loadData(force: true);
               },
               child: ListView(

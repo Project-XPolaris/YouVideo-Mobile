@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:youvideo/ui/home/tabs/home/HomeTab.dart';
+import 'package:youvideo/ui/home/tabs/hsitory/history.dart';
 import 'package:youvideo/ui/home/tabs/library/library.dart';
 import 'package:youvideo/ui/home/tabs/tags/tags.dart';
 import 'package:youvideo/ui/home/tabs/videos/videos.dart';
@@ -63,7 +64,7 @@ class HomePage extends StatelessWidget {
               onTap: (idx) {
                 provider.setActiveTab(idx);
               },
-              type: BottomNavigationBarType.fixed,
+
               currentIndex: provider.activeTab,
               selectedItemColor: Colors.red,
               unselectedItemColor: Colors.white54,
@@ -76,7 +77,9 @@ class HomePage extends StatelessWidget {
                 BottomNavigationBarItem(
                     icon: Icon(Icons.video_library), label: "Libraries"),
                 BottomNavigationBarItem(
-                    icon: Icon(Icons.label), label: "Tags")
+                    icon: Icon(Icons.label), label: "Tags"),
+                BottomNavigationBarItem(
+                    icon: Icon(Icons.history), label: "History")
               ],
             ),
             body: Container(
@@ -87,7 +90,8 @@ class HomePage extends StatelessWidget {
                   HomeTabPage(),
                   VideosTabPage(),
                   LibrariesTabPage(),
-                  TagsTabPage()
+                  TagsTabPage(),
+                  HistoryList()
                 ],
               ),
             ),

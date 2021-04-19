@@ -9,8 +9,7 @@ class TagsTabPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return ChangeNotifierProvider<HomeTagsProvider>(
         create: (_) => HomeTagsProvider(),
-        child:
-        Consumer<HomeTagsProvider>(builder: (context, provider, child) {
+        child: Consumer<HomeTagsProvider>(builder: (context, provider, child) {
           var controller = createLoadMoreController(() => provider.loadMore());
           provider.loadData();
           return Container(
@@ -26,15 +25,35 @@ class TagsTabPage extends StatelessWidget {
                   return ListTile(
                     title: Text(tag.name),
                     leading: Icon(Icons.label),
-                    onTap: (){
+                    onTap: () {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
                             builder: (context) => VideosPage(
-                              title: tag.name,
-                              filter: {"tag": tag.id.toString()},
-                            )),
+                                  title: tag.name,
+                                  filter: {"tag": tag.id.toString()},
+                                )),
                       );
+                    },
+
+                    onLongPress: () {
+                      showModalBottomSheet(
+                          context: context,
+                          builder: (BuildContext context) {
+                            return Wrap(children: [
+                              ListTile(
+                                leading: Icon(Icons.delete),
+                                title: Text("Delete tag"),
+                                onTap: (){
+                                  provider.removeTag(tag.id);
+                                  Navigator.pop(context);
+                                },
+                              ),
+                              Container(
+                                height: 16,
+                              )
+                            ]);
+                          });
                     },
                   );
                 }).toList(),

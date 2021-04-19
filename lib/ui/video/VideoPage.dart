@@ -75,21 +75,42 @@ class VideoPage extends StatelessWidget {
                         ...provider.tagLoader.list.map((tag) {
                           return Padding(
                             padding: const EdgeInsets.only(right: 8),
-                            child: ActionChip(
-                              label: Text(tag.name),
-                              onPressed: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => VideosPage(
-                                            title: tag.name,
-                                            filter: {"tag": tag.id.toString()},
-                                          )),
-                                );
-                              },
-                              avatar: CircleAvatar(
-                                child: Text("#"),
+                            child: GestureDetector(
+                              child: ActionChip(
+                                label: Text(tag.name),
+                                onPressed: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => VideosPage(
+                                          title: tag.name,
+                                          filter: {"tag": tag.id.toString()},
+                                        )),
+                                  );
+                                },
+                                avatar: CircleAvatar(
+                                  child: Text("#"),
+                                ),
                               ),
+                              onLongPress: (){
+                                showModalBottomSheet(
+                                    context: context,
+                                    builder: (BuildContext context) {
+                                      return Wrap(children: [
+                                        ListTile(
+                                          leading: Icon(Icons.delete),
+                                          title: Text("Remove tag"),
+                                          onTap: (){
+                                            provider.removeTag(tag.id);
+                                            Navigator.pop(context);
+                                          },
+                                        ),
+                                        Container(
+                                          height: 16,
+                                        )
+                                      ]);
+                                    });
+                              },
                             ),
                           );
                         }).toList(),

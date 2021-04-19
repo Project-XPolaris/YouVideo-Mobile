@@ -84,9 +84,7 @@ class _PlayerState extends State<Player> {
   Widget build(BuildContext context) {
     final playerWidget = GestureDetector(
       onPanUpdate: (details) {
-        print(details.delta.dx);
         if (details.delta.dx > 0) {
-          print(details.delta.dx);
         }
       },
       child: Chewie(
