@@ -23,7 +23,7 @@ class VideosTabPage extends StatelessWidget {
               Container(
                 child: RefreshIndicator(
                   onRefresh: () async {
-                    await provider.loader.loadData(force: true);
+                    await provider.loadData(force: true);
                     return true;
                   },
                   child: ListView(
