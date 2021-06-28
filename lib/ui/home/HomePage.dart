@@ -6,7 +6,6 @@ import 'package:youvideo/ui/home/tabs/hsitory/history.dart';
 import 'package:youvideo/ui/home/tabs/library/library.dart';
 import 'package:youvideo/ui/home/tabs/tags/tags.dart';
 import 'package:youvideo/ui/home/tabs/videos/videos.dart';
-import 'package:youvideo/ui/setting/SettingsPage.dart';
 
 import 'provider.dart';
 
@@ -18,47 +17,8 @@ class HomePage extends StatelessWidget {
         child: Consumer<HomeProvider>(builder: (context, provider, child) {
           return Scaffold(
             appBar: AppBar(
-              title: Text("YouVideo"),
+              title: Text("YouVideo",style: TextStyle(color:Colors.red),),
               backgroundColor: Color(0x1F1F1F),
-            ),
-            drawer: Drawer(
-              // Add a ListView to the drawer. This ensures the user can scroll
-              // through the options in the drawer if there isn't enough vertical
-              // space to fit everything.
-              child: ListView(
-                // Important: Remove any padding from the ListView.
-                padding: EdgeInsets.zero,
-                children: <Widget>[
-                  DrawerHeader(
-                    child: Stack(
-                      children: [
-                        Positioned(
-                          bottom: 0,
-                          left: 0,
-                          child: Text(
-                            "YouVideo",
-                            style: TextStyle(fontSize: 28),
-                          ),
-                        ),
-                      ],
-                    ),
-                    decoration: BoxDecoration(
-                      color: Colors.red,
-                    ),
-                  ),
-                  ListTile(
-                    title: Text('Settings'),
-                    leading: Icon(Icons.settings),
-                    onTap: () {
-                      Navigator.pop(context);
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => SettingsPage()),
-                      );
-                    },
-                  ),
-                ],
-              ),
             ),
             bottomNavigationBar: BottomNavigationBar(
               onTap: (idx) {

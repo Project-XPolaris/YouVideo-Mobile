@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
 class VideoCover extends StatelessWidget {
@@ -19,13 +20,13 @@ class VideoCover extends StatelessWidget {
     if (coverUrl != null) {
       return GestureDetector(
         child: ClipRRect(
-          child: Image(
-            image: NetworkImage(
-              coverUrl,
-            ),
+          child: CachedNetworkImage(
             width: width,
             height: height,
             fit: BoxFit.cover,
+            imageUrl:  coverUrl,
+            placeholder: (context, url) => Container(color: Colors.white10,),
+            errorWidget: (context, url, error) => Container(color: Colors.white10,),
           ),
           borderRadius: BorderRadius.circular(borderRadius),
         ),
