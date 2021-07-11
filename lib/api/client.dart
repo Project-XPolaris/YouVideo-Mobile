@@ -3,6 +3,8 @@ import 'package:youvideo/api/history.dart';
 import 'package:youvideo/api/info.dart';
 import 'package:youvideo/api/library.dart';
 import 'package:youvideo/api/tag.dart';
+import 'package:youvideo/api/user_auth_response.dart';
+import 'package:youvideo/api/user_token.dart';
 import 'package:youvideo/api/video.dart';
 
 import '../config.dart';
@@ -77,6 +79,14 @@ class ApiClient {
   Future<Info> fetchInfo() async {
     var response = await _dio.get("/info");
     return Info.fromJson(response.data);
+  }
+  Future<UserAuthResponse> fetchUserAuth(username,password) async {
+    var response = await _dio.post("/user/auth",data: {"username":username,"password":password});
+    return UserAuthResponse.fromJson(response.data);
+  }
+  Future<UserToken> userToken(String token) async {
+    var response = await _dio.get("/user/auth",queryParameters: {"token":token});
+    return UserToken.fromJson(response.data);
   }
   ApiClient._internal();
 }

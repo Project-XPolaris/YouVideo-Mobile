@@ -3,6 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:youvideo/api/client.dart';
 import 'package:youvideo/api/history.dart';
+import 'package:youvideo/api/info.dart';
+import 'package:youvideo/api/user_auth_response.dart';
+import 'package:youvideo/api/user_token.dart';
 import 'package:youvideo/config.dart';
 import 'package:youvideo/ui/home/HomePage.dart';
 import 'package:youvideo/util/login_history.dart';
@@ -24,42 +27,37 @@ class _StartPageState extends State<StartPage> {
 
   @override
   Widget build(BuildContext context) {
-    _apply() async {
-      SharedPreferences sharedPreferences =
-          await SharedPreferences.getInstance();
-      sharedPreferences.setString("apiUrl", inputUrl);
-      await ApplicationConfig().loadConfig();
-      var info = await ApiClient().fetchInfo();
-      if (inputUsername.isEmpty && inputPassword.isEmpty) {
-        // without login
-        ApplicationConfig().token = "";
-        LoginHistoryManager()
-            .add(LoginHistory(apiUrl: inputUrl, username: "public", token: ""));
-        Navigator.pushReplacement(
-            context, MaterialPageRoute(builder: (context) => HomePage()));
-        return;
-      }
-      // login with account
-      Dio dio = new Dio();
-      var response = await dio.post(info.authUrl, data: {
-        "username": inputUsername,
-        "password": inputPassword,
-      });
-      if (response.data["success"]) {
-        ApplicationConfig().token = response.data["token"];
-        LoginHistoryManager().add(LoginHistory(
-            apiUrl: inputUrl,
-            username: inputUsername,
-            token: response.data["token"]));
-        Navigator.pushReplacement(
-            context, MaterialPageRoute(builder: (context) => HomePage()));
-      }
-      // this.widget.onRefresh();
-    }
 
     Future<bool> _init() async {
       await LoginHistoryManager().refreshHistory();
       return true;
+    }
+    _onFinishClick() async {
+      ApplicationConfig().serviceUrl = inputUrl;
+      try {
+        Info info =  await ApiClient().fetchInfo();
+        if (!info.success) {
+          return;
+        }
+        if (info.authEnable) {
+          if (inputUsername.isEmpty || inputPassword.isEmpty) {
+            ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Service need auth")));
+            return;
+          }
+          UserAuthResponse userAuth = await ApiClient().fetchUserAuth(inputUsername, inputPassword);
+          LoginHistoryManager().add(LoginHistory(apiUrl: inputUrl, username: inputUsername, token: userAuth.token));
+          ApplicationConfig().token = userAuth.token;
+        }else{
+          LoginHistoryManager().add(LoginHistory(apiUrl: inputUrl, username: "Public", token: ""));
+        }
+
+      } on DioError catch(e) {
+        print(e);
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Login failed: ${e.response?.data["reason"]}")));
+        return;
+      }
+      Navigator.pushReplacement(
+          context, MaterialPageRoute(builder: (context) => HomePage()));
     }
 
     return Scaffold(
@@ -69,7 +67,7 @@ class _StartPageState extends State<StartPage> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          _apply();
+          _onFinishClick();
         },
         child: Icon(Icons.chevron_right),
       ),
@@ -77,26 +75,29 @@ class _StartPageState extends State<StartPage> {
         future: _init(),
         builder: (BuildContext context, AsyncSnapshot<bool> snapshot) {
           _onHistoryClick(LoginHistory history) async {
-            var config = ApplicationConfig();
-            config.token = history.token;
-            config.serviceUrl = history.apiUrl;
-            var info = await ApiClient().fetchInfo();
-            if (info.authEnable && config.token.isNotEmpty) {
-              Dio dio = new Dio();
-              try {
-                var response = await dio.get(info.authUrl,
-                    queryParameters: {"token": config.token});
-              } on DioError catch (err) {
-                ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                  content: Text(
-                    "User auth failed:${err.response.data["reason"]}",
-                    style: TextStyle(color: Colors.white),
-                  ),
-                  backgroundColor: Colors.black,
-                ));
+            ApplicationConfig().serviceUrl = history.apiUrl;
+            try {
+              Info info =  await ApiClient().fetchInfo();
+              if (!info.success) {
+                ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Failed to connect host")));
                 return;
               }
+              if (info.authEnable) {
+                if (history.token.length == 0) {
+                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("token is empty,try to login again")));
+                  return;
+                }
+                UserToken token = await ApiClient().userToken(history.token);
+                if (!token.success){
+                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("token is empty,try to login again")));
+                  return;
+                }
+                ApplicationConfig().token = history.token;
+              }
 
+            } on DioError catch(e) {
+              ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Login failed: ${e.response?.data["reason"]}")));
+              return;
             }
             Navigator.pushReplacement(
                 context, MaterialPageRoute(builder: (context) => HomePage()));
