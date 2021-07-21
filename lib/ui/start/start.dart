@@ -33,6 +33,13 @@ class _StartPageState extends State<StartPage> {
       return true;
     }
     _onFinishClick() async {
+      var uri = Uri.parse(inputUrl);
+      if (!uri.hasScheme) {
+        inputUrl  = "http://" + inputUrl;
+      }
+      if (!uri.hasPort) {
+        inputUrl += ":7700";
+      }
       ApplicationConfig().serviceUrl = inputUrl;
       try {
         Info info =  await ApiClient().fetchInfo();
