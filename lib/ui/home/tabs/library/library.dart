@@ -17,6 +17,7 @@ class LibrariesTabPage extends StatelessWidget {
           provider.loadData();
           return Container(
             child: RefreshIndicator(
+              color: Colors.red,
               onRefresh: () async {
                 await provider.loadData(force: true);
                 return true;

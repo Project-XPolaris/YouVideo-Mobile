@@ -17,6 +17,7 @@ class HomeTabPage extends StatelessWidget {
           return Padding(
             padding: EdgeInsets.only(top: 32, left: 16, right: 16),
             child: RefreshIndicator(
+              color: Colors.red,
               onRefresh: () async {
                 await provider.loadData(force: true);
               },

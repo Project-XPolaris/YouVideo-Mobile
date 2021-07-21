@@ -6,6 +6,7 @@ import 'package:youvideo/ui/home/tabs/hsitory/history.dart';
 import 'package:youvideo/ui/home/tabs/library/library.dart';
 import 'package:youvideo/ui/home/tabs/tags/tags.dart';
 import 'package:youvideo/ui/home/tabs/videos/videos.dart';
+import 'package:youvideo/ui/search/index.dart';
 
 import 'provider.dart';
 
@@ -19,6 +20,12 @@ class HomePage extends StatelessWidget {
             appBar: AppBar(
               title: Text("YouVideo",style: TextStyle(color:Colors.red),),
               backgroundColor: Color(0x1F1F1F),
+              actions: [
+                IconButton(onPressed: (){
+                  Navigator.push(
+                    context, MaterialPageRoute(builder: (context) => SearchPage()),);
+                }, icon: Icon(Icons.search,color: Colors.white,))
+              ],
             ),
             bottomNavigationBar: BottomNavigationBar(
               onTap: (idx) {
