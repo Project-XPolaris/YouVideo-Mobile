@@ -3,12 +3,13 @@ import 'package:youvideo/api/video.dart';
 import 'package:youvideo/ui/components/VideoFilter.dart';
 
 class HomeVideosProvider extends ChangeNotifier {
-  VideoFilter filter = new VideoFilter(order: "id desc");
+  VideoFilter filter = new VideoFilter(order: "id desc",random: false);
 
   VideoLoader loader = new VideoLoader();
   Map<String,String> _getExtraParams() {
     Map<String,String> result = {
-      "order":filter.order
+      "order":filter.order,
+      "random":filter.random ? "1" : null
     };
     return result;
   }

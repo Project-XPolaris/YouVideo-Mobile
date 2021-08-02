@@ -15,7 +15,9 @@ class LibraryProvider extends ChangeNotifier {
   Map<String, String> _getVideosExtraParams() {
     Map<String, String> result = {
       "order": filter.order,
-      "library": libraryId.toString()
+      "library": libraryId.toString(),
+      "pageSize":"100",
+      "random":filter.random ? "1" : null
     };
     return result;
   }
@@ -48,6 +50,7 @@ class LibraryProvider extends ChangeNotifier {
 
   loadMoreVideo() async {
     if (await loader.loadMore(extraFilter: _getVideosExtraParams())) {
+      print(loader.list.length);
       notifyListeners();
     }
   }

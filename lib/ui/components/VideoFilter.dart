@@ -6,7 +6,8 @@ const OrderFilterKeys = [
 
 class VideoFilter {
   String order;
-  VideoFilter({this.order});
+  bool random;
+  VideoFilter({this.order,this.random = false});
 }
 
 class VideoFilterView extends StatefulWidget {
@@ -15,12 +16,13 @@ class VideoFilterView extends StatefulWidget {
   VideoFilterView({this.filter,this.onChange});
 
   @override
-  _VideoFilterViewState createState() => _VideoFilterViewState(order: filter.order);
+  _VideoFilterViewState createState() => _VideoFilterViewState(order: filter.order,random: filter.random);
 }
 
 class _VideoFilterViewState extends State<VideoFilterView> {
   String order;
-  _VideoFilterViewState({this.order});
+  _VideoFilterViewState({this.order,this.random});
+  bool random;
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -46,7 +48,6 @@ class _VideoFilterViewState extends State<VideoFilterView> {
           Wrap(
             children: [
               ...OrderFilterKeys.map((key) {
-
                 return Padding(padding: EdgeInsets.only(left: 4,right: 4),
                   child: FilterChip(label: Text(key),
                     onSelected: (selected) {
@@ -60,7 +61,27 @@ class _VideoFilterViewState extends State<VideoFilterView> {
                     selectedColor: Colors.red,
                   ),
                 );
-              })
+              }),
+              Container(
+                width: double.infinity,
+                padding: EdgeInsets.all(16),
+                child: Text("Random", style: TextStyle(color: Colors.white70),),
+              ),
+              Container(
+                padding: EdgeInsets.only(left: 8,right: 8),
+                child: ActionChip(
+                  backgroundColor: random? Colors.red : null,
+                    label: const Text('Random pick'),
+                    onPressed: () {
+                      widget.filter.random = !widget.filter.random;
+                      widget.onChange(widget.filter);
+                      setState(() {
+                        random = !random;
+                      });
+                    }
+
+                ),
+              )
             ],
           )
         ],

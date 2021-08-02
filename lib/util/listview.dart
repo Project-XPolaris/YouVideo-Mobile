@@ -6,6 +6,7 @@ createLoadMoreController(Function onLoadMore){
     var maxScroll = _controller.position.maxScrollExtent;
     var pixel = _controller.position.pixels;
     if (maxScroll == pixel) {
+      print("try to load more");
       onLoadMore();
     } else {}
   });

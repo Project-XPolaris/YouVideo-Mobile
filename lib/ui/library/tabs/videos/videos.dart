@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:youvideo/api/file.dart';
 import 'package:youvideo/ui/components/VideoFilter.dart';
-import 'package:youvideo/ui/components/VideoItem.dart';
+import 'package:youvideo/ui/components/VideoList.dart';
 import 'package:youvideo/ui/library/provider.dart';
 import 'package:youvideo/ui/video/VideoPage.dart';
-import 'package:youvideo/util/listview.dart';
 
 class LibraryVideos extends StatelessWidget {
   final LibraryProvider provider;
@@ -13,7 +11,6 @@ class LibraryVideos extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var controller = createLoadMoreController(() => provider.loadMoreVideo());
     return Container(
       child: Stack(
         children: [
@@ -22,29 +19,23 @@ class LibraryVideos extends StatelessWidget {
               await provider.loadVideos(force: true);
               return true;
             },
-            child: ListView(
-              controller: controller,
-              physics: AlwaysScrollableScrollPhysics(),
-              children: provider.loader.list.map((video) {
-                File file = video.files.first;
-                return Padding(
-                  padding:
-                      EdgeInsets.only(right: 4, left: 4, top: 8, bottom: 8),
-                  child: VideoItem(
-                    coverUrl: file.getCoverUrl(),
-                    name: video.name,
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => VideoPage(
-                                  videoId: video.id,
-                                )),
-                      );
-                    },
-                  ),
+            child: VideoList(
+              videos: provider.loader.list,
+              onItemClick: (video) {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => VideoPage(
+                            videoId: video.id,
+                          )),
                 );
-              }).toList(),
+              },
+              onLoadMore: () {
+                if (provider.filter.random) {
+                  return;
+                }
+                provider.loadMoreVideo();
+              },
             ),
           ),
           Positioned(
@@ -64,7 +55,8 @@ class LibraryVideos extends StatelessWidget {
               },
               child: Icon(Icons.filter_list),
             ),
-            bottom: 16,right: 16,
+            bottom: 16,
+            right: 16,
           )
         ],
       ),
