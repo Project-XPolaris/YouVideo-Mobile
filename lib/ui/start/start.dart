@@ -1,11 +1,10 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:youvideo/api/client.dart';
-import 'package:youvideo/api/history.dart';
 import 'package:youvideo/api/info.dart';
 import 'package:youvideo/api/user_auth_response.dart';
 import 'package:youvideo/api/user_token.dart';
+import 'package:youvideo/api/youplus_client.dart';
 import 'package:youvideo/config.dart';
 import 'package:youvideo/ui/home/HomePage.dart';
 import 'package:youvideo/util/login_history.dart';
@@ -40,9 +39,37 @@ class _StartPageState extends State<StartPage> {
       if (!uri.hasPort) {
         inputUrl += ":7700";
       }
+
       ApplicationConfig().serviceUrl = inputUrl;
       try {
         Info info =  await ApiClient().fetchInfo();
+        if (!info.success) {
+          return;
+        }
+        bool canAccess  = false;
+        if (info.name == "YouPlus service") {
+          print("get entity from youplus");
+          // find out entry of service
+          var response  = await YouPlusClient().fetchEntityByName("youvideocore");
+          for (var url in response.entity.export.urls) {
+            ApplicationConfig().serviceUrl = url;
+            try {
+              Info info = await ApiClient().fetchInfo();
+              if (info.success) {
+                canAccess = true;
+                break;
+              }
+            }on DioError catch(e) {
+              continue;
+            }
+          }
+        }else{
+          canAccess = true;
+        }
+        if (!canAccess) {
+          return;
+        }
+        info =  await ApiClient().fetchInfo();
         if (!info.success) {
           return;
         }
@@ -59,7 +86,6 @@ class _StartPageState extends State<StartPage> {
         }
 
       } on DioError catch(e) {
-        print(e);
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Login failed: ${e.response?.data["reason"]}")));
         return;
       }

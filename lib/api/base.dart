@@ -19,3 +19,8 @@ class ListResponseWrap<T> {
     }
   }
 }
+
+class BaseResponse<T> {
+  bool success;
+  String reason;
+}
