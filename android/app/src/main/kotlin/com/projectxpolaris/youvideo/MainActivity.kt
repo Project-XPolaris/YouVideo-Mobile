@@ -1,11 +1,10 @@
 package com.projectxpolaris.youvideo
 
+import android.content.Intent
 import android.graphics.Color
-import android.os.Build
 import android.os.Bundle
-import android.view.Window
-import android.view.WindowManager
 import io.flutter.embedding.android.FlutterActivity
+import io.flutter.embedding.android.FlutterView
 import io.flutter.plugin.common.MethodChannel
 
 class MainActivity: FlutterActivity() {
@@ -17,7 +16,20 @@ class MainActivity: FlutterActivity() {
                     ?.apply { isAccessible = true }
                     ?.setInt(this, Color.TRANSPARENT)
         }
-        flutterEngine?.plugins?.add(MXPlayerPlugin())
+
+
+        flutterEngine?.plugins?.apply {
+            add(MXPlayerPlugin())
+        }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+    }
+
+    override fun onResume() {
+        super.onResume()
+
     }
 
 }

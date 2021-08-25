@@ -1,5 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:youplusauthplugin/youplusauthplugin.dart';
 import 'package:youvideo/api/client.dart';
 import 'package:youvideo/api/info.dart';
 import 'package:youvideo/api/user_auth_response.dart';
@@ -19,38 +21,82 @@ class StartPage extends StatefulWidget {
 }
 
 class _StartPageState extends State<StartPage> {
+  Youplusauthplugin plugin = new Youplusauthplugin();
   String inputUrl = "";
   String inputUsername = "";
   String inputPassword = "";
   String loginMode = "history";
+  String authUsername = "";
+  String authToken = "";
 
   @override
   Widget build(BuildContext context) {
-
-    Future<bool> _init() async {
-      await LoginHistoryManager().refreshHistory();
-      return true;
-    }
-    _onFinishClick() async {
-      var uri = Uri.parse(inputUrl);
+    bool _applyUrl() {
+      if (inputUrl.isEmpty) {
+        ScaffoldMessenger.of(context)
+            .showSnackBar(SnackBar(content: Text("please input service url")));
+        return false;
+      }
+      var uri;
+      try {
+        uri = Uri.parse(inputUrl);
+      } on FormatException catch (e) {
+        ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text("input service url invalidate")));
+        return false;
+      }
       if (!uri.hasScheme) {
-        inputUrl  = "http://" + inputUrl;
+        inputUrl = "http://" + inputUrl;
       }
       if (!uri.hasPort) {
         inputUrl += ":7700";
       }
-
       ApplicationConfig().serviceUrl = inputUrl;
+      return true;
+    }
+
+    _onAuthComplete(String username, String token) async {
       try {
-        Info info =  await ApiClient().fetchInfo();
+        Info info = await ApiClient().fetchInfo();
         if (!info.success) {
           return;
         }
-        bool canAccess  = false;
+      } on DioError catch (e) {
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+            content: Text("Login failed: ${e.response?.data["reason"]}")));
+        return;
+      }
+      ApplicationConfig().token = token;
+      LoginHistoryManager().add(LoginHistory(
+          apiUrl: ApplicationConfig().serviceUrl,
+          username: username,
+          token: token));
+      Navigator.pushReplacement(
+          context, MaterialPageRoute(builder: (context) => HomePage()));
+    }
+
+    Future<bool> _init() async {
+      await LoginHistoryManager().refreshHistory();
+      plugin.registerAuthCallback((username, token) {
+        _onAuthComplete(username, token);
+      });
+      return true;
+    }
+
+    _onFinishClick() async {
+      if (!_applyUrl()) {
+        return;
+      }
+      try {
+        Info info = await ApiClient().fetchInfo();
+        if (!info.success) {
+          return;
+        }
+        bool canAccess = false;
         if (info.name == "YouPlus service") {
-          print("get entity from youplus");
           // find out entry of service
-          var response  = await YouPlusClient().fetchEntityByName("youvideocore");
+          var response =
+              await YouPlusClient().fetchEntityByName("youvideocore");
           for (var url in response.entity.export.urls) {
             ApplicationConfig().serviceUrl = url;
             try {
@@ -59,34 +105,42 @@ class _StartPageState extends State<StartPage> {
                 canAccess = true;
                 break;
               }
-            }on DioError catch(e) {
+            } on DioError catch (e) {
               continue;
             }
           }
-        }else{
+        } else {
           canAccess = true;
         }
         if (!canAccess) {
           return;
         }
-        info =  await ApiClient().fetchInfo();
+        info = await ApiClient().fetchInfo();
         if (!info.success) {
           return;
         }
         if (info.authEnable) {
           if (inputUsername.isEmpty || inputPassword.isEmpty) {
-            ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Service need auth")));
+            ScaffoldMessenger.of(context)
+                .showSnackBar(SnackBar(content: Text("Service need auth")));
             return;
           }
-          UserAuthResponse userAuth = await ApiClient().fetchUserAuth(inputUsername, inputPassword);
-          LoginHistoryManager().add(LoginHistory(apiUrl: inputUrl, username: inputUsername, token: userAuth.token));
+          UserAuthResponse userAuth =
+              await ApiClient().fetchUserAuth(inputUsername, inputPassword);
+          LoginHistoryManager().add(LoginHistory(
+              apiUrl: ApplicationConfig().serviceUrl,
+              username: inputUsername,
+              token: userAuth.token));
           ApplicationConfig().token = userAuth.token;
-        }else{
-          LoginHistoryManager().add(LoginHistory(apiUrl: inputUrl, username: "Public", token: ""));
+        } else {
+          LoginHistoryManager().add(LoginHistory(
+              apiUrl: ApplicationConfig().serviceUrl,
+              username: "Public",
+              token: ""));
         }
-
-      } on DioError catch(e) {
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Login failed: ${e.response?.data["reason"]}")));
+      } on DioError catch (e) {
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+            content: Text("Login failed: ${e.response?.data["reason"]}")));
         return;
       }
       Navigator.pushReplacement(
@@ -98,38 +152,36 @@ class _StartPageState extends State<StartPage> {
         elevation: 0,
         backgroundColor: Color(0xFF2b2b2b),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          _onFinishClick();
-        },
-        child: Icon(Icons.chevron_right),
-      ),
       body: FutureBuilder(
         future: _init(),
         builder: (BuildContext context, AsyncSnapshot<bool> snapshot) {
           _onHistoryClick(LoginHistory history) async {
             ApplicationConfig().serviceUrl = history.apiUrl;
             try {
-              Info info =  await ApiClient().fetchInfo();
+              Info info = await ApiClient().fetchInfo();
               if (!info.success) {
-                ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Failed to connect host")));
+                ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(content: Text("Failed to connect host")));
                 return;
               }
               if (info.authEnable) {
                 if (history.token.length == 0) {
-                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("token is empty,try to login again")));
+                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                      content: Text("token is empty,try to login again")));
                   return;
                 }
                 UserToken token = await ApiClient().userToken(history.token);
-                if (!token.success){
-                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("token is empty,try to login again")));
+                if (!token.success) {
+                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                      content: Text("token is empty,try to login again")));
                   return;
                 }
                 ApplicationConfig().token = history.token;
               }
-
-            } on DioError catch(e) {
-              ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Login failed: ${e.response?.data["reason"]}")));
+            } on DioError catch (e) {
+              ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                  content:
+                      Text("Login failed: ${e.response?.data["reason"]}")));
               return;
             }
             Navigator.pushReplacement(
@@ -143,8 +195,6 @@ class _StartPageState extends State<StartPage> {
               child: Padding(
                 padding: EdgeInsets.only(top: 16, left: 16, right: 16),
                 child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
                       "YouVideo",
@@ -157,8 +207,8 @@ class _StartPageState extends State<StartPage> {
                     Text(
                       "ProjectXPolaris",
                       style: TextStyle(
-                          color: Colors.white70,
-                          fontSize: 18,
+                          color: Colors.white,
+                          fontSize: 16,
                           fontWeight: FontWeight.w200),
                       textAlign: TextAlign.center,
                     ),
@@ -186,71 +236,133 @@ class _StartPageState extends State<StartPage> {
                             ),
                           ),
                           Expanded(
-                              child: TabBarView(children: [
-                            Container(
-                              child: ListView(
-                                children:
-                                    LoginHistoryManager().list.map((history) {
-                                  return Container(
-                                    margin: EdgeInsets.only(bottom: 8),
-                                    child: ListTile(
-                                      onTap: () => _onHistoryClick(history),
-                                      leading: CircleAvatar(
-                                        child: Icon(Icons.person),
+                              child: TabBarView(
+                            children: [
+                              Container(
+                                child: ListView(
+                                  children:
+                                      LoginHistoryManager().list.map((history) {
+                                    return Container(
+                                      margin: EdgeInsets.only(bottom: 8),
+                                      child: ListTile(
+                                        onTap: () => _onHistoryClick(history),
+                                        leading: CircleAvatar(
+                                          child: Icon(Icons.person),
+                                        ),
+                                        title: Text(history.username),
+                                        subtitle: Text(history.apiUrl),
+                                        tileColor: Colors.black26,
                                       ),
-                                      title: Text(history.username),
-                                      subtitle: Text(history.apiUrl),
-                                      tileColor: Colors.black26,
-                                    ),
-                                  );
-                                }).toList(),
+                                    );
+                                  }).toList(),
+                                ),
                               ),
-                            ),
-                            Container(
-                              child: Column(
-                                children: [
-                                  TextField(
-                                    decoration: InputDecoration(
-                                      hintText: 'Service url',
-                                    ),
-                                    cursorColor: Colors.red,
-                                    onChanged: (text) {
-                                      setState(() {
-                                        inputUrl = text;
-                                      });
-                                    },
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.only(top: 16),
-                                    child: TextField(
-                                      decoration:
-                                          InputDecoration(hintText: 'Username'),
+                              Container(
+                                child: ListView(
+                                  children: [
+                                    TextField(
+                                      decoration: InputDecoration(
+                                        focusedBorder: OutlineInputBorder(
+                                          borderSide: BorderSide(
+                                              color: Colors.red, width: 1.0),
+                                        ),
+                                        enabledBorder: OutlineInputBorder(
+                                          borderSide: BorderSide(
+                                              color: Colors.white24,
+                                              width: 1.0),
+                                        ),
+                                        hintText: 'Service url',
+                                      ),
                                       cursorColor: Colors.red,
                                       onChanged: (text) {
                                         setState(() {
-                                          inputUsername = text;
+                                          inputUrl = text;
                                         });
                                       },
                                     ),
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.only(top: 16),
-                                    child: TextField(
-                                      decoration:
-                                          InputDecoration(hintText: 'Password'),
-                                      cursorColor: Colors.red,
-                                      obscureText: true,
-                                      onChanged: (text) {
-                                        setState(() {
-                                          inputPassword = text;
-                                        });
-                                      },
+                                    Padding(
+                                      padding: const EdgeInsets.only(top: 16),
+                                      child: TextField(
+                                        decoration: InputDecoration(
+                                            focusedBorder: OutlineInputBorder(
+                                              borderSide: BorderSide(
+                                                  color: Colors.red,
+                                                  width: 1.0),
+                                            ),
+                                            enabledBorder: OutlineInputBorder(
+                                              borderSide: BorderSide(
+                                                  color: Colors.white24,
+                                                  width: 1.0),
+                                            ),
+                                            hintText: 'Username'),
+                                        cursorColor: Colors.red,
+                                        onChanged: (text) {
+                                          setState(() {
+                                            inputUsername = text;
+                                          });
+                                        },
+                                      ),
                                     ),
-                                  ),
-                                ],
+                                    Padding(
+                                      padding: const EdgeInsets.only(top: 16),
+                                      child: TextField(
+                                        decoration: new InputDecoration(
+                                          focusedBorder: OutlineInputBorder(
+                                            borderSide: BorderSide(
+                                                color: Colors.red, width: 1.0),
+                                          ),
+                                          enabledBorder: OutlineInputBorder(
+                                            borderSide: BorderSide(
+                                                color: Colors.white24,
+                                                width: 1.0),
+                                          ),
+                                          hintText: 'Password',
+                                        ),
+                                        cursorColor: Colors.red,
+                                        obscureText: true,
+                                        onChanged: (text) {
+                                          setState(() {
+                                            inputPassword = text;
+                                          });
+                                        },
+                                      ),
+                                    ),
+                                    Container(
+                                      width: double.infinity,
+                                      padding: const EdgeInsets.only(top: 16),
+                                      child: ElevatedButton(
+                                        child: Text(
+                                          "Login",
+                                          style: TextStyle(),
+                                        ),
+                                        onPressed: () {
+                                          _onFinishClick();
+                                        },
+                                        style: ElevatedButton.styleFrom(
+                                          primary: Colors.red,
+                                        ),
+                                      ),
+                                    ),
+                                    Padding(
+                                      padding: const EdgeInsets.only(top: 16),
+                                      child: TextButton(
+                                        child: Text(
+                                          "Login with YouPlus",
+                                          style: TextStyle(color: Colors.red),
+                                        ),
+                                        onPressed: () {
+                                          if (!_applyUrl()) {
+                                            return;
+                                          }
+                                          plugin.openYouPlus();
+                                        },
+                                      ),
+                                    ),
+                                  ],
+                                ),
                               ),
-                            ),
-                          ]))
+                            ],
+                          ))
                         ],
                       ),
                     )),
