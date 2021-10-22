@@ -8,13 +8,15 @@ class YouPlusClient {
 
   factory YouPlusClient() {
     _dio.interceptors.add(InterceptorsWrapper(
-      onRequest: (RequestOptions options) async {
-        var config = ApplicationConfig();
-        options.baseUrl = config.serviceUrl;
-        if (config.token != null && config.token.isNotEmpty) {
-          options.headers["Authorization"] = "Bearer ${config.token}";
+      onRequest:(RequestOptions options, RequestInterceptorHandler handler) async {
+        options.baseUrl = ApplicationConfig().serviceUrl ?? "";
+        String token = ApplicationConfig().token ?? "";
+        if (token != null && token.isNotEmpty) {
+          options.headers = {
+            "Authorization": "Bearer $token"
+          };
         }
-        return options; //continue
+        handler.next(options);
       },
     ));
     return _instance;

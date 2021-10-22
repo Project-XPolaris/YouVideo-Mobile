@@ -7,13 +7,13 @@ const OrderFilterKeys = [
 class VideoFilter {
   String order;
   bool random;
-  VideoFilter({this.order,this.random = false});
+  VideoFilter({required this.order,this.random = false});
 }
 
 class VideoFilterView extends StatefulWidget {
   final VideoFilter filter;
   final Function(VideoFilter filter) onChange;
-  VideoFilterView({this.filter,this.onChange});
+  VideoFilterView({required this.filter,required this.onChange});
 
   @override
   _VideoFilterViewState createState() => _VideoFilterViewState(order: filter.order,random: filter.random);
@@ -21,7 +21,7 @@ class VideoFilterView extends StatefulWidget {
 
 class _VideoFilterViewState extends State<VideoFilterView> {
   String order;
-  _VideoFilterViewState({this.order,this.random});
+  _VideoFilterViewState({required this.order,required this.random});
   bool random;
   @override
   Widget build(BuildContext context) {

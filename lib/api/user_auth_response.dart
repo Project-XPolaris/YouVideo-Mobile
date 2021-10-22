@@ -1,7 +1,7 @@
 class UserAuthResponse {
-  bool success;
-  String token;
-  String uid;
+  bool? success;
+  String? token;
+  String? uid;
 
   UserAuthResponse({
       this.success, 

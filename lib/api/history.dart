@@ -5,9 +5,9 @@ import 'package:youvideo/api/loader.dart';
 import '../config.dart';
 
 class History {
-  int videoId;
-  String name;
-  String cover;
+  int? videoId;
+  String name = "";
+  String? cover;
 
   History.fromJson(Map<String, dynamic> json) {
     videoId = json['video_id'];
@@ -15,9 +15,11 @@ class History {
     cover = json['cover'];
   }
 
-  getCoverUrl(){
-    if (cover != null){
-      return ApplicationConfig().serviceUrl + cover;
+  String? getCoverUrl(){
+    var coverUrl = cover;
+    var serviceUrl = ApplicationConfig().serviceUrl;
+    if (coverUrl != null && serviceUrl != null){
+      return serviceUrl + coverUrl;
     }
   }
 }

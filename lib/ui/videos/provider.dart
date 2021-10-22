@@ -4,7 +4,7 @@ import 'package:youvideo/ui/components/VideoFilter.dart';
 
 class VideosProvider extends ChangeNotifier {
   final Map<String,String> extraFilter;
-  VideosProvider({this.extraFilter});
+  VideosProvider({required this.extraFilter});
   VideoFilter filter = new VideoFilter(order: "id desc");
   VideoLoader loader = new VideoLoader();
   Map<String, String> _getVideosExtraParams() {

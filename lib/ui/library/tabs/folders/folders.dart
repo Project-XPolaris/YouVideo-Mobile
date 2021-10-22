@@ -6,7 +6,7 @@ import '../../provider.dart';
 
 class LibraryFolders extends StatelessWidget {
   final LibraryProvider provider;
-  LibraryFolders({this.provider});
+  LibraryFolders({required this.provider});
   @override
   Widget build(BuildContext context) {
     var controller = createLoadMoreController(() => provider.loadMoreFolders());
@@ -14,7 +14,6 @@ class LibraryFolders extends StatelessWidget {
       child: RefreshIndicator(
         onRefresh: () async {
           await provider.loadDirectory(force: true);
-          return true;
         },
         child: ListView(
           controller: controller,
@@ -22,16 +21,19 @@ class LibraryFolders extends StatelessWidget {
           children: provider.folderLoader.list.map((e) {
             return ListTile(
               leading: Icon(Icons.folder),
-              title: Text(e.dirName),
+              title: Text(e.dirName ?? ""),
               onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => VideosPage(
-                        title: e.dirName,
-                        filter: {"dir": e.baseDir},
-                      )),
-                );
+                var baseDir = e.baseDir;
+                if (baseDir != null) {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => VideosPage(
+                          title: e.dirName ?? "",
+                          filter: {"dir": baseDir},
+                        )),
+                  );
+                }
               },
             );
           }).toList(),

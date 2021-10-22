@@ -9,8 +9,10 @@ class HomeVideosProvider extends ChangeNotifier {
   Map<String,String> _getExtraParams() {
     Map<String,String> result = {
       "order":filter.order,
-      "random":filter.random ? "1" : null
     };
+    if (filter.random) {
+      result["random"] = "1";
+    }
     return result;
   }
   loadData({force = false}) async {

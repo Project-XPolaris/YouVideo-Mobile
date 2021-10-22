@@ -1,10 +1,10 @@
 class ListResponseWrap<T> {
-  int count;
-  List<T> result;
-  int page;
-  int pageSize;
+  int? count;
+  List<T> result = [];
+  int? page;
+  int? pageSize;
 
-  ListResponseWrap({this.count, this.result, this.page, this.pageSize});
+  ListResponseWrap({this.count, required this.result, this.page, this.pageSize});
 
   ListResponseWrap.fromJson(
       Map<String, dynamic> json, Function(dynamic) converter) {
@@ -12,15 +12,24 @@ class ListResponseWrap<T> {
     page = json['page'];
     pageSize = json['pageSize'];
     if (json['result'] != null) {
-      result = new List<T>();
+      result = [];
       json['result'].forEach((v) {
         result.add(converter(v));
       });
     }
   }
+  int getPage(){
+    return page ?? 1;
+  }
+  int getPageSize(){
+    return pageSize ?? 0;
+  }
+  int getTotal(){
+    return count ?? 0;
+  }
 }
 
 class BaseResponse<T> {
-  bool success;
-  String reason;
+  bool? success;
+  String? reason;
 }

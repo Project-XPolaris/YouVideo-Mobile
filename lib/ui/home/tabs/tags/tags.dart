@@ -17,7 +17,6 @@ class TagsTabPage extends StatelessWidget {
               color: Colors.red,
               onRefresh: () async {
                 await provider.loadData(force: true);
-                return true;
               },
               child: ListView(
                 controller: controller,
@@ -36,7 +35,6 @@ class TagsTabPage extends StatelessWidget {
                                 )),
                       );
                     },
-
                     onLongPress: () {
                       showModalBottomSheet(
                           context: context,
@@ -45,8 +43,11 @@ class TagsTabPage extends StatelessWidget {
                               ListTile(
                                 leading: Icon(Icons.delete),
                                 title: Text("Delete tag"),
-                                onTap: (){
-                                  provider.removeTag(tag.id);
+                                onTap: () {
+                                  var id = tag.id;
+                                  if (id != null) {
+                                    provider.removeTag(id);
+                                  }
                                   Navigator.pop(context);
                                 },
                               ),

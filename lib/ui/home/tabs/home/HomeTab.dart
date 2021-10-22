@@ -27,12 +27,12 @@ class HomeTabPage extends StatelessWidget {
                   Container(
                     height: 240,
                     child: VideosHorizonCollection(
-                      videos: provider.latestVideoLoader.list ?? [],
+                      videos: provider.latestVideoLoader.list,
                       title: "Recently added",
                     ),
                   ),
                   Padding(
-                    padding: const EdgeInsets.only(bottom: 8),
+                    padding: const EdgeInsets.only(bottom: 8,top: 16),
                     child: Text(
                       "Libraries",
                       style: TextStyle(
@@ -43,14 +43,18 @@ class HomeTabPage extends StatelessWidget {
                     return LibraryItem(
                       library: library,
                       onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => LibraryPage(
-                                    title: library.name,
-                                    libraryId: library.id,
-                                  )),
-                        );
+                        var id = library.id;
+                        if (id != null) {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => LibraryPage(
+                                  title: library.getName(),
+                                  libraryId: id,
+                                )),
+                          );
+                        }
+
                       },
                     );
                   }).toList(),
@@ -73,14 +77,17 @@ class HomeTabPage extends StatelessWidget {
                               child: Text("#"),
                             ),
                             onPressed: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => VideosPage(
-                                          title: tag.name,
-                                          filter: {"tag": tag.id.toString()},
-                                        )),
-                              );
+                              var id = tag.id;
+                              if (id != null) {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => VideosPage(
+                                        title: tag.name,
+                                        filter: {"tag": tag.id.toString()},
+                                      )),
+                                );
+                              }
                             },
                           ),
                         );

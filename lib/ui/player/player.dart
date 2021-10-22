@@ -7,22 +7,22 @@ import 'package:video_player/video_player.dart';
 
 class Player extends StatefulWidget {
   final String playUrl;
-  final String subtitlesUrl;
-  Player({this.playUrl,this.subtitlesUrl});
+  final String? subtitlesUrl;
+  Player({required this.playUrl,this.subtitlesUrl});
 
   @override
   _PlayerState createState() => _PlayerState();
 }
 
 class _PlayerState extends State<Player> {
-  VideoPlayerController videoPlayerController;
-  ChewieController _chewieController;
+  VideoPlayerController? videoPlayerController;
+  ChewieController? _chewieController;
 
-  SubtitleController subtitleController;
+  SubtitleController? subtitleController;
 
   @override
   void dispose() {
-    videoPlayerController.dispose();
+    videoPlayerController?.dispose();
     _chewieController?.dispose();
     super.dispose();
   }
@@ -39,10 +39,10 @@ class _PlayerState extends State<Player> {
 
   Future<void> initializePlayer() async {
     videoPlayerController = VideoPlayerController.network(widget.playUrl);
-    await videoPlayerController.initialize();
+    await videoPlayerController?.initialize();
 
     _chewieController = ChewieController(
-      videoPlayerController: videoPlayerController,
+      videoPlayerController: videoPlayerController!,
       autoPlay: true,
       looping: true,
       fullScreenByDefault: true,
@@ -68,8 +68,8 @@ class _PlayerState extends State<Player> {
       // ),
       // autoInitialize: true,
       overlay: SubTitleWrapper(
-        videoPlayerController: videoPlayerController,
-        subtitleController: subtitleController,
+        videoPlayerController: videoPlayerController!,
+        subtitleController: subtitleController!,
         subtitleStyle: SubtitleStyle(
           textColor: Colors.white,
           hasBorder: true,
@@ -88,7 +88,7 @@ class _PlayerState extends State<Player> {
         }
       },
       child: Chewie(
-        controller: _chewieController,
+        controller: _chewieController!,
       ),
     );
     Widget loadingView = Container(
@@ -112,8 +112,7 @@ class _PlayerState extends State<Player> {
     Widget playView =
         Container(padding: EdgeInsets.only(bottom: 32), child: playerWidget);
     return Scaffold(
-        body: _chewieController != null &&
-                _chewieController.videoPlayerController.value.isInitialized
+        body: ((_chewieController?.videoPlayerController.value.isInitialized) ?? false)
             ? playView
             : loadingView);
   }

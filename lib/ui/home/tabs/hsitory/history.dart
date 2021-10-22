@@ -21,7 +21,6 @@ class HistoryList extends StatelessWidget {
                   color: Colors.red,
                   onRefresh: () async {
                     await provider.loadData(force: true);
-                    return true;
                   },
                   child: ListView(
                     controller: controller,
@@ -34,13 +33,17 @@ class HistoryList extends StatelessWidget {
                           coverUrl: history.getCoverUrl(),
                           name: history.name,
                           onTap: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => VideoPage(
-                                    videoId: history.videoId,
-                                  )),
-                            );
+                            var id = history.videoId;
+                            if (id != null) {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => VideoPage(
+                                      videoId: id,
+                                    )),
+                              );
+                            }
+
                           },
                         ),
                       );

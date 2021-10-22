@@ -2,15 +2,15 @@ import 'package:flutter/material.dart';
 
 class ActionItem {
   String title;
-  Function onTap;
-  ActionItem({this.title,this.onTap});
+  Function()? onTap;
+  ActionItem({required this.title,this.onTap});
 }
 
 class ActionSelectBottomSheet extends StatelessWidget {
   final List<ActionItem> actions;
   final String title;
   final double height;
-  ActionSelectBottomSheet({this.actions, this.title,this.height});
+  ActionSelectBottomSheet({this.actions = const[], required this.title,required this.height});
 
   @override
   Widget build(BuildContext context) {

@@ -8,53 +8,50 @@ abstract class ApiDataLoader<T> {
   int page = 1;
   int pageSize = 20;
 
-  Future<bool> loadData({Map<String,String> extraFilter,force = false}) async{
-    if ((!firstLoad || isLoading || !hasMore) && !force){
+  Future<bool> loadData(
+      {Map<String, String> extraFilter = const {}, force = false}) async {
+    if ((!firstLoad || isLoading || !hasMore) && !force) {
       return false;
     }
     firstLoad = false;
     isLoading = true;
     page = 1;
     pageSize = 20;
-    Map<String,String> queryParams = {
-      "page":page.toString(),
-      "pageSize":pageSize.toString()
+    Map<String, String> queryParams = {
+      "page": page.toString(),
+      "pageSize": pageSize.toString()
     };
-    Map<String,String> params = new Map.from(queryParams);
-    if (extraFilter != null) {
-      params.addAll(extraFilter);
-    }
+    Map<String, String> params = new Map.from(queryParams);
+    params.addAll(extraFilter);
     var response = await fetchData(params);
-
     list = response.result;
-    hasMore = list.length < response.count;
-    page = response.page;
-    pageSize = response.pageSize;
+    hasMore = list.length < response.getTotal();
+    page = page;
+    pageSize = response.getPageSize();
     isLoading = false;
     return true;
   }
 
-  Future<bool> loadMore({Map<String,String> extraFilter}) async{
-    if (!hasMore){
+  Future<bool> loadMore({Map<String, String> extraFilter = const {}}) async {
+    if (!hasMore) {
       return false;
     }
     isLoading = true;
-    Map<String,String> queryParams = {
-      "page":(page + 1).toString(),
-      "pageSize":pageSize.toString()
+    Map<String, String> queryParams = {
+      "page": (page + 1).toString(),
+      "pageSize": pageSize.toString()
     };
-    Map<String,String> params = new Map.from(queryParams);
-    if (extraFilter != null) {
-      params.addAll(extraFilter);
-    }
+    Map<String, String> params = new Map.from(queryParams);
+    params.addAll(extraFilter);
     var response = await fetchData(params);
     list.addAll(response.result);
-    hasMore = response.page * response.pageSize < response.count;
-    page = response.page;
-    pageSize = response.pageSize;
+    hasMore = response.getPage() * response.getPageSize() < response.getTotal();
+    page = response.getPage();
+    pageSize = response.getPageSize();
 
     isLoading = false;
     return true;
   }
-  Future<ListResponseWrap<T>> fetchData(Map<String,String> params);
+
+  Future<ListResponseWrap<T>> fetchData(Map<String, String> params);
 }

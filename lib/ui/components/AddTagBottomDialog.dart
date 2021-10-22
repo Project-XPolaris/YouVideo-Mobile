@@ -3,14 +3,14 @@ import 'package:flutter/material.dart';
 class AddTagBottomDialog extends StatefulWidget {
   final Function(String text) onCreate;
 
-  AddTagBottomDialog({this.onCreate});
+  AddTagBottomDialog({required this.onCreate});
 
   @override
   _AddTagBottomDialogState createState() => _AddTagBottomDialogState();
 }
 
 class _AddTagBottomDialogState extends State<AddTagBottomDialog> {
-  String inputText;
+  String? inputText;
 
   @override
   Widget build(BuildContext context) {
@@ -34,7 +34,9 @@ class _AddTagBottomDialogState extends State<AddTagBottomDialog> {
                 }),
               ),
               TextButton(
-                  onPressed: () => widget.onCreate(inputText),
+                  onPressed: () {
+
+                  },
                   child: Text("Create"))
             ],
           ),

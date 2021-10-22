@@ -8,7 +8,7 @@ class TagsPage extends StatelessWidget {
   final String title;
   final Map<String, String> filter;
 
-  TagsPage({this.title = "Tags", this.filter});
+  TagsPage({this.title = "Tags", required this.filter});
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +27,6 @@ class TagsPage extends StatelessWidget {
               child: RefreshIndicator(
                 onRefresh: () async {
                   await provider.loadData(force: true);
-                  return true;
                 },
                 child: ListView(
                   controller: controller,

@@ -92,7 +92,7 @@ class _StartPageState extends State<StartPage> {
           // find out entry of service
           var response =
               await YouPlusClient().fetchEntityByName("youvideocore");
-          for (var url in response.entity.export.urls) {
+          for (var url in response.entity!.export!.urls) {
             ApplicationConfig().serviceUrl = url;
             try {
               Info info = await ApiClient().fetchInfo();
@@ -114,7 +114,7 @@ class _StartPageState extends State<StartPage> {
         if (!info.success) {
           return;
         }
-        if (info.authEnable) {
+        if (info.authEnable!) {
           if (inputUsername.isEmpty || inputPassword.isEmpty) {
             ScaffoldMessenger.of(context)
                 .showSnackBar(SnackBar(content: Text("Service need auth")));
@@ -159,14 +159,14 @@ class _StartPageState extends State<StartPage> {
                     SnackBar(content: Text("Failed to connect host")));
                 return;
               }
-              if (info.authEnable) {
-                if (history.token.length == 0) {
+              if (info.authEnable!) {
+                if (history.token!.length == 0) {
                   ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                       content: Text("token is empty,try to login again")));
                   return;
                 }
-                UserToken token = await ApiClient().userToken(history.token);
-                if (!token.success) {
+                UserToken token = await ApiClient().userToken(history.token!);
+                if (!token.success!) {
                   ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                       content: Text("token is empty,try to login again")));
                   return;
@@ -245,8 +245,8 @@ class _StartPageState extends State<StartPage> {
                                         leading: CircleAvatar(
                                           child: Icon(Icons.person),
                                         ),
-                                        title: Text(history.username),
-                                        subtitle: Text(history.apiUrl),
+                                        title: Text(history.username!),
+                                        subtitle: Text(history.apiUrl!),
                                         tileColor: Colors.black26,
                                       ),
                                     );

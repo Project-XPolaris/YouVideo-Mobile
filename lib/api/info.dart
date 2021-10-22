@@ -1,9 +1,9 @@
 class Info {
-  String name;
-  bool success;
-  bool authEnable;
-  String authUrl;
-  bool transEnable;
+  String? name;
+  bool success = false;
+  bool? authEnable;
+  String? authUrl;
+  bool? transEnable;
 
   Info.fromJson(Map<String, dynamic> json) {
     name = json['name'];

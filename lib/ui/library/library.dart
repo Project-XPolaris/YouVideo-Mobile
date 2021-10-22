@@ -3,13 +3,12 @@ import 'package:provider/provider.dart';
 import 'package:youvideo/ui/library/provider.dart';
 import 'package:youvideo/ui/library/tabs/folders/folders.dart';
 import 'package:youvideo/ui/library/tabs/videos/videos.dart';
-import 'package:youvideo/util/listview.dart';
 
 class LibraryPage extends StatelessWidget {
   final String title;
   final int libraryId;
 
-  LibraryPage({this.title, this.libraryId});
+  LibraryPage({required this.title, required this.libraryId});
 
   @override
   Widget build(BuildContext context) {
@@ -37,7 +36,6 @@ class LibraryPage extends StatelessWidget {
                     provider.loader.firstLoad = true;
 
                     await provider.loader.loadData();
-                    return true;
                   },
                   child: TabBarView(
                     children: [

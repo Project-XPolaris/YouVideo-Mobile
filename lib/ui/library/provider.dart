@@ -7,7 +7,7 @@ class LibraryProvider extends ChangeNotifier {
   bool first = true;
   VideoFilter filter = new VideoFilter(order: "id desc");
 
-  LibraryProvider({this.libraryId});
+  LibraryProvider({required this.libraryId});
 
   VideoLoader loader = new VideoLoader();
   VideoLoader folderLoader = new VideoLoader();
@@ -17,8 +17,10 @@ class LibraryProvider extends ChangeNotifier {
       "order": filter.order,
       "library": libraryId.toString(),
       "pageSize":"100",
-      "random":filter.random ? "1" : null
     };
+    if (filter.random) {
+      result["random"] = "1";
+    }
     return result;
   }
 

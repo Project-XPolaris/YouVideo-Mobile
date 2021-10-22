@@ -2,25 +2,25 @@ import 'package:flutter/material.dart';
 import 'package:youvideo/ui/components/VideoCover.dart';
 
 class VideoItemHorizon extends StatelessWidget {
-  String coverUrl;
-  String name;
-  Function() onTap;
-  double coverWidth;
-  double coverHeight;
-  double maxCoverWidth;
-  double maxCoverHeight;
+  final String? coverUrl;
+  final String name;
+  final Function()? onTap;
+  final double coverWidth;
+  final double coverHeight;
+  final double maxCoverWidth;
+  final double maxCoverHeight;
 
-  EdgeInsets padding = EdgeInsets.all(0);
+  EdgeInsets padding;
 
-  VideoItemHorizon({this.coverUrl,
-    this.name,
-    this.onTap,
-    this.padding,
-    this.coverWidth = 240,
-    this.coverHeight = 120,
-    this.maxCoverHeight = 240,
-    this.maxCoverWidth = 240
-  });
+  VideoItemHorizon(
+      {this.coverUrl,
+      this.name = "Unknown",
+      this.onTap,
+      this.padding = const EdgeInsets.all(0),
+      this.coverWidth = 240,
+      this.coverHeight = 120,
+      this.maxCoverHeight = 240,
+      this.maxCoverWidth = 240});
 
   @override
   Widget build(BuildContext context) {

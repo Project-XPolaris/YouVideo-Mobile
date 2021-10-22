@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 class HorizonCollection extends StatelessWidget {
   final List<Widget> children;
   final String title;
-  final Function() onMore;
-  HorizonCollection({this.children,this.title,this.onMore});
+  final Function()? onMore;
+  HorizonCollection({required this.children,required this.title,this.onMore});
 
   @override
   Widget build(BuildContext context) {

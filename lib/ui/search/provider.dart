@@ -3,7 +3,7 @@ import 'package:youvideo/api/tag.dart';
 import 'package:youvideo/api/video.dart';
 
 class SearchProvider extends ChangeNotifier {
-  String searchKey;
+  String? searchKey;
   VideoLoader videoLoader = new VideoLoader();
   TagLoader tagLoader = new TagLoader();
   bool isSearching = false;
@@ -12,13 +12,14 @@ class SearchProvider extends ChangeNotifier {
     notifyListeners();
   }
   search() async {
-    if (isSearching) {
+    var key = searchKey;
+    if (isSearching || key == null || key.isEmpty) {
       return;
     }
     isSearching = true;
     notifyListeners();
-    await videoLoader.loadData(force: true,extraFilter: {"search":searchKey,"pageSize":"5"});
-    await tagLoader.loadData(force: true,extraFilter: {"search":searchKey,"pageSize":"5"});
+    await videoLoader.loadData(force: true,extraFilter: {"search":key,"pageSize":"5"});
+    await tagLoader.loadData(force: true,extraFilter: {"search":key,"pageSize":"5"});
     isSearching = false;
     notifyListeners();
   }

@@ -18,31 +18,31 @@ publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 version: 1.0.0+1
 
 environment:
-  sdk: ">=2.7.0 <3.0.0"
+  sdk: ">=2.12.0 <3.0.0"
 
 dependencies:
   flutter:
     sdk: flutter
   provider: ^5.0.0
-  dio: 4.0.0-beta5
-  android_intent: ^2.0.0
-  shared_preferences: ^2.0.3
-  filesize: ^1.0.4
-  video_player: ^2.0.0
-  chewie: ^1.0.0
-  subtitle_wrapper_package: ^2.0.0
+  dio: 4.0.0
+  android_intent: ^2.0.2
+  shared_preferences: ^2.0.8
+  filesize: ^2.0.1
+  video_player: ^2.2.5
+  chewie: ^1.2.2
+  subtitle_wrapper_package: ^2.0.1
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.0
-  cached_network_image: ^2.5.1
+  cached_network_image: ^3.1.0
   youplusauthplugin:
     git: https://github.com/Project-XPolaris/YouPlusAuthPlugin.git
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  flutter_launcher_icons: "^0.8.0"
-  flutter_launcher_name: "^0.0.1"
+  flutter_launcher_icons: 0.9.2
+
 
 flutter_icons:
   android: "launcher_icon"

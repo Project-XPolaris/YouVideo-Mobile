@@ -3,7 +3,6 @@ import 'package:provider/provider.dart';
 import 'package:youvideo/ui/components/LibraryItem.dart';
 import 'package:youvideo/ui/home/tabs/library/provider.dart';
 import 'package:youvideo/ui/library/library.dart';
-import 'package:youvideo/ui/videos/videos.dart';
 import 'package:youvideo/util/listview.dart';
 
 class LibrariesTabPage extends StatelessWidget {
@@ -20,7 +19,6 @@ class LibrariesTabPage extends StatelessWidget {
               color: Colors.red,
               onRefresh: () async {
                 await provider.loadData(force: true);
-                return true;
               },
               child: ListView(
                 controller: controller,
@@ -29,14 +27,17 @@ class LibrariesTabPage extends StatelessWidget {
                   return LibraryItem(
                     library: library,
                     onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => LibraryPage(
-                                  title: library.name,
-                                  libraryId: library.id,
-                                )),
-                      );
+                      var id = library.id;
+                      if (id != null) {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => LibraryPage(
+                                title: library.getName(),
+                                libraryId: id,
+                              )),
+                        );
+                      }
                     },
                   );
                 }).toList(),

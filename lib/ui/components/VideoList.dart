@@ -7,10 +7,10 @@ import 'package:youvideo/util/listview.dart';
 
 class VideoList extends StatefulWidget {
   final Function onLoadMore;
-  final Function(Video) onItemClick;
+  final Function(Video)? onItemClick;
   final List<Video> videos;
 
-  const VideoList({Key key, this.onItemClick, this.onLoadMore, this.videos})
+  const VideoList({Key? key, this.onItemClick, required this.onLoadMore, this.videos = const []})
       : super(key: key);
 
   @override
@@ -54,9 +54,12 @@ class _VideoListState extends State<VideoList> {
           padding: EdgeInsets.only(right: 4, left: 4, top: 8, bottom: 8),
           child: VideoItem(
             coverUrl: file.getCoverUrl(),
-            name: video.name,
+            name: video.getName(),
             onTap: () {
-              widget.onItemClick(video);
+              var handler = this.widget.onItemClick;
+              if (handler != null) {
+                handler(video);
+              }
             },
             type: video.type
           ),

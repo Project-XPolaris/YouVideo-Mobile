@@ -1,6 +1,4 @@
-import 'package:android_intent/android_intent.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:youvideo/config.dart';
 import 'package:youvideo/plugin/mx.dart';
@@ -13,8 +11,7 @@ import 'package:youvideo/ui/videos/videos.dart';
 class VideoPage extends StatelessWidget {
   final int videoId;
 
-  VideoPage({this.videoId});
-  static const _methodMessageChannel = MethodChannel("mxplugin");
+  VideoPage({required this.videoId});
 
   @override
   Widget build(BuildContext context) {
@@ -101,8 +98,12 @@ class VideoPage extends StatelessWidget {
                                           leading: Icon(Icons.delete),
                                           title: Text("Remove tag"),
                                           onTap: (){
-                                            provider.removeTag(tag.id);
-                                            Navigator.pop(context);
+                                            var id = tag.id;
+                                            if (id != null) {
+                                              provider.removeTag(id);
+                                              Navigator.pop(context);
+                                            }
+
                                           },
                                         ),
                                         Container(
@@ -178,8 +179,9 @@ class VideoPage extends StatelessWidget {
                                         MXPlayerPlugin plugin = MXPlayerPlugin();
                                         var config = ApplicationConfig();
                                         String playUrl = e.getStreamUrl();
-                                        if (config.token != null && config.token.isNotEmpty) {
-                                          playUrl += "?token=${config.token}";
+                                        var token = config.token;
+                                        if (token != null && token.isNotEmpty) {
+                                          playUrl += "?token=${token}";
                                         }
                                         if (e.subtitles == null) {
                                           plugin.play(playUrl);
@@ -220,13 +222,14 @@ class VideoPage extends StatelessWidget {
 }
 
 class HeaderCover extends StatelessWidget {
-  final String url;
+  final String? url;
 
   HeaderCover({this.url});
 
   @override
   Widget build(BuildContext context) {
-    if (url == null) {
+    var coverUrl = url;
+    if (coverUrl == null) {
       return Container(
         color: Colors.white24,
         child: Center(
@@ -239,20 +242,21 @@ class HeaderCover extends StatelessWidget {
       );
     }
     return Image.network(
-      url,
+      coverUrl,
       fit: BoxFit.cover,
     );
   }
 }
 
 class Cover extends StatelessWidget {
-  final String url;
+  final String? url;
 
   Cover({this.url});
 
   @override
   Widget build(BuildContext context) {
-    if (url == null) {
+    var coverUrl = url;
+    if (coverUrl == null) {
       return Container(
         height: 64,
         width: 100,
@@ -263,7 +267,7 @@ class Cover extends StatelessWidget {
       );
     }
     return Image.network(
-      url,
+      coverUrl,
       height: 64,
     );
   }

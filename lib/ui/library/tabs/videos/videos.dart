@@ -7,7 +7,7 @@ import 'package:youvideo/ui/video/VideoPage.dart';
 class LibraryVideos extends StatelessWidget {
   final LibraryProvider provider;
 
-  LibraryVideos({this.provider});
+  LibraryVideos({required this.provider});
 
   @override
   Widget build(BuildContext context) {
@@ -17,18 +17,20 @@ class LibraryVideos extends StatelessWidget {
           RefreshIndicator(
             onRefresh: () async {
               await provider.loadVideos(force: true);
-              return true;
             },
             child: VideoList(
               videos: provider.loader.list,
               onItemClick: (video) {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => VideoPage(
-                            videoId: video.id,
-                          )),
-                );
+                var id = video.id;
+                if (id != null) {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => VideoPage(
+                          videoId: id,
+                        )),
+                  );
+                }
               },
               onLoadMore: () {
                 if (provider.filter.random) {

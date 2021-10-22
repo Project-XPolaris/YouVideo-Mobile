@@ -9,7 +9,7 @@ class InitPage extends StatefulWidget {
 }
 
 class _InitPageState extends State<InitPage> {
-  Key refreshKey;
+  Key? refreshKey;
 
   refresh() {
     setState(() {

@@ -2,18 +2,17 @@ import 'package:youvideo/api/base.dart';
 import 'package:youvideo/api/file.dart';
 import 'package:youvideo/api/loader.dart';
 
-import '../config.dart';
 import 'client.dart';
 
 class Video {
-  int id;
-  String name;
-  String cover;
-  String baseDir;
-  String dirName;
-  int library_id;
-  String type;
-  List<File> files;
+  int? id;
+  String? name;
+  String? cover;
+  String? baseDir;
+  String? dirName;
+  int? libraryId;
+  String type = "video";
+  List<File> files = [];
 
   Video.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -22,10 +21,13 @@ class Video {
     cover = json['cover'];
     dirName = json['dirName'];
     type = json['type'];
-    library_id = json['library_id'];
+    libraryId = json['library_id'];
     if (json.containsKey("files")){
       files = List<File>.from(json['files'].map((it) => File.fromJson(it)).toList());
     }
+  }
+  getName(){
+    return name ?? "Unknown";
   }
 }
 class VideoLoader extends ApiDataLoader<Video> {

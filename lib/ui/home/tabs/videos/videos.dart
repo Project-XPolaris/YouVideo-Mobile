@@ -5,7 +5,6 @@ import 'package:youvideo/ui/components/VideoFilter.dart';
 import 'package:youvideo/ui/components/VideoList.dart';
 import 'package:youvideo/ui/home/tabs/videos/provider.dart';
 import 'package:youvideo/ui/video/VideoPage.dart';
-import 'package:youvideo/util/listview.dart';
 
 class VideosTabPage extends StatelessWidget {
   @override
@@ -22,18 +21,21 @@ class VideosTabPage extends StatelessWidget {
                   color: Colors.red,
                   onRefresh: () async {
                     await provider.loadData(force: true);
-                    return true;
                   },
                   child: VideoList(
                     videos: provider.loader.list,
                     onItemClick: (video) {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => VideoPage(
-                                  videoId: video.id,
-                                )),
-                      );
+                      var id = video.id;
+                      if (id != null) {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => VideoPage(
+                                videoId: id,
+                              )),
+                        );
+                      }
+
                     },
                     onLoadMore: () {
                       if (provider.filter.random) {

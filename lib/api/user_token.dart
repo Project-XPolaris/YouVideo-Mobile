@@ -1,7 +1,7 @@
 class UserToken {
-   bool success;
-   String uid;
-   String username;
+   bool? success;
+   String? uid;
+   String? username;
 
   UserToken({
       this.success,

@@ -7,7 +7,7 @@ import 'package:youvideo/ui/video/VideoPage.dart';
 import 'package:youvideo/ui/videos/videos.dart';
 
 class SearchPage extends StatefulWidget {
-  const SearchPage({Key key}) : super(key: key);
+  const SearchPage({Key? key}) : super(key: key);
 
   @override
   _SearchPageState createState() => _SearchPageState();
@@ -34,15 +34,18 @@ class _SearchPageState extends State<SearchPage> {
                   )),
                   TextButton(
                       onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => VideosPage(
-                                    filter: {"search": provider.searchKey},
-                                    title:
-                                        "Search result for ${provider.searchKey}",
-                                  )),
-                        );
+                        var key = provider.searchKey;
+                        if (key != null) {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => VideosPage(
+                                      filter: {"search": key},
+                                      title:
+                                          "Search result for ${provider.searchKey}",
+                                    )),
+                          );
+                        }
                       },
                       child: Text(
                         "more",
@@ -51,23 +54,27 @@ class _SearchPageState extends State<SearchPage> {
                 ],
               ));
               provider.videoLoader.list.forEach((video) {
-                String coverUrl;
-                if (video.files.first != null) {
-                  coverUrl = video.files.first.getCoverUrl();
+                String? coverUrl;
+                if (video.files.isNotEmpty) {
+                  var first = video.files[0];
+                  coverUrl = first.getCoverUrl();
                 }
                 widgets.add(Container(
                   padding: EdgeInsets.all(8),
                   child: VideoItem(
                     coverUrl: coverUrl,
-                    name: video.name,
+                    name: video.getName(),
                     onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => VideoPage(
-                                  videoId: video.id,
-                                )),
-                      );
+                      var id = video.id;
+                      if (id != null) {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => VideoPage(
+                                    videoId: id,
+                                  )),
+                        );
+                      }
                     },
                   ),
                 ));
@@ -86,15 +93,18 @@ class _SearchPageState extends State<SearchPage> {
                   )),
                   TextButton(
                       onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => TagsPage(
-                                    filter: {"search": provider.searchKey},
-                                    title:
-                                        "Search result for ${provider.searchKey}",
-                                  )),
-                        );
+                        var key = provider.searchKey;
+                        if (key != null) {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => TagsPage(
+                                      filter: {"search": key},
+                                      title:
+                                          "Search result for ${provider.searchKey}",
+                                    )),
+                          );
+                        }
                       },
                       child: Text(
                         "more",
@@ -120,31 +130,36 @@ class _SearchPageState extends State<SearchPage> {
             }
             return widgets;
           }
-          Widget renderResult(){
-            if (provider.tagLoader.list.isEmpty && provider.videoLoader.list.isEmpty) {
-              return Container(
 
-                child: (
-                  Container(
-                    width: double.infinity,
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Icon(Icons.texture,color: Colors.white54, size: 72,),
-                        Text("no result",style: TextStyle(fontSize: 24,color: Colors.white),)
-                      ],
-                    ),
-                  )
-                ),
+          Widget renderResult() {
+            if (provider.tagLoader.list.isEmpty &&
+                provider.videoLoader.list.isEmpty) {
+              return Container(
+                child: (Container(
+                  width: double.infinity,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Icon(
+                        Icons.texture,
+                        color: Colors.white54,
+                        size: 72,
+                      ),
+                      Text(
+                        "no result",
+                        style: TextStyle(fontSize: 24, color: Colors.white),
+                      )
+                    ],
+                  ),
+                )),
               );
             }
             return ListView(
-              children: [
-                ...renderResultList()
-              ],
+              children: [...renderResultList()],
             );
           }
+
           return Scaffold(
             appBar: AppBar(
               elevation: 0,
@@ -200,7 +215,6 @@ class _SearchPageState extends State<SearchPage> {
             ),
             backgroundColor: Color(0xFF121212),
             body: Container(
-
               child: provider.isSearching
                   ? Center(
                       child: Container(

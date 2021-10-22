@@ -29,14 +29,17 @@ class VideosHorizonCollection extends StatelessWidget {
             coverWidth: width,coverHeight: height,
             padding: EdgeInsets.only(right: 16),
             coverUrl: file.getCoverUrl(),
-            name: video.name,
+            name: video.getName(),
             onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) => VideoPage(videoId: video.id,)
-                ),
-              );
+              var id = video.id;
+              if (id != null) {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => VideoPage(videoId: id,)
+                  ),
+                );
+              }
             },
           );
         })

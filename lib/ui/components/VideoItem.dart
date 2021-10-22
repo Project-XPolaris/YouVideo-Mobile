@@ -6,11 +6,11 @@ import 'package:flutter/painting.dart';
 import 'VideoCover.dart';
 
 class VideoItem extends StatelessWidget {
-  String coverUrl;
+  String? coverUrl;
   String name;
   String type;
-  Function() onTap;
-  VideoItem({this.coverUrl, this.name,this.onTap,this.type = "video"});
+  Function()? onTap;
+  VideoItem({this.coverUrl, this.name = "Unknown",this.onTap,this.type = "video"});
 
   @override
   Widget build(BuildContext context) {

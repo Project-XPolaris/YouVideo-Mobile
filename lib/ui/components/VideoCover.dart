@@ -2,11 +2,11 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
 class VideoCover extends StatelessWidget {
-  String coverUrl;
-  Function() onTap;
-  double width;
-  double height;
-  double borderRadius;
+  final String? coverUrl;
+  final Function()? onTap;
+  final double width;
+  final double height;
+  final double borderRadius;
 
   VideoCover(
       {this.coverUrl,
@@ -17,16 +17,21 @@ class VideoCover extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (coverUrl != null) {
+    var url = coverUrl;
+    if (url != null) {
       return GestureDetector(
         child: ClipRRect(
           child: CachedNetworkImage(
             width: width,
             height: height,
             fit: BoxFit.cover,
-            imageUrl:  coverUrl,
-            placeholder: (context, url) => Container(color: Colors.white10,),
-            errorWidget: (context, url, error) => Container(color: Colors.white10,),
+            imageUrl: url,
+            placeholder: (context, url) => Container(
+              color: Colors.white10,
+            ),
+            errorWidget: (context, url, error) => Container(
+              color: Colors.white10,
+            ),
           ),
           borderRadius: BorderRadius.circular(borderRadius),
         ),

@@ -10,7 +10,7 @@ import 'package:youvideo/util/listview.dart';
 class VideosPage extends StatelessWidget {
   final String title;
   final Map<String,String> filter;
-  VideosPage({this.title = "Videos",this.filter});
+  VideosPage({this.title = "Videos",required this.filter});
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider<VideosProvider>(
@@ -29,7 +29,6 @@ class VideosPage extends StatelessWidget {
               child: RefreshIndicator(
                 onRefresh: () async {
                   await provider.loadData(force: true);
-                  return true;
                 },
                 child: ListView(
                   controller: controller,
@@ -41,15 +40,18 @@ class VideosPage extends StatelessWidget {
                       EdgeInsets.only(right: 4, left: 4, top: 8, bottom: 8),
                       child: VideoItem(
                         coverUrl: file.getCoverUrl(),
-                        name: video.name,
+                        name: video.getName(),
                         onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => VideoPage(
-                                  videoId: video.id,
-                                )),
-                          );
+                          var id = video.id;
+                          if (id != null) {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => VideoPage(
+                                    videoId: id,
+                                  )),
+                            );
+                          }
                         },
                       ),
                     );
