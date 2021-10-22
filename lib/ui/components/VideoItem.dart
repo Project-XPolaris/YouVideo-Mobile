@@ -8,25 +8,38 @@ import 'VideoCover.dart';
 class VideoItem extends StatelessWidget {
   String coverUrl;
   String name;
+  String type;
   Function() onTap;
-  VideoItem({this.coverUrl, this.name,this.onTap});
+  VideoItem({this.coverUrl, this.name,this.onTap,this.type = "video"});
 
   @override
   Widget build(BuildContext context) {
+    double width = 120;
+    double height = 75;
+    if (type == 'film') {
+      width = 80;
+      height = 120;
+    }
     return Padding(
       padding: EdgeInsets.only(),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
-
-          VideoCover(
-            coverUrl: coverUrl,
-            onTap: onTap,
+          Container(
+            child: Center(
+              child: VideoCover(
+                coverUrl: coverUrl,
+                onTap: onTap,
+                width: width,
+                height: height,
+                borderRadius: 6,
+              ),
+            ),
             width: 120,
-            height: 75,
-            borderRadius: 6,
-          ),
+            height: 120,
+          )
+          ,
           Expanded(
               child: Padding(
                 padding: EdgeInsets.only(left: 16, right: 16),

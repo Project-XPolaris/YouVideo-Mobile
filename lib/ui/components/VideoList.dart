@@ -58,6 +58,7 @@ class _VideoListState extends State<VideoList> {
             onTap: () {
               widget.onItemClick(video);
             },
+            type: video.type
           ),
         );
       }).toList(),

@@ -12,6 +12,7 @@ class Video {
   String baseDir;
   String dirName;
   int library_id;
+  String type;
   List<File> files;
 
   Video.fromJson(Map<String, dynamic> json) {
@@ -20,6 +21,7 @@ class Video {
     baseDir = json['base_dir'];
     cover = json['cover'];
     dirName = json['dirName'];
+    type = json['type'];
     library_id = json['library_id'];
     if (json.containsKey("files")){
       files = List<File>.from(json['files'].map((it) => File.fromJson(it)).toList());

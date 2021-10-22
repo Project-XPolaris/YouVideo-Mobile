@@ -7,16 +7,20 @@ class VideoItemHorizon extends StatelessWidget {
   Function() onTap;
   double coverWidth;
   double coverHeight;
+  double maxCoverWidth;
+  double maxCoverHeight;
 
   EdgeInsets padding = EdgeInsets.all(0);
 
-  VideoItemHorizon(
-      {this.coverUrl,
-      this.name,
-      this.onTap,
-      this.padding,
-      this.coverWidth = 240,
-      this.coverHeight = 120});
+  VideoItemHorizon({this.coverUrl,
+    this.name,
+    this.onTap,
+    this.padding,
+    this.coverWidth = 240,
+    this.coverHeight = 120,
+    this.maxCoverHeight = 240,
+    this.maxCoverWidth = 240
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -28,18 +32,24 @@ class VideoItemHorizon extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            VideoCover(
-              borderRadius: 8.0,
-              coverUrl: coverUrl,
-              width: coverWidth,
-              height: coverHeight,
-              onTap: onTap,
+            Container(
+              child: Center(
+                child: VideoCover(
+                  borderRadius: 8.0,
+                  coverUrl: coverUrl,
+                  width: coverWidth,
+                  height: coverHeight,
+                  onTap: onTap,
+                ),
+              ),
+              width: maxCoverWidth,
+              height: maxCoverHeight,
             ),
             Padding(
               padding: const EdgeInsets.only(top: 8),
               child: Text(
                 name,
-                style: TextStyle(fontWeight: FontWeight.w300,fontSize: 16),
+                style: TextStyle(fontWeight: FontWeight.w300, fontSize: 16),
                 overflow: TextOverflow.ellipsis,
                 maxLines: 3,
               ),

@@ -1,6 +1,5 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:youplusauthplugin/youplusauthplugin.dart';
 import 'package:youvideo/api/client.dart';
 import 'package:youvideo/api/info.dart';
@@ -12,10 +11,6 @@ import 'package:youvideo/ui/home/HomePage.dart';
 import 'package:youvideo/util/login_history.dart';
 
 class StartPage extends StatefulWidget {
-  Function onRefresh;
-
-  StartPage({this.onRefresh});
-
   @override
   _StartPageState createState() => _StartPageState();
 }
@@ -214,6 +209,7 @@ class _StartPageState extends State<StartPage> {
                     ),
                     Expanded(
                         child: DefaultTabController(
+                          initialIndex: LoginHistoryManager().list.isEmpty ? 1: 0,
                       length: 2,
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,

@@ -31,7 +31,6 @@ class HomePage extends StatelessWidget {
               onTap: (idx) {
                 provider.setActiveTab(idx);
               },
-
               currentIndex: provider.activeTab,
               selectedItemColor: Colors.red,
               unselectedItemColor: Colors.white54,
