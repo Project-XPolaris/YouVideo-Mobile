@@ -58,7 +58,6 @@ class VideoItem extends StatelessWidget {
                 ),
               )
           ),
-
         ],
       ),
     );

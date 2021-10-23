@@ -4,6 +4,7 @@ import 'package:youvideo/config.dart';
 import 'package:youvideo/plugin/mx.dart';
 import 'package:youvideo/ui/components/ActionSelectBottomSheet.dart';
 import 'package:youvideo/ui/components/AddTagBottomDialog.dart';
+import 'package:youvideo/ui/components/VideosHorizonCollection.dart';
 import 'package:youvideo/ui/player/player.dart';
 import 'package:youvideo/ui/video/provider.dart';
 import 'package:youvideo/ui/videos/videos.dart';
@@ -80,16 +81,18 @@ class VideoPage extends StatelessWidget {
                                     context,
                                     MaterialPageRoute(
                                         builder: (context) => VideosPage(
-                                          title: tag.name,
-                                          filter: {"tag": tag.id.toString()},
-                                        )),
+                                              title: tag.name,
+                                              filter: {
+                                                "tag": tag.id.toString()
+                                              },
+                                            )),
                                   );
                                 },
                                 avatar: CircleAvatar(
                                   child: Text("#"),
                                 ),
                               ),
-                              onLongPress: (){
+                              onLongPress: () {
                                 showModalBottomSheet(
                                     context: context,
                                     builder: (BuildContext context) {
@@ -97,13 +100,12 @@ class VideoPage extends StatelessWidget {
                                         ListTile(
                                           leading: Icon(Icons.delete),
                                           title: Text("Remove tag"),
-                                          onTap: (){
+                                          onTap: () {
                                             var id = tag.id;
                                             if (id != null) {
                                               provider.removeTag(id);
                                               Navigator.pop(context);
                                             }
-
                                           },
                                         ),
                                         Container(
@@ -123,6 +125,7 @@ class VideoPage extends StatelessWidget {
                                 builder: (context) {
                                   return AddTagBottomDialog(
                                     onCreate: (text) {
+                                      print(text);
                                       Navigator.pop(context);
                                       provider.addTag(text);
                                     },
@@ -168,7 +171,8 @@ class VideoPage extends StatelessWidget {
                                           MaterialPageRoute(
                                               builder: (context) => Player(
                                                     playUrl: e.getPlayUrl(),
-                                                subtitlesUrl: e.getSubtitlesUrl(),
+                                                    subtitlesUrl:
+                                                        e.getSubtitlesUrl(),
                                                   )),
                                         );
                                       }),
@@ -176,7 +180,8 @@ class VideoPage extends StatelessWidget {
                                       title: "External player",
                                       onTap: () async {
                                         Navigator.pop(context);
-                                        MXPlayerPlugin plugin = MXPlayerPlugin();
+                                        MXPlayerPlugin plugin =
+                                            MXPlayerPlugin();
                                         var config = ApplicationConfig();
                                         String playUrl = e.getStreamUrl();
                                         var token = config.token;
@@ -185,8 +190,9 @@ class VideoPage extends StatelessWidget {
                                         }
                                         if (e.subtitles == null) {
                                           plugin.play(playUrl);
-                                        }else{
-                                          plugin.playWithSubtitles(playUrl, e.getSubtitlesUrl());
+                                        } else {
+                                          plugin.playWithSubtitles(
+                                              playUrl, e.getSubtitlesUrl());
                                         }
                                       })
                                 ];
@@ -207,11 +213,22 @@ class VideoPage extends StatelessWidget {
                               ),
                               trailing: Text(e.getDurationText()),
                             ),
-                            Divider(
-                              color: Colors.white24,
-                            ),
                           ],
                         )),
+                    provider.getSameDirectoryVideo().isNotEmpty ? Container(
+                      margin: EdgeInsets.only(top: 32),
+                      height: 220,
+                      child: VideosHorizonCollection(
+                        videos: provider.getSameDirectoryVideo(),
+                        title: "Same directory",
+                        titleStyle: TextStyle(
+                            color: Colors.white70, fontWeight: FontWeight.w600),
+                        coverSizes: [
+                          CoverSize(type: "video", width: 200, height: 100),
+                          CoverSize(type: "film", width: 100, height: 160)
+                        ],
+                      ),
+                    ): Container(),
                   ],
                 ),
               ),

@@ -29,6 +29,18 @@ class HomeTabPage extends StatelessWidget {
                     child: VideosHorizonCollection(
                       videos: provider.latestVideoLoader.list,
                       title: "Recently added",
+                      coverSizes: [
+                        CoverSize(
+                          type: "video",
+                          width: 220,
+                          height: 120
+                        ),
+                        CoverSize(
+                          type: "film",
+                          width: 120,
+                          height: 180
+                        )
+                      ],
                     ),
                   ),
                   Padding(

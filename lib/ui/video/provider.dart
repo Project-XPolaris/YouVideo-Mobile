@@ -12,6 +12,7 @@ class VideoProvider extends ChangeNotifier {
   String? coverUrl;
   List<File> files = [];
   TagLoader tagLoader = new TagLoader();
+  VideoLoader sameDirectoryVideo = new VideoLoader();
   Future<void> loadData() async {
     if (video != null) {
       return;
@@ -25,6 +26,7 @@ class VideoProvider extends ChangeNotifier {
       await tagLoader.loadData(extraFilter: {"video":video!.id.toString()});
     }
     notifyListeners();
+    await fetchSameVideoInDirectory();
   }
   Future addTag(String name) async  {
     await ApiClient().createTag(name, [videoId]);
@@ -35,5 +37,15 @@ class VideoProvider extends ChangeNotifier {
     await ApiClient().removeVideoFromTag(tagId, [videoId]);
     await tagLoader.loadData(force: true,extraFilter: {"video":video!.id.toString()});
     notifyListeners();
+  }
+
+  Future fetchSameVideoInDirectory() async {
+    await sameDirectoryVideo.loadData(extraFilter: {
+      "directoryVideo":videoId.toString(),
+    },force: true);
+    notifyListeners();
+  }
+  List<Video> getSameDirectoryVideo(){
+    return sameDirectoryVideo.list.where((element) => element.id != videoId).toList();
   }
 }

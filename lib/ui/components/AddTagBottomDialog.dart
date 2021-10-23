@@ -35,7 +35,10 @@ class _AddTagBottomDialogState extends State<AddTagBottomDialog> {
               ),
               TextButton(
                   onPressed: () {
-
+                    var text = inputText;
+                      if (text != null && text.isNotEmpty) {
+                        widget.onCreate(text);
+                      }
                   },
                   child: Text("Create"))
             ],
