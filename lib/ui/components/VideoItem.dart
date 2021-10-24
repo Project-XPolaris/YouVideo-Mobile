@@ -33,7 +33,6 @@ class VideoItem extends StatelessWidget {
                 onTap: onTap,
                 width: width,
                 height: height,
-                borderRadius: 6,
               ),
             ),
             width: 120,

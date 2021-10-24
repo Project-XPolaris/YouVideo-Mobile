@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:youvideo/config.dart';
@@ -45,6 +46,7 @@ class VideoPage extends StatelessWidget {
               body: Container(
                 padding: EdgeInsets.only(top: 0, left: 16, right: 16),
                 child: ListView(
+                  physics: BouncingScrollPhysics(),
                   children: [
                     Row(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -135,6 +137,7 @@ class VideoPage extends StatelessWidget {
                                 useRootNavigator: true);
                           },
                           avatar: CircleAvatar(
+                            backgroundColor: Colors.black54,
                             child: Icon(Icons.add),
                           ),
                         )
@@ -209,7 +212,8 @@ class VideoPage extends StatelessWidget {
                               title: Text(e.name),
                               subtitle: Text(e.getDescriptionText()),
                               leading: CircleAvatar(
-                                child: Icon(Icons.videocam_rounded),
+                                backgroundColor: Colors.red,
+                                child: Icon(Icons.videocam_rounded,color: Colors.white,),
                               ),
                               trailing: Text(e.getDurationText()),
                             ),
@@ -217,7 +221,7 @@ class VideoPage extends StatelessWidget {
                         )),
                     provider.getSameDirectoryVideo().isNotEmpty ? Container(
                       margin: EdgeInsets.only(top: 32),
-                      height: 220,
+                      height: 260,
                       child: VideosHorizonCollection(
                         videos: provider.getSameDirectoryVideo(),
                         title: "Same directory",
@@ -258,10 +262,8 @@ class HeaderCover extends StatelessWidget {
         ),
       );
     }
-    return Image.network(
-      coverUrl,
-      fit: BoxFit.cover,
-    );
+    return CachedNetworkImage(imageUrl: coverUrl,
+      fit: BoxFit.cover,);
   }
 }
 

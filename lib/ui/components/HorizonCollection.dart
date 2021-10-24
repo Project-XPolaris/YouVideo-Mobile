@@ -19,7 +19,7 @@ class HorizonCollection extends StatelessWidget {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text(title,style: titleStyle,),
+                Text(title,style: titleStyle),
                 onMore != null ? GestureDetector(
                   child: Text(
                     "more",

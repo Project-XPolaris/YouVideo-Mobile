@@ -35,7 +35,7 @@ class VideoItemHorizon extends StatelessWidget {
             Container(
               child: Center(
                 child: VideoCover(
-                  borderRadius: 8.0,
+
                   coverUrl: coverUrl,
                   width: coverWidth,
                   height: coverHeight,
@@ -51,7 +51,7 @@ class VideoItemHorizon extends StatelessWidget {
                 name,
                 style: TextStyle(fontWeight: FontWeight.w300, fontSize: 16),
                 overflow: TextOverflow.ellipsis,
-                maxLines: 3,
+                maxLines: 2,
               ),
             )
           ],
