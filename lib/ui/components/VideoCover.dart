@@ -24,7 +24,7 @@ class VideoCover extends StatelessWidget {
           child: CachedNetworkImage(
             width: width,
             height: height,
-            fit: BoxFit.cover,
+            fit: BoxFit.contain,
             imageUrl: url,
             placeholder: (context, url) => Container(
               color: Colors.white10,

@@ -27,16 +27,15 @@ class VideoItem extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
           Container(
-            child: Center(
-              child: VideoCover(
-                coverUrl: coverUrl,
-                onTap: onTap,
-                width: width,
-                height: height,
-              ),
+            alignment: Alignment.topCenter,
+            child: VideoCover(
+              coverUrl: coverUrl,
+              onTap: onTap,
+              borderRadius: 8,
+              width: width,
+              height: height,
             ),
             width: 120,
-            height: 120,
           )
           ,
           Expanded(

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:youvideo/api/file.dart';
 import 'package:youvideo/api/video.dart';
-import 'package:youvideo/ui/components/VideoCover.dart';
 import 'package:youvideo/ui/components/VideoItem.dart';
 import 'package:youvideo/util/listview.dart';
 
