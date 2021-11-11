@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:youvideo/ui/components/VideoCover.dart';
-
 class VideoItemHorizon extends StatelessWidget {
   final String? coverUrl;
   final String name;
@@ -10,7 +9,7 @@ class VideoItemHorizon extends StatelessWidget {
   final double maxCoverWidth;
   final double maxCoverHeight;
 
-  EdgeInsets padding;
+  final EdgeInsets padding;
 
   VideoItemHorizon(
       {this.coverUrl,

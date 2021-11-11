@@ -33,7 +33,7 @@ abstract class ApiDataLoader<T> {
   }
 
   Future<bool> loadMore({Map<String, String> extraFilter = const {}}) async {
-    if (!hasMore) {
+    if (!hasMore || isLoading) {
       return false;
     }
     isLoading = true;

@@ -36,7 +36,7 @@ class LibraryProvider extends ChangeNotifier {
 
   loadDirectory({force = false}) async {
     await folderLoader.loadData(
-        extraFilter: {"library": libraryId.toString(), "group": "base_dir"},
+        extraFilter: {"library": libraryId.toString(), "group": "base_dir","pageSize":"50"},
         force: force);
     if (force) {
       notifyListeners();
@@ -52,7 +52,6 @@ class LibraryProvider extends ChangeNotifier {
 
   loadMoreVideo() async {
     if (await loader.loadMore(extraFilter: _getVideosExtraParams())) {
-      print(loader.list.length);
       notifyListeners();
     }
   }

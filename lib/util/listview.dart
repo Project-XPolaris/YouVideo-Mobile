@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
 
-createLoadMoreController(Function onLoadMore){
+createLoadMoreController(Function onLoadMore,{delta = 225}){
   ScrollController _controller = new ScrollController();
   _controller.addListener(() {
     var maxScroll = _controller.position.maxScrollExtent;
     var pixel = _controller.position.pixels;
-    if (maxScroll == pixel) {
-      print("try to load more");
+    if ((maxScroll - pixel) < delta ) {
       onLoadMore();
     } else {}
   });

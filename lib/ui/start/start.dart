@@ -7,7 +7,7 @@ import 'package:youvideo/api/user_auth_response.dart';
 import 'package:youvideo/api/user_token.dart';
 import 'package:youvideo/api/youplus_client.dart';
 import 'package:youvideo/config.dart';
-import 'package:youvideo/ui/home/HomePage.dart';
+import 'package:youvideo/ui/home/wrap.dart';
 import 'package:youvideo/util/login_history.dart';
 
 class StartPage extends StatefulWidget {
@@ -35,7 +35,7 @@ class _StartPageState extends State<StartPage> {
       var uri;
       try {
         uri = Uri.parse(inputUrl);
-      } on FormatException catch (e) {
+      } on FormatException catch (_) {
         ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(content: Text("input service url invalidate")));
         return false;
@@ -67,7 +67,7 @@ class _StartPageState extends State<StartPage> {
           username: username,
           token: token));
       Navigator.pushReplacement(
-          context, MaterialPageRoute(builder: (context) => HomePage()));
+          context, MaterialPageRoute(builder: (context) => HomePageWrap()));
     }
 
     Future<bool> _init() async {
@@ -82,6 +82,7 @@ class _StartPageState extends State<StartPage> {
       if (!_applyUrl()) {
         return;
       }
+      print(ApplicationConfig().serviceUrl);
       try {
         Info info = await ApiClient().fetchInfo();
         if (!info.success) {
@@ -92,6 +93,7 @@ class _StartPageState extends State<StartPage> {
           // find out entry of service
           var response =
               await YouPlusClient().fetchEntityByName("youvideocore");
+          print(response);
           for (var url in response.entity!.export!.urls) {
             ApplicationConfig().serviceUrl = url;
             try {
@@ -100,7 +102,7 @@ class _StartPageState extends State<StartPage> {
                 canAccess = true;
                 break;
               }
-            } on DioError catch (e) {
+            } on DioError catch (_) {
               continue;
             }
           }
@@ -139,7 +141,7 @@ class _StartPageState extends State<StartPage> {
         return;
       }
       Navigator.pushReplacement(
-          context, MaterialPageRoute(builder: (context) => HomePage()));
+          context, MaterialPageRoute(builder: (context) => HomePageWrap()));
     }
 
     return Scaffold(
@@ -180,7 +182,7 @@ class _StartPageState extends State<StartPage> {
               return;
             }
             Navigator.pushReplacement(
-                context, MaterialPageRoute(builder: (context) => HomePage()));
+                context, MaterialPageRoute(builder: (context) => HomePageWrap()));
           }
 
           if (snapshot.hasData) {

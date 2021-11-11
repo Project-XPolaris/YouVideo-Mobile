@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:youvideo/ui/home/HomePage.dart';
 import 'package:youvideo/ui/init/init.dart';
 
 void main() {
@@ -14,12 +13,18 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'YouVideo',
       theme: ThemeData(
+        appBarTheme: AppBarTheme(
+          elevation: 0
+        ),
           brightness: Brightness.light,
           primaryColor: Colors.red,
           accentColor: Colors.redAccent,
         /* light theme settings */
       ),
       darkTheme: ThemeData(
+        appBarTheme: AppBarTheme(
+            elevation: 0
+        ),
         brightness: Brightness.dark,
         primaryColor: Colors.red,
         accentColor: Colors.redAccent,

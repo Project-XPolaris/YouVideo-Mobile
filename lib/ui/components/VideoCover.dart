@@ -22,8 +22,6 @@ class VideoCover extends StatelessWidget {
       return GestureDetector(
         child: ClipRRect(
           child: CachedNetworkImage(
-            width: width,
-            height: height,
             fit: BoxFit.contain,
             imageUrl: url,
             placeholder: (context, url) => Container(

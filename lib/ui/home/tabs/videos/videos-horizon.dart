@@ -1,14 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:youvideo/ui/components/VideoFilter.dart';
-import 'package:youvideo/ui/components/VideoList.dart';
-import 'package:youvideo/ui/home/tabs/videos/provider.dart';
+import 'package:youvideo/ui/components/VideoListHorizon.dart';
 import 'package:youvideo/ui/video/VideoPage.dart';
 
-class VideosTabPage extends StatelessWidget {
+import 'provider.dart';
+
+class VideosTabPageHorizon extends StatelessWidget {
   final HomeVideosProvider provider;
-  VideosTabPage({required this.provider});
+  VideosTabPageHorizon({required this.provider});
   @override
   Widget build(BuildContext context) {
+
     return Stack(
       children: [
         Container(
@@ -17,26 +19,13 @@ class VideosTabPage extends StatelessWidget {
             onRefresh: () async {
               await provider.loadData(force: true);
             },
-            child: VideoList(
+            child: VideoListHorizon(
               videos: provider.loader.list,
-              onItemClick: (video) {
-                var id = video.id;
-                if (id != null) {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => VideoPage(
-                          videoId: id,
-                        )),
-                  );
-                }
-
-              },
-              onLoadMore: () {
-                if (provider.filter.random) {
-                  return;
-                }
+              onLoadMore: (){
                 provider.loadMore();
+              },
+              onItemClick: (video) {
+                VideoPage.Launch(context, video.id);
               },
             ),
           ),

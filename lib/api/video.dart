@@ -29,6 +29,9 @@ class Video {
   getName(){
     return name ?? "Unknown";
   }
+  getDirname(){
+    return dirName ?? "Unknown";
+  }
 }
 class VideoLoader extends ApiDataLoader<Video> {
   @override

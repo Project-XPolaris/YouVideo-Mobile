@@ -9,6 +9,7 @@ class HomeVideosProvider extends ChangeNotifier {
   Map<String,String> _getExtraParams() {
     Map<String,String> result = {
       "order":filter.order,
+      "pageSize":"25",
     };
     if (filter.random) {
       result["random"] = "1";

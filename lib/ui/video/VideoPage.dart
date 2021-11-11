@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'package:youvideo/config.dart';
 import 'package:youvideo/plugin/mx.dart';
 import 'package:youvideo/ui/components/ActionSelectBottomSheet.dart';
@@ -9,11 +10,24 @@ import 'package:youvideo/ui/components/VideosHorizonCollection.dart';
 import 'package:youvideo/ui/player/player.dart';
 import 'package:youvideo/ui/video/provider.dart';
 import 'package:youvideo/ui/videos/videos.dart';
+import 'dart:io' show Platform;
 
 class VideoPage extends StatelessWidget {
   final int videoId;
 
   VideoPage({required this.videoId});
+
+  static Launch(BuildContext context, int? id) {
+    if (id != null) {
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (context) => VideoPage(
+                  videoId: id,
+                )),
+      );
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -183,19 +197,35 @@ class VideoPage extends StatelessWidget {
                                       title: "External player",
                                       onTap: () async {
                                         Navigator.pop(context);
-                                        MXPlayerPlugin plugin =
-                                            MXPlayerPlugin();
-                                        var config = ApplicationConfig();
-                                        String playUrl = e.getStreamUrl();
-                                        var token = config.token;
-                                        if (token != null && token.isNotEmpty) {
-                                          playUrl += "?token=${token}";
+                                        if (Platform.isAndroid) {
+                                          MXPlayerPlugin plugin =
+                                              MXPlayerPlugin();
+                                          var config = ApplicationConfig();
+                                          String playUrl = e.getStreamUrl();
+                                          var token = config.token;
+                                          if (token != null &&
+                                              token.isNotEmpty) {
+                                            playUrl += "?token=${token}";
+                                          }
+                                          if (e.subtitles == null) {
+                                            plugin.play(playUrl);
+                                          } else {
+                                            plugin.playWithSubtitles(
+                                                playUrl, e.getSubtitlesUrl());
+                                          }
                                         }
-                                        if (e.subtitles == null) {
-                                          plugin.play(playUrl);
-                                        } else {
-                                          plugin.playWithSubtitles(
-                                              playUrl, e.getSubtitlesUrl());
+                                        if (Platform.isIOS) {
+                                          String _url =
+                                              "vlc-x-callback://x-callback-url/stream?url=${e.getStreamUrl()}";
+                                          if (e.subtitles != null) {
+                                            _url +=
+                                                "&sub=${e.getSubtitlesUrl()}";
+                                          }
+                                          void _launchURL() async =>
+                                              await canLaunch(_url)
+                                                  ? await launch(_url)
+                                                  : throw 'Could not launch $_url';
+                                          _launchURL();
                                         }
                                       })
                                 ];
@@ -213,26 +243,33 @@ class VideoPage extends StatelessWidget {
                               subtitle: Text(e.getDescriptionText()),
                               leading: CircleAvatar(
                                 backgroundColor: Colors.red,
-                                child: Icon(Icons.videocam_rounded,color: Colors.white,),
+                                child: Icon(
+                                  Icons.videocam_rounded,
+                                  color: Colors.white,
+                                ),
                               ),
                               trailing: Text(e.getDurationText()),
                             ),
                           ],
                         )),
-                    provider.getSameDirectoryVideo().isNotEmpty ? Container(
-                      margin: EdgeInsets.only(top: 32),
-                      height: 260,
-                      child: VideosHorizonCollection(
-                        videos: provider.getSameDirectoryVideo(),
-                        title: "Same directory",
-                        titleStyle: TextStyle(
-                            color: Colors.white70, fontWeight: FontWeight.w600),
-                        coverSizes: [
-                          CoverSize(type: "video", width: 200, height: 100),
-                          CoverSize(type: "film", width: 100, height: 160)
-                        ],
-                      ),
-                    ): Container(),
+                    provider.getSameDirectoryVideo().isNotEmpty
+                        ? Container(
+                            margin: EdgeInsets.only(top: 32),
+                            height: 260,
+                            child: VideosHorizonCollection(
+                              videos: provider.getSameDirectoryVideo(),
+                              title: "Same directory",
+                              titleStyle: TextStyle(
+                                  color: Colors.white70,
+                                  fontWeight: FontWeight.w600),
+                              coverSizes: [
+                                CoverSize(
+                                    type: "video", width: 200, height: 100),
+                                CoverSize(type: "film", width: 100, height: 160)
+                              ],
+                            ),
+                          )
+                        : Container(),
                   ],
                 ),
               ),
@@ -262,8 +299,10 @@ class HeaderCover extends StatelessWidget {
         ),
       );
     }
-    return CachedNetworkImage(imageUrl: coverUrl,
-      fit: BoxFit.cover,);
+    return CachedNetworkImage(
+      imageUrl: coverUrl,
+      fit: BoxFit.cover,
+    );
   }
 }
 

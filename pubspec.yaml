@@ -38,6 +38,7 @@ dependencies:
   cached_network_image: ^3.1.0
   youplusauthplugin:
     git: https://github.com/Project-XPolaris/YouPlusAuthPlugin.git
+  url_launcher: ^6.0.12
 dev_dependencies:
   flutter_test:
     sdk: flutter

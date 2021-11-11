@@ -1,15 +1,12 @@
-import 'package:android_intent/android_intent.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/painting.dart';
 
 import 'VideoCover.dart';
 
 class VideoItem extends StatelessWidget {
-  String? coverUrl;
-  String name;
-  String type;
-  Function()? onTap;
+  final String? coverUrl;
+  final String name;
+  final String type;
+  final Function()? onTap;
   VideoItem({this.coverUrl, this.name = "Unknown",this.onTap,this.type = "video"});
 
   @override

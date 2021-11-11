@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:youvideo/api/file.dart';
+import 'package:youvideo/api/video.dart';
 import 'package:youvideo/ui/components/VideoFilter.dart';
 import 'package:youvideo/ui/components/VideoItem.dart';
 import 'package:youvideo/ui/video/VideoPage.dart';
@@ -12,6 +13,20 @@ class VideosPage extends StatelessWidget {
   final Map<String,String> filter;
   VideosPage({this.title = "Videos",required this.filter});
   @override
+  static launchWithFolderDetail(BuildContext context,Video video){
+    String? baseDir = video.baseDir;
+    if (baseDir == null) {
+      return;
+    }
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+          builder: (context) => VideosPage(
+            title: video.dirName ?? "",
+            filter: {"dir": baseDir},
+          )),
+    );
+  }
   Widget build(BuildContext context) {
     return ChangeNotifierProvider<VideosProvider>(
         create: (_) => VideosProvider(extraFilter: filter),

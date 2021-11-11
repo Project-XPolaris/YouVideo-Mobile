@@ -8,8 +8,14 @@ class VideoList extends StatefulWidget {
   final Function onLoadMore;
   final Function(Video)? onItemClick;
   final List<Video> videos;
+  final bool directoryView;
 
-  const VideoList({Key? key, this.onItemClick, required this.onLoadMore, this.videos = const []})
+  const VideoList(
+      {Key? key,
+      this.onItemClick,
+      required this.onLoadMore,
+      this.videos = const [],
+      this.directoryView = false})
       : super(key: key);
 
   @override
@@ -20,30 +26,6 @@ class _VideoListState extends State<VideoList> {
   @override
   Widget build(BuildContext context) {
     var controller = createLoadMoreController(widget.onLoadMore);
-    // var media = MediaQuery.of(context);
-    // return GridView.count(
-    //   controller: controller,
-    //   crossAxisCount: (media.size.width / 150).toInt(),
-    //   crossAxisSpacing: 8,
-    //   mainAxisSpacing: 8,
-    //   children: widget.videos.map((video) {
-    //     File file = video.files.first;
-    //     return Stack(
-    //       children: [
-    //         Positioned(child:  VideoCover(
-    //           coverUrl: file.getCoverUrl(),
-    //         ),bottom: 0,)
-    //        ,
-    //         Positioned(child: Container(
-    //           color: Colors.black54,
-    //           width: 140,
-    //           child: Text(video.name,maxLines: 2,),
-    //         ),bottom: 0, )
-    //
-    //       ],
-    //     );
-    //   }).toList(),
-    // );
     return ListView(
       controller: controller,
       physics: AlwaysScrollableScrollPhysics(),
@@ -52,16 +34,15 @@ class _VideoListState extends State<VideoList> {
         return Padding(
           padding: EdgeInsets.only(right: 4, left: 4, top: 8, bottom: 8),
           child: VideoItem(
-            coverUrl: file.getCoverUrl(),
-            name: video.getName(),
-            onTap: () {
-              var handler = this.widget.onItemClick;
-              if (handler != null) {
-                handler(video);
-              }
-            },
-            type: video.type
-          ),
+              coverUrl: file.getCoverUrl(),
+              name: widget.directoryView ? video.getDirname() : video.getName(),
+              onTap: () {
+                var handler = this.widget.onItemClick;
+                if (handler != null) {
+                  handler(video);
+                }
+              },
+              type: video.type),
         );
       }).toList(),
     );

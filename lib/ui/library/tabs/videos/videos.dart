@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:youvideo/ui/components/VideoFilter.dart';
-import 'package:youvideo/ui/components/VideoList.dart';
 import 'package:youvideo/ui/library/provider.dart';
-import 'package:youvideo/ui/video/VideoPage.dart';
+import 'package:youvideo/ui/library/tabs/videos/list-wrap.dart';
 
 class LibraryVideos extends StatelessWidget {
   final LibraryProvider provider;
@@ -18,27 +17,7 @@ class LibraryVideos extends StatelessWidget {
             onRefresh: () async {
               await provider.loadVideos(force: true);
             },
-            child: VideoList(
-              videos: provider.loader.list,
-              onItemClick: (video) {
-                var id = video.id;
-                if (id != null) {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => VideoPage(
-                          videoId: id,
-                        )),
-                  );
-                }
-              },
-              onLoadMore: () {
-                if (provider.filter.random) {
-                  return;
-                }
-                provider.loadMoreVideo();
-              },
-            ),
+            child: VideoListView(provider: provider,),
           ),
           Positioned(
             child: FloatingActionButton(

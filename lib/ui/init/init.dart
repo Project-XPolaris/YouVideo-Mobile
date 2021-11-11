@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:youvideo/config.dart';
-import 'package:youvideo/ui/home/HomePage.dart';
 import 'package:youvideo/ui/start/start.dart';
 
 class InitPage extends StatefulWidget {

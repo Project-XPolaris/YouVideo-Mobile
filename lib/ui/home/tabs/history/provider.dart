@@ -1,7 +1,5 @@
 import 'package:flutter/widgets.dart';
 import 'package:youvideo/api/history.dart';
-import 'package:youvideo/api/video.dart';
-import 'package:youvideo/ui/components/VideoFilter.dart';
 
 class HomeHistoryListProvider extends ChangeNotifier {
   HistoryLoader loader = new HistoryLoader();
