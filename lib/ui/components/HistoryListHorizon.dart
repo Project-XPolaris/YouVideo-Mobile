@@ -20,6 +20,7 @@ class HistoryListHorizon extends StatelessWidget {
       padding: const EdgeInsets.all(20),
       crossAxisSpacing: 10,
       mainAxisSpacing: 10,
+      physics: AlwaysScrollableScrollPhysics(),
       crossAxisCount: crossAxisCount,
       children: <Widget>[
         ...historyList.map((e) {

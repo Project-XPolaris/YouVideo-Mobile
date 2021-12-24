@@ -54,18 +54,7 @@ class HomeTabPage extends StatelessWidget {
                     return LibraryItem(
                       library: library,
                       onTap: () {
-                        var id = library.id;
-                        if (id != null) {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => LibraryPage(
-                                  title: library.getName(),
-                                  libraryId: id,
-                                )),
-                          );
-                        }
-
+                        LibraryPage.Launch(context, library);
                       },
                     );
                   }).toList(),

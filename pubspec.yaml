@@ -39,6 +39,8 @@ dependencies:
   youplusauthplugin:
     git: https://github.com/Project-XPolaris/YouPlusAuthPlugin.git
   url_launcher: ^6.0.12
+  youui:
+    git: https://github.com/Project-XPolaris/YouUI.git
 dev_dependencies:
   flutter_test:
     sdk: flutter

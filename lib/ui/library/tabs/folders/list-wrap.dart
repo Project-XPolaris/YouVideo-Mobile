@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:youvideo/ui/components/FolderGridView.dart';
+import 'package:youvideo/ui/components/FolderListView.dart';
 import 'package:youvideo/ui/components/ScreenWidthSelector.dart';
-import 'package:youvideo/ui/components/VideoList.dart';
-import 'package:youvideo/ui/components/VideoListHorizon.dart';
 import 'package:youvideo/ui/library/provider.dart';
-import 'package:youvideo/ui/video/VideoPage.dart';
-import 'package:youvideo/ui/videos/videos.dart';
 
 class DirectoryListView extends StatelessWidget {
   final LibraryProvider provider;
@@ -14,21 +12,12 @@ class DirectoryListView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ScreenWidthSelector(
-      verticalChild: VideoList(
-        videos: provider.folderLoader.list,
-        directoryView: true,
-        onItemClick: (video) {
-          VideosPage.launchWithFolderDetail(context, video);
-        },
-        onLoadMore: provider.loadMoreFolders,
+      verticalChild: FolderListView(
+        folders: provider.folderLoader.list,
       ),
-      horizonChild: VideoListHorizon(
-        videos: provider.folderLoader.list,
-        directoryView: true,
+      horizonChild: FolderGridView(
+        folders: provider.folderLoader.list,
         onLoadMore: provider.loadMoreFolders,
-        onItemClick: (video) {
-          VideosPage.launchWithFolderDetail(context, video);
-        },
       ),
     );
   }

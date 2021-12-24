@@ -34,7 +34,13 @@ class File {
   }
 
   String getStreamUrl(){
-    return '${ApplicationConfig().serviceUrl}/video/file/$id/stream';
+    String url = '${ApplicationConfig().serviceUrl}/video/file/$id/stream';
+    String? token = ApplicationConfig().token;
+    if (token != null){
+      url += "%3ftoken%3d${token}";
+    }
+
+    return url;
   }
   String getSubtitlesUrl(){
     return '${ApplicationConfig().serviceUrl}/video/file/$id/subtitles';
@@ -53,6 +59,6 @@ class File {
   }
 
   String getPlayUrl(){
-    return "${ApplicationConfig().serviceUrl}/video/file/$id/stream";
+    return "${ApplicationConfig().serviceUrl}/video/file/$id/stream?token=${ApplicationConfig().token}";
   }
 }

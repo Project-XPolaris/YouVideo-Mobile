@@ -13,26 +13,19 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'YouVideo',
       theme: ThemeData(
-        appBarTheme: AppBarTheme(
-          elevation: 0
-        ),
-          brightness: Brightness.light,
-          primaryColor: Colors.red,
-          accentColor: Colors.redAccent,
+        appBarTheme: AppBarTheme(elevation: 0),
+        brightness: Brightness.light,
+        primaryColor: Colors.red,
         /* light theme settings */
       ),
       darkTheme: ThemeData(
-        appBarTheme: AppBarTheme(
-            elevation: 0
-        ),
+        appBarTheme: AppBarTheme(elevation: 0),
         brightness: Brightness.dark,
         primaryColor: Colors.red,
-        accentColor: Colors.redAccent,
         /* dark theme settings */
       ),
       themeMode: ThemeMode.dark,
       home: Index(),
-
     );
   }
 }

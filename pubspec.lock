@@ -247,6 +247,13 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "0.12.11"
+  material_color_utilities:
+    dependency: transitive
+    description:
+      name: material_color_utilities
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "0.1.2"
   meta:
     dependency: transitive
     description:
@@ -475,7 +482,7 @@ packages:
       name: test_api
       url: "https://pub.flutter-io.cn"
     source: hosted
-    version: "0.4.3"
+    version: "0.4.8"
   typed_data:
     dependency: transitive
     description:
@@ -632,6 +639,15 @@ packages:
       url: "https://github.com/Project-XPolaris/YouPlusAuthPlugin.git"
     source: git
     version: "0.0.1"
+  youui:
+    dependency: "direct main"
+    description:
+      path: "."
+      ref: HEAD
+      resolved-ref: "9d410a548360cb5cffea8bca480eea9a9feeafd1"
+      url: "https://github.com/Project-XPolaris/YouUI.git"
+    source: git
+    version: "0.0.1"
 sdks:
-  dart: ">=2.14.0 <3.0.0"
+  dart: ">=2.15.0-268.8.beta <3.0.0"
   flutter: ">=2.5.0"

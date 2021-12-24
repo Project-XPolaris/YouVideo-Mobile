@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:youvideo/api/folder.dart';
 import 'package:youvideo/api/history.dart';
 import 'package:youvideo/api/info.dart';
 import 'package:youvideo/api/library.dart';
@@ -16,13 +17,12 @@ class ApiClient {
 
   factory ApiClient() {
     _dio.interceptors.add(InterceptorsWrapper(
-      onRequest:(RequestOptions options, RequestInterceptorHandler handler) async {
+      onRequest:
+          (RequestOptions options, RequestInterceptorHandler handler) async {
         options.baseUrl = ApplicationConfig().serviceUrl ?? "";
         String token = ApplicationConfig().token ?? "";
         if (token.isNotEmpty) {
-          options.headers = {
-            "Authorization": "Bearer $token"
-          };
+          options.headers = {"Authorization": "Bearer $token"};
         }
         handler.next(options);
       },
@@ -38,11 +38,10 @@ class ApiClient {
     return responseBody;
   }
 
-  Future<ListResponseWrap<Tag>> fetchTagList(
-      Map<String, String> params) async {
+  Future<ListResponseWrap<Tag>> fetchTagList(Map<String, String> params) async {
     var response = await _dio.get("/tag", queryParameters: params);
-    ListResponseWrap<Tag> responseBody = ListResponseWrap.fromJson(
-        response.data, (data) => Tag.fromJson(data));
+    ListResponseWrap<Tag> responseBody =
+        ListResponseWrap.fromJson(response.data, (data) => Tag.fromJson(data));
     return responseBody;
   }
 
@@ -53,6 +52,7 @@ class ApiClient {
         response.data, (data) => Library.fromJson(data));
     return responseBody;
   }
+
   Future<ListResponseWrap<History>> fetchHistoryList(
       Map<String, String> params) async {
     var response = await _dio.get("/history", queryParameters: params);
@@ -66,29 +66,49 @@ class ApiClient {
     return Video.fromJson(response.data);
   }
 
-  Future createTag(String name,List<int> ids) async {
-    var response = await _dio.post("/tag/videos", data: {"name":[name],"ids":ids});
+  Future<ListResponseWrap<Folder>> fetchFolder(Map<String, String> queryParams) async {
+    var response = await _dio.get("/folders",
+        queryParameters: queryParams);
+    ListResponseWrap<Folder> responseBody = ListResponseWrap.fromJson(
+        response.data, (data) => Folder.fromJson(data));
+    return responseBody;
+  }
+
+  Future createTag(String name, List<int> ids) async {
+    var response = await _dio.post("/tag/videos", data: {
+      "name": [name],
+      "ids": ids
+    });
     return response;
   }
+
   Future removeTag(int id) async {
     var response = await _dio.delete("/tag/$id");
     return response;
   }
-  Future removeVideoFromTag(int id,List<int> videoIds) async {
-    var response = await _dio.delete("/tag/$id/videos", data: {"ids":videoIds});
+
+  Future removeVideoFromTag(int id, List<int> videoIds) async {
+    var response =
+        await _dio.delete("/tag/$id/videos", data: {"ids": videoIds});
     return response;
   }
+
   Future<Info> fetchInfo() async {
     var response = await _dio.get("/info");
     return Info.fromJson(response.data);
   }
-  Future<UserAuthResponse> fetchUserAuth(username,password) async {
-    var response = await _dio.post("/user/auth",data: {"username":username,"password":password});
+
+  Future<UserAuthResponse> fetchUserAuth(username, password) async {
+    var response = await _dio
+        .post("/user/auth", data: {"username": username, "password": password});
     return UserAuthResponse.fromJson(response.data);
   }
+
   Future<UserToken> userToken(String token) async {
-    var response = await _dio.get("/user/auth",queryParameters: {"token":token});
+    var response =
+        await _dio.get("/user/auth", queryParameters: {"token": token});
     return UserToken.fromJson(response.data);
   }
+
   ApiClient._internal();
 }

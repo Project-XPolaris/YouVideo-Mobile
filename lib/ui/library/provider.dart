@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:youvideo/api/folder.dart';
 import 'package:youvideo/api/video.dart';
 import 'package:youvideo/ui/components/VideoFilter.dart';
 
@@ -6,11 +7,11 @@ class LibraryProvider extends ChangeNotifier {
   final int libraryId;
   bool first = true;
   VideoFilter filter = new VideoFilter(order: "id desc");
-
+  int index = 0;
   LibraryProvider({required this.libraryId});
 
   VideoLoader loader = new VideoLoader();
-  VideoLoader folderLoader = new VideoLoader();
+  FolderLoader folderLoader = new FolderLoader();
 
   Map<String, String> _getVideosExtraParams() {
     Map<String, String> result = {
@@ -59,9 +60,12 @@ class LibraryProvider extends ChangeNotifier {
   loadMoreFolders() async {
     if (await folderLoader.loadMore(extraFilter: {
       "library": libraryId.toString(),
-      "group": "base_dir"
     })) {
       notifyListeners();
     }
+  }
+  setIndex(int index){
+    this.index = index;
+    notifyListeners();
   }
 }

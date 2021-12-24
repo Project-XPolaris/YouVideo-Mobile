@@ -14,7 +14,7 @@ class HistoryListTabPage extends StatelessWidget {
           child: RefreshIndicator(
             color: Colors.red,
             onRefresh: () async {
-              await provider.loadData(force: true);
+              provider.loadData(force: true);
             },
 
             child: HistoryList(
