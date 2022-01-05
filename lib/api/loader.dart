@@ -6,7 +6,7 @@ abstract class ApiDataLoader<T> {
   bool isLoading = false;
   bool hasMore = true;
   int page = 1;
-  int pageSize = 20;
+  int pageSize = 30;
 
   Future<bool> loadData(
       {Map<String, String> extraFilter = const {}, force = false}) async {
@@ -16,7 +16,7 @@ abstract class ApiDataLoader<T> {
     firstLoad = false;
     isLoading = true;
     page = 1;
-    pageSize = 20;
+    pageSize = 30;
     Map<String, String> queryParams = {
       "page": page.toString(),
       "pageSize": pageSize.toString()
@@ -46,9 +46,12 @@ abstract class ApiDataLoader<T> {
     var response = await fetchData(params);
     list.addAll(response.result);
     hasMore = response.getPage() * response.getPageSize() < response.getTotal();
+    print("hasMore: $hasMore");
     page = response.getPage();
     pageSize = response.getPageSize();
-
+    print("page: $page");
+    print("pageSize: $pageSize");
+    print("total: ${response.getTotal()}");
     isLoading = false;
     return true;
   }

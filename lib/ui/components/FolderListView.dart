@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:youui/components/cover-title-list-item.dart';
 import 'package:youvideo/api/folder.dart';
 import 'package:youvideo/ui/videos/videos.dart';
+import 'package:youvideo/ui/videos/wrap.dart';
 import 'package:youvideo/util/listview.dart';
 
 class FolderListView extends StatelessWidget {
@@ -30,12 +31,12 @@ class FolderListView extends StatelessWidget {
               subtitleTextStyle: TextStyle(color: Colors.white),
               loadingCoverColor: Colors.black26,
               placeholderColor: Colors.red,
-              coverHeight: 120,
+              coverHeight: folder.coverHeight,
               coverWidth: 120 * 4 / 3,
               borderRadius: 6,
               imageBoxFit: BoxFit.contain,
               onTap: (){
-                VideosPage.launchWithFolderDetail(context, folder);
+                VideosPageWrap.launchWithFolderDetail(context, folder);
               },
             ),
           );

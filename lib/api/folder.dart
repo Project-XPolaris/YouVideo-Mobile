@@ -9,6 +9,20 @@ class Folder {
   List<Video> videos = [];
   String? type;
   String? cover;
+  double? get coverHeight {
+    if (videos.isEmpty) return null;
+    return videos.first.files[0].coverHeight?.toDouble();
+  }
+  double? get coverWidth {
+    if (videos.isEmpty) return null;
+    return videos.first.files[0].coverWidth?.toDouble();
+  }
+  double get coverRatio {
+    var width = coverWidth;
+    var height = coverHeight;
+    if (width == null || height == null) return 1.0;
+    return coverWidth! / coverHeight!;
+  }
   Folder.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     name = json['name'];

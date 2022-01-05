@@ -5,6 +5,9 @@ import 'package:youvideo/ui/search/provider.dart';
 import 'package:youvideo/ui/tags/index.dart';
 import 'package:youvideo/ui/video/VideoPage.dart';
 import 'package:youvideo/ui/videos/videos.dart';
+import 'package:youvideo/ui/videos/wrap.dart';
+
+import '../video/wrap.dart';
 
 class SearchPage extends StatefulWidget {
   const SearchPage({Key? key}) : super(key: key);
@@ -39,7 +42,7 @@ class _SearchPageState extends State<SearchPage> {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => VideosPage(
+                                builder: (context) => VideosPageWrap(
                                       filter: {"search": key},
                                       title:
                                           "Search result for ${provider.searchKey}",
@@ -62,6 +65,7 @@ class _SearchPageState extends State<SearchPage> {
                 widgets.add(Container(
                   padding: EdgeInsets.all(8),
                   child: VideoItem(
+                    coverRatio: video.files[0].ratio,
                     coverUrl: coverUrl,
                     name: video.getName(),
                     onTap: () {
@@ -70,7 +74,7 @@ class _SearchPageState extends State<SearchPage> {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => VideoPage(
+                              builder: (context) => VideoPageWrap(
                                     videoId: id,
                                   )),
                         );
@@ -120,7 +124,7 @@ class _SearchPageState extends State<SearchPage> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => VideosPage(
+                            builder: (context) => VideosPageWrap(
                                   title: tag.name,
                                   filter: {"tag": tag.id.toString()},
                                 )),
@@ -208,7 +212,7 @@ class _SearchPageState extends State<SearchPage> {
                   ],
                 ),
                 decoration: BoxDecoration(
-                    color: Colors.white30,
+                    color: Colors.white10,
                     shape: BoxShape.rectangle,
                     borderRadius: BorderRadius.all(Radius.circular(32))),
               ),

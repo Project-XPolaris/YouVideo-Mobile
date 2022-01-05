@@ -1,6 +1,7 @@
 import 'package:youvideo/api/base.dart';
 import 'package:youvideo/api/file.dart';
 import 'package:youvideo/api/loader.dart';
+import 'package:youvideo/api/meta.dart';
 
 import 'client.dart';
 
@@ -11,9 +12,10 @@ class Video {
   String? baseDir;
   String? dirName;
   int? libraryId;
+  int? entityId;
   String type = "video";
   List<File> files = [];
-
+  List<Meta> infos = [];
   Video.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     name = json['name'];
@@ -21,10 +23,15 @@ class Video {
     cover = json['cover'];
     dirName = json['dirName'];
     type = json['type'];
+    entityId = json['entityId'];
     libraryId = json['library_id'];
     if (json.containsKey("files")){
       files = List<File>.from(json['files'].map((it) => File.fromJson(it)).toList());
     }
+    if (json.containsKey("infos")){
+      infos = List<Meta>.from(json['infos'].map((it) => Meta.fromJson(it)).toList());
+    }
+
   }
   getName(){
     return name ?? "Unknown";

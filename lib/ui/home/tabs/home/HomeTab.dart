@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:youui/components/TitleSection.dart';
 import 'package:youvideo/ui/components/LibraryItem.dart';
 import 'package:youvideo/ui/components/VideosHorizonCollection.dart';
 import 'package:youvideo/ui/home/tabs/home/provider.dart';
 import 'package:youvideo/ui/library/library.dart';
-import 'package:youvideo/ui/videos/videos.dart';
+import 'package:youvideo/ui/videos/wrap.dart';
 
 class HomeTabPage extends StatelessWidget {
   @override
@@ -13,6 +14,9 @@ class HomeTabPage extends StatelessWidget {
         create: (_) => HomeTabProvider(),
         child: Consumer<HomeTabProvider>(builder: (context, provider, child) {
           provider.loadData();
+          var titleTextStyle =
+              TextStyle(color: Colors.white, fontWeight: FontWeight.w600);
+
           return Padding(
             padding: EdgeInsets.only(top: 32, left: 16, right: 16),
             child: RefreshIndicator(
@@ -24,76 +28,68 @@ class HomeTabPage extends StatelessWidget {
                 physics: AlwaysScrollableScrollPhysics(),
                 children: [
                   Container(
-                    height: 260,
+                    height: 235,
                     child: VideosHorizonCollection(
+                      baseHeight: 160,
                       videos: provider.latestVideoLoader.list,
                       title: "Recently added",
-                      coverSizes: [
-                        CoverSize(
-                          type: "video",
-                          width: 220,
-                          height: 120
-                        ),
-                        CoverSize(
-                          type: "film",
-                          width: 120,
-                          height: 180
-                        )
-                      ],
                     ),
                   ),
-                  Padding(
-                    padding: const EdgeInsets.only(bottom: 8,top: 16),
-                    child: Text(
-                      "Libraries",
-                      style: TextStyle(
-                          color: Colors.white, fontWeight: FontWeight.w600),
-                    ),
-                  ),
-                  ...provider.libraryLoader.list.map((library) {
-                    return LibraryItem(
-                      library: library,
-                      onTap: () {
-                        LibraryPage.Launch(context, library);
-                      },
-                    );
-                  }).toList(),
-                  Padding(
-                    padding: const EdgeInsets.only(top: 16, bottom: 8),
-                    child: Text(
-                      "Tags",
-                      style: TextStyle(
-                          color: Colors.white, fontWeight: FontWeight.w600),
-                    ),
-                  ),
-                  Wrap(
-                    children: [
-                      ...provider.tagLoader.list.map((tag) {
-                        return Padding(
-                          padding: const EdgeInsets.only(right: 8),
-                          child: ActionChip(
-                            label: Text(tag.name),
-                            avatar: CircleAvatar(
-                              child: Text("#"),
+                  provider.libraryLoader.list.isNotEmpty
+                      ? TitleSection(
+                          title: "Libraries",
+                          child: Container(
+                            child: Column(
+                              children: [
+                                ...provider.libraryLoader.list.map((library) {
+                                  return LibraryItem(
+                                    library: library,
+                                    onTap: () {
+                                      LibraryPage.Launch(context, library);
+                                    },
+                                  );
+                                }).toList(),
+                              ],
                             ),
-                            onPressed: () {
-                              var id = tag.id;
-                              if (id != null) {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => VideosPage(
-                                        title: tag.name,
-                                        filter: {"tag": tag.id.toString()},
-                                      )),
+                          ))
+                      : Container(),
+                  provider.tagLoader.list.isNotEmpty
+                      ? TitleSection(
+                          title: "Tags",
+                          titleTextStyle: titleTextStyle,
+                          child: Wrap(
+                            children: [
+                              ...provider.tagLoader.list.map((tag) {
+                                return Padding(
+                                  padding: const EdgeInsets.only(right: 8),
+                                  child: ActionChip(
+                                    label: Text(tag.name),
+                                    avatar: CircleAvatar(
+                                      child: Text("#"),
+                                    ),
+                                    onPressed: () {
+                                      var id = tag.id;
+                                      if (id != null) {
+                                        Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  VideosPageWrap(
+                                                    title: tag.name,
+                                                    filter: {
+                                                      "tag": tag.id.toString()
+                                                    },
+                                                  )),
+                                        );
+                                      }
+                                    },
+                                  ),
                                 );
-                              }
-                            },
+                              })
+                            ],
                           ),
-                        );
-                      })
-                    ],
-                  )
+                        )
+                      : Container(),
                 ],
               ),
             ),

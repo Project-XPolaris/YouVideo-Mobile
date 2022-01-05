@@ -3,6 +3,7 @@ import 'package:youvideo/ui/components/VideoFilter.dart';
 import 'package:youvideo/ui/components/VideoList.dart';
 import 'package:youvideo/ui/home/tabs/videos/provider.dart';
 import 'package:youvideo/ui/video/VideoPage.dart';
+import 'package:youvideo/ui/video/wrap.dart';
 
 class VideosTabPage extends StatelessWidget {
   final HomeVideosProvider provider;
@@ -25,7 +26,7 @@ class VideosTabPage extends StatelessWidget {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => VideoPage(
+                        builder: (context) => VideoPageWrap(
                           videoId: id,
                         )),
                   );

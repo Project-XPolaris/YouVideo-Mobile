@@ -22,6 +22,8 @@ class HomePageWrap extends StatelessWidget {
               NavigationBarItem(icon: Icon(Icons.home), label: "Home"),
               NavigationBarItem(icon: Icon(Icons.videocam), label: "Videos"),
               NavigationBarItem(icon: Icon(Icons.video_library), label: "Libraries"),
+              NavigationBarItem(icon: Icon(Icons.apps_outlined), label: "Entity"),
+              NavigationBarItem(icon: Icon(Icons.account_tree_sharp), label: "Meta"),
               NavigationBarItem(icon: Icon(Icons.label), label: "Tags"),
               NavigationBarItem(icon: Icon(Icons.history), label: "History")
             ],

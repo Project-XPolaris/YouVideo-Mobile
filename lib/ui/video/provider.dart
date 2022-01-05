@@ -1,7 +1,9 @@
 
 import 'package:flutter/material.dart';
 import 'package:youvideo/api/client.dart';
+import 'package:youvideo/api/entity.dart';
 import 'package:youvideo/api/file.dart';
+import 'package:youvideo/api/meta.dart';
 import 'package:youvideo/api/tag.dart';
 import 'package:youvideo/api/video.dart';
 
@@ -12,7 +14,18 @@ class VideoProvider extends ChangeNotifier {
   String? coverUrl;
   List<File> files = [];
   TagLoader tagLoader = new TagLoader();
+  final EntitiesLoader _entityLoader = EntitiesLoader();
   VideoLoader sameDirectoryVideo = new VideoLoader();
+  List<Meta> get infos => video?.infos ?? [];
+  Entity? get entity  {
+    if (_entityLoader.list.isEmpty) {
+      return null;
+    }
+    return _entityLoader.list.first;
+  }
+  List<Video> get entityVideos {
+    return entity?.videos ?? [];
+  }
   Future<void> loadData() async {
     if (video != null) {
       return;
@@ -24,6 +37,10 @@ class VideoProvider extends ChangeNotifier {
         files = video!.files;
       }
       await tagLoader.loadData(extraFilter: {"video":video!.id.toString()});
+      var entId = video?.entityId;
+      if (entId != null) {
+        await _entityLoader.loadData(extraFilter: {"id":entId.toString()});
+      }
     }
     notifyListeners();
     await fetchSameVideoInDirectory();
@@ -38,7 +55,6 @@ class VideoProvider extends ChangeNotifier {
     await tagLoader.loadData(force: true,extraFilter: {"video":video!.id.toString()});
     notifyListeners();
   }
-
   Future fetchSameVideoInDirectory() async {
     await sameDirectoryVideo.loadData(extraFilter: {
       "directoryVideo":videoId.toString(),

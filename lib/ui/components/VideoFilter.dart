@@ -7,13 +7,23 @@ const OrderFilterKeys = [
   "name asc",
   "name desc",
   "created_at asc",
-  "created_at desc"
+  "created_at desc",
+  "release asc",
+  "release desc",
 ];
 
+List<String> getYearFilter(){
+  List<String> years = [];
+  for (int i = DateTime.now().year; i >= DateTime.now().year - 25; i--) {
+    years.add(i.toString());
+  }
+  return  years;
+}
 class VideoFilter {
   String order;
   bool random;
-  VideoFilter({required this.order, this.random = false});
+  String? year;
+  VideoFilter({required this.order, this.random = false,this.year});
 }
 
 class VideoFilterView extends StatefulWidget {
@@ -24,13 +34,13 @@ class VideoFilterView extends StatefulWidget {
 
   @override
   _VideoFilterViewState createState() =>
-      _VideoFilterViewState(order: filter.order, random: filter.random);
+      _VideoFilterViewState(order: filter.order, random: filter.random, year: filter.year);
 }
 
 class _VideoFilterViewState extends State<VideoFilterView> {
   String order;
-
-  _VideoFilterViewState({required this.order, required this.random});
+  String? year;
+  _VideoFilterViewState({required this.order, required this.random,this.year});
 
   bool random;
 
@@ -73,7 +83,27 @@ class _VideoFilterViewState extends State<VideoFilterView> {
                 setState(() {
                   random = isRandom;
                 });
-              })
+              }),
+          SigleSelectFilterView(
+              value: year,
+              selectedColor: Colors.red,
+              options: [
+                ...getYearFilter().map((key) {
+                  return SelectOption(label: key, key: key);
+                })
+              ],
+              onSelectChange: (option) {
+                if (option.key == year) {
+                  widget.filter.year = null;
+                } else {
+                  widget.filter.year = option.key;
+                }
+                setState(() {
+                  year = widget.filter.year;
+                });
+                widget.onChange(widget.filter);
+              },
+              title: "years"),
         ]);
   }
 }

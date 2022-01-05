@@ -1,7 +1,7 @@
 import 'package:filesize/filesize.dart';
 import 'package:youvideo/util/format.dart';
-
 import '../config.dart';
+import 'dart:io' show Platform;
 
 class File {
   int? id;
@@ -13,6 +13,8 @@ class File {
   String? main_video_codec;
   String? main_audio_codec;
   String? subtitles;
+  int? coverWidth;
+  int? coverHeight;
 
   File.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -24,12 +26,18 @@ class File {
     main_audio_codec = json['main_audio_codec'];
     main_video_codec = json['main_video_codec'];
     subtitles = json['subtitles'];
+    coverWidth = json['coverWidth'];
+    coverHeight = json['coverHeight'];
+  }
+  double get ratio {
+    if (coverWidth == null || coverHeight == null) return 1;
+    return coverWidth! / coverHeight!;
   }
   String? getCoverUrl() {
     var coverUrl = cover;
     var serviceUrl = ApplicationConfig().serviceUrl;
     if (coverUrl != null && serviceUrl != null){
-      return serviceUrl + coverUrl;
+      return serviceUrl + coverUrl + "";
     }
   }
 
@@ -37,7 +45,7 @@ class File {
     String url = '${ApplicationConfig().serviceUrl}/video/file/$id/stream';
     String? token = ApplicationConfig().token;
     if (token != null){
-      url += "%3ftoken%3d${token}";
+      Platform.isAndroid ? url += '?token=$token' : url += "%3ftoken%3d${token}";;
     }
 
     return url;

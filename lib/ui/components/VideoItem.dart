@@ -7,14 +7,14 @@ class VideoItem extends StatelessWidget {
   final String name;
   final String type;
   final Function()? onTap;
-  VideoItem({this.coverUrl, this.name = "Unknown",this.onTap,this.type = "video"});
+  final double coverRatio;
+  VideoItem({this.coverUrl, this.name = "Unknown",this.onTap,this.type = "video",this.coverRatio = 1});
 
   @override
   Widget build(BuildContext context) {
-    double width = 120;
-    double height = 75;
-    if (type == 'film') {
-      width = 80;
+    var baseWidth = 120.toDouble();
+    var height = baseWidth / coverRatio;
+    if (height > 300) {
       height = 120;
     }
     return Padding(
@@ -29,12 +29,11 @@ class VideoItem extends StatelessWidget {
               coverUrl: coverUrl,
               onTap: onTap,
               borderRadius: 8,
-              width: width,
-              height: height,
+              width: baseWidth,
+              height: 120,
             ),
-            width: 120,
-          )
-          ,
+            width: baseWidth,
+          ),
           Expanded(
               child: Padding(
                 padding: EdgeInsets.only(left: 16, right: 16),
@@ -49,6 +48,7 @@ class VideoItem extends StatelessWidget {
                       overflow: TextOverflow.ellipsis,
                       maxLines: 3,
                     )
+
                   ],
                 ),
               )

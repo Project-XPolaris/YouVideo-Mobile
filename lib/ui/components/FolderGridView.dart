@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:youui/components/cover-title-grid-item.dart';
 import 'package:youui/components/gridview.dart';
 import 'package:youvideo/api/folder.dart';
-import 'package:youvideo/ui/videos/videos.dart';
+import 'package:youvideo/ui/videos/wrap.dart';
 import 'package:youvideo/util/listview.dart';
 
 class FolderGridView extends StatelessWidget {
@@ -22,14 +22,6 @@ class FolderGridView extends StatelessWidget {
     return ResponsiveGridView(
         controller: controller,
         children: folders.map((folder) {
-          getWidth() {
-            if (folder.type == "video") {
-              return 200.0;
-            }
-            if (folder.type == "film") {
-              return 100.0;
-            }
-          }
           return Center(
             child: SizedBox(
               child: CoverTitleGridItem(
@@ -40,10 +32,11 @@ class FolderGridView extends StatelessWidget {
                 placeholderColor: Colors.red,
                 placeHolderIcon: Icon(Icons.folder, color: Colors.white,),
                 borderRadius: 6,
-                coverWidth: getWidth(),
+                coverWidth: 120 * folder.coverRatio,
+                coverHeight: 120,
                 imageBoxFit: BoxFit.contain,
                 onTap: (){
-                  VideosPage.launchWithFolderDetail(context, folder);
+                  VideosPageWrap.launchWithFolderDetail(context, folder);
                 },
               ),
             ),

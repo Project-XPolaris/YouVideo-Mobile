@@ -1,8 +1,10 @@
 import 'package:dio/dio.dart';
+import 'package:youvideo/api/entity.dart';
 import 'package:youvideo/api/folder.dart';
 import 'package:youvideo/api/history.dart';
 import 'package:youvideo/api/info.dart';
 import 'package:youvideo/api/library.dart';
+import 'package:youvideo/api/meta.dart';
 import 'package:youvideo/api/tag.dart';
 import 'package:youvideo/api/user_auth_response.dart';
 import 'package:youvideo/api/user_token.dart';
@@ -109,6 +111,20 @@ class ApiClient {
         await _dio.get("/user/auth", queryParameters: {"token": token});
     return UserToken.fromJson(response.data);
   }
-
+  Future<ListResponseWrap<Entity>> fetchEntityList(
+      Map<String, String> params) async {
+    var response = await _dio.get("/entities", queryParameters: params);
+    print(response.data["result"][0]["infos"]);
+    ListResponseWrap<Entity> responseBody = ListResponseWrap.fromJson(
+        response.data, (data) => Entity.fromJson(data));
+    return responseBody;
+  }
+  Future<ListResponseWrap<Meta>> fetchMetaList(
+      Map<String, String> params) async {
+    var response = await _dio.get("/meta", queryParameters: params);
+    ListResponseWrap<Meta> responseBody = ListResponseWrap.fromJson(
+        response.data, (data) => Meta.fromJson(data));
+    return responseBody;
+  }
   ApiClient._internal();
 }

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:youvideo/api/video.dart';
 import 'package:youvideo/ui/components/VideoFilter.dart';
 
@@ -12,9 +13,17 @@ class VideosProvider extends ChangeNotifier {
       "order": filter.order,
       ...extraFilter
     };
+    final year = filter.year;
+    if (year != null) {
+      var startDate = DateTime(int.parse(year),);
+      var endDate = DateTime(int.parse(year) + 1);
+      result["releaseStart"] = DateFormat('yyyy-MM-dd').format(startDate);
+      result["releaseEnd"] = DateFormat('yyyy-MM-dd').format(endDate);
+    }
     return result;
   }
   loadData({force = false}) async {
+    print("loadData");
     if (await loader.loadData(extraFilter: _getVideosExtraParams(),force: force)){
       notifyListeners();
     }

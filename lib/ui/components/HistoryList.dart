@@ -28,7 +28,6 @@ class HistoryList extends StatelessWidget {
             coverUrl: history.getCoverUrl(),
             name: history.name,
             onTap: () {
-              print("on click");
               this.onItemClick?.call(history);
             },
           ),

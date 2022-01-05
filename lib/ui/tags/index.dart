@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:youvideo/ui/tags/provider.dart';
 import 'package:youvideo/ui/videos/videos.dart';
+import 'package:youvideo/ui/videos/wrap.dart';
 import 'package:youvideo/util/listview.dart';
 
 class TagsPage extends StatelessWidget {
@@ -39,7 +40,7 @@ class TagsPage extends StatelessWidget {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => VideosPage(
+                              builder: (context) => VideosPageWrap(
                                     title: tag.name,
                                     filter: {"tag": tag.id.toString()},
                                   )),

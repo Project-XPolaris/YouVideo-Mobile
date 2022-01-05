@@ -1,4 +1,5 @@
 import 'package:flutter/widgets.dart';
+import 'package:intl/intl.dart';
 import 'package:youvideo/api/video.dart';
 import 'package:youvideo/ui/components/VideoFilter.dart';
 
@@ -14,6 +15,14 @@ class HomeVideosProvider extends ChangeNotifier {
     if (filter.random) {
       result["random"] = "1";
     }
+    final year = filter.year;
+    if (year != null) {
+      var startDate = DateTime(int.parse(year),);
+      var endDate = DateTime(int.parse(year) + 1);
+      result["releaseStart"] = DateFormat('yyyy-MM-dd').format(startDate);
+      result["releaseEnd"] = DateFormat('yyyy-MM-dd').format(endDate);
+    }
+    print(result);
     return result;
   }
   loadData({force = false}) async {

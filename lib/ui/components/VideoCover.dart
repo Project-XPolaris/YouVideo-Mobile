@@ -21,15 +21,11 @@ class VideoCover extends StatelessWidget {
     if (url != null) {
       return GestureDetector(
         child: ClipRRect(
-          child: CachedNetworkImage(
+          child: Image.network(
+            url,
             fit: BoxFit.contain,
-            imageUrl: url,
-            placeholder: (context, url) => Container(
-              color: Colors.white10,
-            ),
-            errorWidget: (context, url, error) => Container(
-              color: Colors.white10,
-            ),
+            width: width,
+            height: height,
           ),
           borderRadius: BorderRadius.circular(borderRadius),
         ),

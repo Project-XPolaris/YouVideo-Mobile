@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:youvideo/ui/components/HistoryList.dart';
 import 'package:youvideo/ui/home/tabs/history/provider.dart';
 import 'package:youvideo/ui/video/VideoPage.dart';
+import 'package:youvideo/ui/video/wrap.dart';
 
 class HistoryListTabPage extends StatelessWidget {
   final HomeHistoryListProvider provider;
@@ -23,7 +24,7 @@ class HistoryListTabPage extends StatelessWidget {
               },
               historyList: provider.loader.list,
               onItemClick: (history){
-                VideoPage.Launch(context, history.videoId);
+                VideoPageWrap.Launch(context, history.videoId);
               },
             ),
           ),
