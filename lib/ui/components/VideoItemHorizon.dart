@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:youui/components/cover-title-grid-item.dart';
-import 'package:youvideo/ui/components/VideoCover.dart';
+
 class VideoItemHorizon extends StatelessWidget {
   final String? coverUrl;
   final String name;
@@ -24,47 +24,20 @@ class VideoItemHorizon extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // return Padding(
-    //   padding: padding,
-    //   child: Container(
-    //     width: coverWidth,
-    //     height: coverHeight + 32,
-    //     child: Column(
-    //       crossAxisAlignment: CrossAxisAlignment.start,
-    //       children: [
-    //         Container(
-    //           child: Center(
-    //             child: VideoCover(
-    //
-    //               coverUrl: coverUrl,
-    //               width: coverWidth,
-    //               height: coverHeight,
-    //               onTap: onTap,
-    //             ),
-    //           ),
-    //           width: maxCoverWidth,
-    //           height: maxCoverHeight,
-    //         ),
-    //         Padding(
-    //           padding: const EdgeInsets.only(top: 8),
-    //           child: Text(
-    //             name,
-    //             style: TextStyle(fontWeight: FontWeight.w300, fontSize: 16),
-    //             overflow: TextOverflow.ellipsis,
-    //             maxLines: 2,
-    //           ),
-    //         )
-    //       ],
-    //     ),
-    //   ),
-    // );
     return Container(
+      padding: padding,
       child: CoverTitleGridItem(
+          borderRadius: 4,
           metaHeight: 32,
           metaContainerMagin: EdgeInsets.only(),
           title: name,
-          placeHolderIcon: Icon(Icons.videocam),
-          placeholderColor: Colors.red,
+          imageBoxFit: BoxFit.contain,
+          placeHolderIcon: Icon(
+            Icons.videocam,
+            color: Theme.of(context).colorScheme.onPrimaryContainer,
+            size: 48,
+          ),
+          placeholderColor: Theme.of(context).colorScheme.primaryContainer,
           imageUrl: coverUrl,
           onTap: () {
             onTap?.call();

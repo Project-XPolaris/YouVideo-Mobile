@@ -1,16 +1,10 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
-import 'package:url_launcher/url_launcher.dart';
-import 'package:youui/components/TitleSection.dart';
-import 'package:youvideo/config.dart';
 import 'package:youvideo/ui/video/VideoPage.dart';
 import 'package:youvideo/ui/video/provider.dart';
-import 'package:youvideo/ui/videos/wrap.dart';
 
-import '../../plugin/mx.dart';
-import '../components/ActionSelectBottomSheet.dart';
-import '../components/AddTagBottomDialog.dart';
+import '../components/FilesSection.dart';
+import '../components/MetasSection.dart';
+import '../components/TagsSection.dart';
 import '../components/VideosHorizonCollection.dart';
 
 class VideoHorizonPage extends StatelessWidget {
@@ -20,6 +14,7 @@ class VideoHorizonPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    print(provider.tagLoader.list);
     return Scaffold(
       body: Container(
         child: Row(
@@ -29,44 +24,55 @@ class VideoHorizonPage extends StatelessWidget {
               child: Column(
                 children: [
                   Container(
-                      padding: EdgeInsets.all(16),
-                      height: 300,
                       width: double.infinity,
                       child: Container(
                         child: Stack(
                           children: [
+                            Container(
+                              padding: EdgeInsets.all(16),
+                              margin: EdgeInsets.only(top: 72),
+                              child: Center(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Container(
+                                      width: 240,
+                                      height: 180,
+                                      child: Cover(
+                                        url: provider.coverUrl,
+                                      ),
+                                    ),
+                                    Container(
+                                        margin: EdgeInsets.only(top: 16),
+                                        child: Text(
+                                          provider.video?.name ?? "Unknown",
+                                          style: TextStyle(fontSize: 16),
+                                          textAlign: TextAlign.center,
+                                        )),
+                                  ],
+                                ),
+                              ),
+                            ),
                             Positioned(
-                              top: 16,
+                              top: 32,
                               left: 16,
                               child: GestureDetector(
                                 onTap: () {
                                   Navigator.pop(context);
                                 },
-                                child: Icon(
-                                  Icons.arrow_back_ios,
-                                  size: 22,
-                                ),
-                              ),
-                            ),
-                            Center(
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Cover(
-                                    url: provider.coverUrl,
-                                    width: 180,
-                                    height: 180,
+                                child: CircleAvatar(
+                                  backgroundColor: Theme.of(context)
+                                      .colorScheme
+                                      .primaryContainer,
+                                  child: Icon(
+                                    Icons.arrow_back,
+                                    color: Theme.of(context)
+                                        .colorScheme
+                                        .onPrimaryContainer,
+                                    size: 22,
                                   ),
-                                  Container(
-                                      margin: EdgeInsets.only(top: 16),
-                                      child: Text(
-                                        provider.video?.name ?? "Unknown",
-                                        style: TextStyle(
-                                            fontSize: 18, color: Colors.white),
-                                        textAlign: TextAlign.center,
-                                      )),
-                                ],
+                                ),
                               ),
                             )
                           ],
@@ -74,114 +80,27 @@ class VideoHorizonPage extends StatelessWidget {
                       )),
                   Expanded(
                       child: Container(
-                        color: Colors.black26,
-                        padding: EdgeInsets.all(16),
-                        width: double.infinity,
-                    child: Column(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          provider.infos.isNotEmpty?TitleSection(
-                            title: "Meta",
-                            child: Wrap(
-                              children: [
-                                ...provider.infos.map((meta) {
-                                  return Padding(
-                                    padding: const EdgeInsets.only(right: 8),
-                                    child: GestureDetector(
-                                      child: ActionChip(
-                                        label: Text(meta.value ?? ""),
-                                        onPressed: () {
-                                          VideosPageWrap.launchWithMetaVideo(
-                                              context, meta);
-                                        },
-                                        avatar: CircleAvatar(
-                                          child: Text("#"),
-                                        ),
-                                      ),
-                                    ),
-                                  );
-                                }).toList(),
-                              ],
-                            ),
-                          ):Container(),
-                          TitleSection(
-                            title: "Tags",
-                            child: Wrap(
-                              children: [
-                                ...provider.tagLoader.list.map((tag) {
-                                  return Padding(
-                                    padding: const EdgeInsets.only(right: 8),
-                                    child: GestureDetector(
-                                      child: ActionChip(
-                                        label: Text(tag.name),
-                                        onPressed: () {
-                                          Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                                builder: (context) =>
-                                                    VideosPageWrap(
-                                                      title: tag.name,
-                                                      filter: {
-                                                        "tag": tag.id.toString()
-                                                      },
-                                                    )),
-                                          );
-                                        },
-                                        avatar: CircleAvatar(
-                                          child: Text("#"),
-                                        ),
-                                      ),
-                                      onLongPress: () {
-                                        showModalBottomSheet(
-                                            context: context,
-                                            builder: (BuildContext context) {
-                                              return Wrap(children: [
-                                                ListTile(
-                                                  leading: Icon(Icons.delete),
-                                                  title: Text("Remove tag"),
-                                                  onTap: () {
-                                                    var id = tag.id;
-                                                    if (id != null) {
-                                                      provider.removeTag(id);
-                                                      Navigator.pop(context);
-                                                    }
-                                                  },
-                                                ),
-                                                Container(
-                                                  height: 16,
-                                                )
-                                              ]);
-                                            });
-                                      },
-                                    ),
-                                  );
-                                }).toList(),
-                                ActionChip(
-                                  label: Text("add tag"),
-                                  onPressed: () {
-                                    showModalBottomSheet(
-                                        context: context,
-                                        builder: (context) {
-                                          return AddTagBottomDialog(
-                                            onCreate: (text) {
-                                              Navigator.pop(context);
-                                              provider.addTag(text);
-                                            },
-                                          );
-                                        },
-                                        isScrollControlled: true,
-                                        useRootNavigator: true);
-                                  },
-                                  avatar: CircleAvatar(
-                                    backgroundColor: Colors.black54,
-                                    child: Icon(Icons.add),
-                                  ),
-                                )
-                              ],
-                            ),
-                          )
-                        ]),
+                    padding: EdgeInsets.all(16),
+                    width: double.infinity,
+                    child: ListView(children: [
+                      provider.infos.isNotEmpty
+                          ? MetasSection(
+                              metas: provider.infos,
+                            )
+                          : Container(),
+                      TagsSection(
+                        tags: provider.tagLoader.list,
+                        onAdd: (tag) {
+                          provider.addTag(tag);
+                        },
+                        onRemove: (tag) {
+                          final id = tag.id;
+                          if (id != null) {
+                            provider.removeTag(id);
+                          }
+                        },
+                      ),
+                    ]),
                   ))
                 ],
               ),
@@ -189,114 +108,39 @@ class VideoHorizonPage extends StatelessWidget {
             Expanded(
                 child: Container(
                     padding: EdgeInsets.all(16),
-                    color: Colors.black,
                     child: ListView(
                       children: [
-                        TitleSection(
-                            title: "Files",
-                            child: Column(
-                              children: [
-                                ...provider.files.map((e) => Column(
-                                      children: [
-                                        ListTile(
-                                          contentPadding: EdgeInsets.all(0),
-                                          onTap: () {
-                                            List<ActionItem> actions = [
-                                              ActionItem(
-                                                  title: "External player",
-                                                  onTap: () async {
-                                                    Navigator.pop(context);
-                                                    if (Platform.isAndroid) {
-                                                      MXPlayerPlugin plugin =
-                                                          MXPlayerPlugin();
-                                                      var config =
-                                                          ApplicationConfig();
-                                                      String playUrl =
-                                                          e.getStreamUrl();
-                                                      var token = config.token;
-                                                      if (token != null &&
-                                                          token.isNotEmpty) {
-                                                        playUrl +=
-                                                            "?token=${token}";
-                                                      }
-                                                      if (e.subtitles == null) {
-                                                        plugin.play(playUrl);
-                                                      } else {
-                                                        plugin.playWithSubtitles(
-                                                            playUrl,
-                                                            e.getSubtitlesUrl());
-                                                      }
-                                                    }
-                                                    if (Platform.isIOS) {
-                                                      String _url =
-                                                          "vlc-x-callback://x-callback-url/stream?url=${e.getStreamUrl()}";
-                                                      if (e.subtitles != null) {
-                                                        _url +=
-                                                            "&sub=${e.getSubtitlesUrl()}";
-                                                      }
-                                                      void _launchURL() async =>
-                                                          await canLaunch(_url)
-                                                              ? await launch(
-                                                                  _url)
-                                                              : throw 'Could not launch $_url';
-                                                      _launchURL();
-                                                    }
-                                                  })
-                                            ];
-                                            showModalBottomSheet(
-                                                context: context,
-                                                builder: (ctx) {
-                                                  return ActionSelectBottomSheet(
-                                                    height: 200,
-                                                    actions: actions,
-                                                    title: "Select to play",
-                                                  );
-                                                });
-                                          },
-                                          title: Text(e.name),
-                                          subtitle:
-                                              Text(e.getDescriptionText()),
-                                          leading: CircleAvatar(
-                                            backgroundColor: Colors.red,
-                                            child: Icon(
-                                              Icons.videocam_rounded,
-                                              color: Colors.white,
-                                            ),
-                                          ),
-                                          trailing: Text(e.getDurationText()),
-                                        ),
-                                      ],
-                                    ))
-                              ],
-                            )),
-                        provider.getSameDirectoryVideo().isNotEmpty?Container(
-                          margin: EdgeInsets.only(top: 32),
-                          child: Container(
-                            height: 180,
-                            child: VideosHorizonCollection(
-                              baseHeight: 120,
-                              videos: provider.getSameDirectoryVideo(),
-                              title: "Same directory",
-                              titleStyle: TextStyle(
-                                  color: Colors.white70,
-                                  fontWeight: FontWeight.w600),
-                            ),
-                          ),
-                        ):Container(),
-                        Container(
-                          margin: EdgeInsets.only(top: 32),
-                          child: Container(
-                            height: 180,
-                            child: VideosHorizonCollection(
-                              baseHeight: 120,
-                              videos: provider.entityVideos,
-                              title: "In entity",
-                              titleStyle: TextStyle(
-                                  color: Colors.white70,
-                                  fontWeight: FontWeight.w600),
-                            ),
-                          ),
-                        ),
+                        FilesSection(files: provider.files),
+                        provider.getSameDirectoryVideo().isNotEmpty
+                            ? Container(
+                                margin: EdgeInsets.only(top: 32),
+                                child: Container(
+                                  height: 180,
+                                  child: VideosHorizonCollection(
+                                    baseHeight: 120,
+                                    videos: provider.getSameDirectoryVideo(),
+                                    title: "Same directory",
+                                    titleStyle:
+                                        TextStyle(fontWeight: FontWeight.w600),
+                                  ),
+                                ),
+                              )
+                            : Container(),
+                        provider.entity != null
+                            ? Container(
+                                margin: EdgeInsets.only(top: 32),
+                                child: Container(
+                                  height: 180,
+                                  child: VideosHorizonCollection(
+                                    baseHeight: 120,
+                                    videos: provider.entityVideos,
+                                    title: "In entity",
+                                    titleStyle:
+                                        TextStyle(fontWeight: FontWeight.w600),
+                                  ),
+                                ),
+                              )
+                            : Container(),
                       ],
                     )))
           ],

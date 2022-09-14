@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:youvideo/ui/entity/provider.dart';
-import 'package:youvideo/ui/videos/videos.dart';
 import 'package:youvideo/ui/videos/wrap.dart';
 
 import '../components/VideosHorizonCollection.dart';
@@ -21,11 +20,9 @@ class EntityHorizonPage extends StatelessWidget {
               expandedHeight: 200.0,
               floating: false,
               pinned: true,
-              backgroundColor: Color(0xFF1F1F1F),
               flexibleSpace: FlexibleSpaceBar(
                   title: Text(provider.entityName,
                       style: TextStyle(
-                        color: Colors.white,
                         fontSize: 16.0,
                       )),
                   background: HeaderCover(
@@ -59,8 +56,7 @@ class EntityHorizonPage extends StatelessWidget {
                 padding: const EdgeInsets.only(top: 16, bottom: 8),
                 child: Text(
                   "Tags",
-                  style: TextStyle(
-                      color: Colors.white70, fontWeight: FontWeight.w600),
+                  style: TextStyle(fontWeight: FontWeight.w600),
                 ),
               ),
               provider.infos.isNotEmpty
@@ -95,8 +91,7 @@ class EntityHorizonPage extends StatelessWidget {
                         baseHeight: 120,
                         videos: provider.videos,
                         title: "Video on ${provider.entityName}",
-                        titleStyle: TextStyle(
-                            color: Colors.white70, fontWeight: FontWeight.w600),
+                        titleStyle: TextStyle(fontWeight: FontWeight.w600),
                       ),
                     )
                   : Container(),

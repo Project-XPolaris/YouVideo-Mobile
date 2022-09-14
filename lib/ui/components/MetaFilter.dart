@@ -38,12 +38,10 @@ class _MetaFilterViewState extends State<MetaFilterView> {
   Widget build(BuildContext context) {
     return FilterView(
         padding: EdgeInsets.only(left: 16, right: 16),
-        backgroundColor: Colors.black,
-        headerBackgroundColor: const Color(0xFF303030),
         children: [
           SigleSelectFilterView(
               value: key,
-              selectedColor: Colors.red,
+              selectedColor: Theme.of(context).colorScheme.primaryContainer,
               options: [
                 ...widget.keys.map((key) {
                   return SelectOption(label: key, key: key);

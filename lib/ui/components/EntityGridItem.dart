@@ -17,10 +17,11 @@ class EntityGridItem extends StatelessWidget {
           metaContainerMagin: EdgeInsets.only(),
           title: entity.displayName,
           imageUrl: entity.coverUrl,
-          placeholderColor: Colors.red,
+          borderRadius: 8,
+          placeholderColor: Theme.of(context).colorScheme.primary,
           placeHolderIcon: Icon(Icons.videocam),
           failedIcon: Icons.videocam,
-          failedColor: Colors.red,
+          failedColor: Theme.of(context).colorScheme.primary,
           onTap: () {
             onTap?.call(entity);
           }),

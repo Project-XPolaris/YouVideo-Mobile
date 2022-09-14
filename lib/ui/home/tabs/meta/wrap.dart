@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:youvideo/ui/components/ScreenWidthSelector.dart';
 import 'package:youvideo/ui/home/tabs/meta/provider.dart';
 
+import '../../layout.dart';
 import 'horizon.dart';
 
 class HomeMetaWrap extends StatelessWidget {
@@ -15,12 +16,14 @@ class HomeMetaWrap extends StatelessWidget {
         child:
         Consumer<HomeMetaProvider>(builder: (context, provider, child) {
           provider.loadData();
-          return ScreenWidthSelector(
-            verticalChild: HomeMetaHorizonView(
-              provider: provider,
-            ),
-            horizonChild: HomeMetaHorizonView(
-              provider: provider,
+          return BaseHomeLayout(
+            child: ScreenWidthSelector(
+              verticalChild: HomeMetaHorizonView(
+                provider: provider,
+              ),
+              horizonChild: HomeMetaHorizonView(
+                provider: provider,
+              ),
             ),
           );
         }));

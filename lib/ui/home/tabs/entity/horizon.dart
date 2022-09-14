@@ -13,7 +13,7 @@ class HomeEntityHorizonView extends StatelessWidget {
       children: [
         Container(
           child: RefreshIndicator(
-            color: Colors.red,
+            color: Theme.of(context).colorScheme.primary,
             onRefresh: () async {
               await provider.loadData(force: true);
             },
@@ -30,21 +30,6 @@ class HomeEntityHorizonView extends StatelessWidget {
             ),
           ),
         ),
-        // Positioned(
-        //   bottom: 16,
-        //   right: 16,
-        //   child: FloatingActionButton(
-        //     child: Icon(Icons.filter_list),
-        //     onPressed: () {
-        //       provider.loadData(force: true);
-        //       // showModalBottomSheet(
-        //       //     context: context,
-        //       //     builder: (ctx) {
-        //       //       return Container();
-        //       //     });
-        //     },
-        //   ),
-        // )
       ],
     );
   }

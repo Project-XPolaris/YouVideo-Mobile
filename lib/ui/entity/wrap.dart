@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:youui/components/viewport-selector.dart';
-import 'package:youvideo/ui/entity/horizon.dart';
+import 'package:youvideo/ui/entity/horizon2.dart';
 
 import 'provider.dart';
 
@@ -27,8 +27,8 @@ class EntityPage extends StatelessWidget {
         child: Consumer<EntityProvider>(builder: (context, provider, child) {
           provider.loadData();
           return ViewportSelector(
-            verticalChild: EntityHorizonPage(provider: provider,),
-            horizonChild: EntityHorizonPage(provider: provider,),
+            verticalChild: EntityHorizonPage(),
+            horizonChild: EntityHorizonPage(),
           );
         }));
   }

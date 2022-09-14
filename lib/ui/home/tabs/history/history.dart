@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:youvideo/ui/components/HistoryList.dart';
 import 'package:youvideo/ui/home/tabs/history/provider.dart';
-import 'package:youvideo/ui/video/VideoPage.dart';
 import 'package:youvideo/ui/video/wrap.dart';
 
 class HistoryListTabPage extends StatelessWidget {
@@ -13,7 +12,7 @@ class HistoryListTabPage extends StatelessWidget {
       children: [
         Container(
           child: RefreshIndicator(
-            color: Colors.red,
+            color: Theme.of(context).colorScheme.primary,
             onRefresh: () async {
               provider.loadData(force: true);
             },

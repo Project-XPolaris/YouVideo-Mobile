@@ -9,12 +9,14 @@ class VideoListHorizon extends StatelessWidget {
   final List<Video> videos;
   final Function(Video)? onItemClick;
   final bool directoryView;
+  final int itemWidth;
 
   const VideoListHorizon(
       {Key? key,
       required this.onLoadMore,
       required this.videos,
       this.onItemClick,
+      this.itemWidth = 180,
       this.directoryView = false})
       : super(key: key);
 
@@ -32,7 +34,6 @@ class VideoListHorizon extends StatelessWidget {
             },
           );
         }).toList(),
-        itemWidth: 180
-    );
+        itemWidth: itemWidth);
   }
 }

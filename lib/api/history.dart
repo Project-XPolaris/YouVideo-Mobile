@@ -19,7 +19,7 @@ class History {
     var coverUrl = cover;
     var serviceUrl = ApplicationConfig().serviceUrl;
     if (coverUrl != null && serviceUrl != null){
-      return serviceUrl + coverUrl;
+      return "${serviceUrl}${coverUrl}?token=${ApplicationConfig().token}";
     }
   }
 }

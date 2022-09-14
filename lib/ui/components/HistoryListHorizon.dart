@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:youui/components/cover-title-grid-item.dart';
 import 'package:youvideo/api/history.dart';
 import 'package:youvideo/ui/components/VideoCover.dart';
 import 'package:youvideo/util/listview.dart';
@@ -24,25 +25,22 @@ class HistoryListHorizon extends StatelessWidget {
       crossAxisCount: crossAxisCount,
       children: <Widget>[
         ...historyList.map((e) {
-          return Container(
-            child: Column(
-              children: [
-                Expanded(child: VideoCover(
-                  coverUrl: e.getCoverUrl(),
-                  onTap: (){
-                    this.onItemClick?.call(e);
-                  },
-                  borderRadius: 8,
-                  width: 250,
-                  height: 150,
-                )),
-                Container(
-                  child: Text(e.name,style: TextStyle(color: Colors.white),maxLines: 3,),
-                  height: 64,
-                )
-              ],
-            ),
-          );
+          return CoverTitleGridItem(
+              borderRadius: 4,
+              metaHeight: 32,
+              metaContainerMagin: EdgeInsets.only(),
+              title: e.name,
+              imageBoxFit: BoxFit.contain,
+              placeHolderIcon: Icon(
+                Icons.videocam,
+                color: Theme.of(context).colorScheme.onPrimaryContainer,
+                size: 48,
+              ),
+              placeholderColor: Theme.of(context).colorScheme.primaryContainer,
+              imageUrl:e.getCoverUrl(),
+              onTap: () {
+                this.onItemClick?.call(e);
+              });
         })
         ,
       ],

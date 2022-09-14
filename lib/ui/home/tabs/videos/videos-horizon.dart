@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:youvideo/ui/components/VideoFilter.dart';
 import 'package:youvideo/ui/components/VideoListHorizon.dart';
-import 'package:youvideo/ui/video/VideoPage.dart';
 import 'package:youvideo/ui/video/wrap.dart';
 
 import 'provider.dart';
@@ -14,22 +12,12 @@ class VideosTabPageHorizon extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.black87,
-      endDrawer: Drawer(
-        child: VideoFilterView(
-          filter: provider.filter,
-          onChange: (filter) {
-            provider.filter = filter;
-            provider.loadData(force: true);
-          },
-        ),
-      ),
       body: Builder(builder: (context) {
         return Stack(
           children: [
             Container(
               child: RefreshIndicator(
-                color: Colors.red,
+                color: Theme.of(context).colorScheme.primary,
                 onRefresh: () async {
                   await provider.loadData(force: true);
                 },
@@ -41,31 +29,10 @@ class VideosTabPageHorizon extends StatelessWidget {
                   onItemClick: (video) {
                     VideoPageWrap.Launch(context, video.id);
                   },
+                  itemWidth: provider.gridItemWidth,
                 ),
               ),
             ),
-            Positioned(
-              bottom: 16,
-              right: 16,
-              child: FloatingActionButton(
-                child: Icon(Icons.filter_list),
-                onPressed: () {
-                  Scaffold.of(context).openEndDrawer();
-
-                  // showModalBottomSheet(
-                  //     context: context,
-                  //     builder: (ctx) {
-                  //       return VideoFilterView(
-                  //         filter: provider.filter,
-                  //         onChange: (filter) {
-                  //           provider.filter = filter;
-                  //           provider.loadData(force: true);
-                  //         },
-                  //       );
-                  //     });
-                },
-              ),
-            )
           ],
         );
       }),

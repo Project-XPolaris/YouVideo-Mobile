@@ -24,15 +24,12 @@ class VideoItem extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
           Container(
-            alignment: Alignment.topCenter,
             child: VideoCover(
               coverUrl: coverUrl,
               onTap: onTap,
-              borderRadius: 8,
               width: baseWidth,
-              height: 120,
+              height: height,
             ),
-            width: baseWidth,
           ),
           Expanded(
               child: Padding(
@@ -43,12 +40,11 @@ class VideoItem extends StatelessWidget {
                   children: [
                     Text(
                       name,
-                      style: TextStyle(color: Colors.white,fontSize: 16),
+                      style: TextStyle(fontSize: 16),
                       textAlign: TextAlign.left,
                       overflow: TextOverflow.ellipsis,
-                      maxLines: 3,
+                      maxLines: 2,
                     )
-
                   ],
                 ),
               )

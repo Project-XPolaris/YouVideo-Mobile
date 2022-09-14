@@ -1,18 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:youvideo/ui/components/ScreenWidthSelector.dart';
 import 'package:youvideo/ui/components/VideoList.dart';
 import 'package:youvideo/ui/components/VideoListHorizon.dart';
 import 'package:youvideo/ui/library/provider.dart';
-import 'package:youvideo/ui/video/VideoPage.dart';
 import 'package:youvideo/ui/video/wrap.dart';
 
-class VideoListView extends StatelessWidget {
-  final LibraryProvider provider;
+import '../../layout.dart';
 
-  const VideoListView({Key? key, required this.provider}) : super(key: key);
+class VideoListView extends StatelessWidget {
+  const VideoListView({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    final provider = Provider.of<LibraryProvider>(context);
     return ScreenWidthSelector(
       verticalChild: VideoList(
         videos: provider.loader.list,
@@ -32,6 +33,7 @@ class VideoListView extends StatelessWidget {
         onItemClick: (video) {
           VideoPageWrap.Launch(context, video.id);
         },
+        itemWidth: provider.gridItemWidth,
       ),
     );
   }

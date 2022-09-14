@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:youvideo/ui/tags/provider.dart';
-import 'package:youvideo/ui/videos/videos.dart';
 import 'package:youvideo/ui/videos/wrap.dart';
 import 'package:youvideo/util/listview.dart';
 
@@ -20,11 +19,9 @@ class TagsPage extends StatelessWidget {
           provider.loadData();
           return Scaffold(
             appBar: AppBar(
-              backgroundColor: Color(0x1F1F1F),
               title: Text(title),
             ),
             body: Container(
-              color: Color(0xFF121212),
               child: RefreshIndicator(
                 onRefresh: () async {
                   await provider.loadData(force: true);

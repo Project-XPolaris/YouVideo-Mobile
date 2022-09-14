@@ -12,6 +12,7 @@ import 'package:youvideo/api/video.dart';
 
 import '../config.dart';
 import 'base.dart';
+import 'cc.dart';
 
 class ApiClient {
   static final ApiClient _instance = ApiClient._internal();
@@ -114,7 +115,6 @@ class ApiClient {
   Future<ListResponseWrap<Entity>> fetchEntityList(
       Map<String, String> params) async {
     var response = await _dio.get("/entities", queryParameters: params);
-    print(response.data["result"][0]["infos"]);
     ListResponseWrap<Entity> responseBody = ListResponseWrap.fromJson(
         response.data, (data) => Entity.fromJson(data));
     return responseBody;
@@ -125,6 +125,15 @@ class ApiClient {
     ListResponseWrap<Meta> responseBody = ListResponseWrap.fromJson(
         response.data, (data) => Meta.fromJson(data));
     return responseBody;
+  }
+  Future<List<CC>> fetchCC(int fileId) async {
+    var response = await _dio.get("/link/${fileId}/cc/${ApplicationConfig().token}");
+    List<CC> data = [];
+    List<dynamic> subs = response.data["subs"] as List<dynamic>;
+    for (var sub in subs) {
+      data.add(CC.fromJson(sub));
+    }
+    return data;
   }
   ApiClient._internal();
 }

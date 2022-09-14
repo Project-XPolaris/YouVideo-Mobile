@@ -3,16 +3,18 @@ import 'package:youvideo/api/folder.dart';
 import 'package:youvideo/api/video.dart';
 import 'package:youvideo/ui/components/VideoFilter.dart';
 
+import '../../config.dart';
+
 class LibraryProvider extends ChangeNotifier {
   final int libraryId;
   bool first = true;
   VideoFilter filter = new VideoFilter(order: "id desc");
   int index = 0;
-  LibraryProvider({required this.libraryId});
-
+  LibraryProvider({required this.libraryId,required this.title});
+  final String title;
   VideoLoader loader = new VideoLoader();
   FolderLoader folderLoader = new FolderLoader();
-
+  String GridViewMode = ApplicationConfig().config.LibraryViewGridViewType;
   Map<String, String> _getVideosExtraParams() {
     Map<String, String> result = {
       "order": filter.order,
@@ -66,6 +68,24 @@ class LibraryProvider extends ChangeNotifier {
   }
   setIndex(int index){
     this.index = index;
+    notifyListeners();
+  }
+  int get gridItemWidth {
+    if (GridViewMode == "Small") {
+      return 150;
+    } else if (GridViewMode == "Medium") {
+      return 180;
+    } else if (GridViewMode == "Large") {
+      return 220;
+    }
+    return 180;
+  }
+
+  updateGridViewType(String type) {
+    GridViewMode = type;
+    ConfigData newConfig = ApplicationConfig().config;
+    newConfig.LibraryViewGridViewType = type;
+    ApplicationConfig().UpdateData(newConfig);
     notifyListeners();
   }
 }

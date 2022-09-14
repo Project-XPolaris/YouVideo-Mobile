@@ -38,7 +38,7 @@ class VideoProvider extends ChangeNotifier {
       }
       await tagLoader.loadData(extraFilter: {"video":video!.id.toString()});
       var entId = video?.entityId;
-      if (entId != null) {
+      if (entId != null && entId != 0) {
         await _entityLoader.loadData(extraFilter: {"id":entId.toString()});
       }
     }

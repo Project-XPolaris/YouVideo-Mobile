@@ -3,8 +3,6 @@ import 'package:provider/provider.dart';
 import 'package:youvideo/ui/components/VideoItem.dart';
 import 'package:youvideo/ui/search/provider.dart';
 import 'package:youvideo/ui/tags/index.dart';
-import 'package:youvideo/ui/video/VideoPage.dart';
-import 'package:youvideo/ui/videos/videos.dart';
 import 'package:youvideo/ui/videos/wrap.dart';
 
 import '../video/wrap.dart';
@@ -32,7 +30,7 @@ class _SearchPageState extends State<SearchPage> {
                     padding: EdgeInsets.all(16),
                     child: Text(
                       "Videos result",
-                      style: TextStyle(color: Colors.white70),
+                      style: TextStyle(),
                     ),
                   )),
                   TextButton(
@@ -52,7 +50,7 @@ class _SearchPageState extends State<SearchPage> {
                       },
                       child: Text(
                         "more",
-                        style: TextStyle(color: Colors.red),
+                        style: TextStyle(),
                       ))
                 ],
               ));
@@ -92,7 +90,7 @@ class _SearchPageState extends State<SearchPage> {
                     padding: EdgeInsets.all(16),
                     child: Text(
                       "Tags result",
-                      style: TextStyle(color: Colors.white70),
+                      style: TextStyle(),
                     ),
                   )),
                   TextButton(
@@ -112,7 +110,7 @@ class _SearchPageState extends State<SearchPage> {
                       },
                       child: Text(
                         "more",
-                        style: TextStyle(color: Colors.red),
+                        style: TextStyle(),
                       ))
                 ],
               ));
@@ -147,12 +145,11 @@ class _SearchPageState extends State<SearchPage> {
                     children: [
                       Icon(
                         Icons.texture,
-                        color: Colors.white54,
                         size: 72,
                       ),
                       Text(
                         "no result",
-                        style: TextStyle(fontSize: 24, color: Colors.white),
+                        style: TextStyle(fontSize: 24),
                       )
                     ],
                   ),
@@ -167,7 +164,6 @@ class _SearchPageState extends State<SearchPage> {
           return Scaffold(
             appBar: AppBar(
               elevation: 0,
-              backgroundColor: Color(0x1F1F1F),
               title: Container(
                 height: 48,
                 width: double.infinity,
@@ -178,14 +174,11 @@ class _SearchPageState extends State<SearchPage> {
                         padding: const EdgeInsets.only(left: 16),
                         child: TextField(
                           textCapitalization: TextCapitalization.none,
-                          cursorColor: Colors.red,
                           decoration: InputDecoration(
                             hintText: "Search...",
                             border: InputBorder.none,
-                            hintStyle: TextStyle(color: Colors.white60),
                           ),
                           style: TextStyle(
-                            color: Colors.white,
                             fontSize: 16,
                           ),
                           onChanged: (text) {
@@ -201,7 +194,6 @@ class _SearchPageState extends State<SearchPage> {
                         highlightColor: Colors.transparent,
                         icon: Icon(
                           Icons.search,
-                          color: Colors.red,
                         ),
                         onPressed: () {
                           FocusScope.of(context).requestFocus(FocusNode());
@@ -212,19 +204,16 @@ class _SearchPageState extends State<SearchPage> {
                   ],
                 ),
                 decoration: BoxDecoration(
-                    color: Colors.white10,
                     shape: BoxShape.rectangle,
                     borderRadius: BorderRadius.all(Radius.circular(32))),
               ),
             ),
-            backgroundColor: Color(0xFF121212),
             body: Container(
               child: provider.isSearching
                   ? Center(
                       child: Container(
                         width: 120,
                         child: LinearProgressIndicator(
-                          color: Colors.red,
                         ),
                       ),
                     )

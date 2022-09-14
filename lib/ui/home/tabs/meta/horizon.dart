@@ -13,7 +13,6 @@ class HomeMetaHorizonView extends StatelessWidget {
   Widget build(BuildContext context) {
     var _controller = createLoadMoreController(provider.loadMore);
     return Scaffold(
-      backgroundColor: Colors.black87,
       endDrawer: Drawer(
         child:MetaFilterView(
           filter: provider.metaFilter,
@@ -29,7 +28,6 @@ class HomeMetaHorizonView extends StatelessWidget {
           children: [
             Container(
               child: RefreshIndicator(
-                color: Colors.red,
                 onRefresh: () async {
                   await provider.loadData(force: true);
                 },

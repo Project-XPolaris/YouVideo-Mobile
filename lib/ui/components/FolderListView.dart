@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:youui/components/cover-title-list-item.dart';
 import 'package:youvideo/api/folder.dart';
-import 'package:youvideo/ui/videos/videos.dart';
 import 'package:youvideo/ui/videos/wrap.dart';
 import 'package:youvideo/util/listview.dart';
 
@@ -27,10 +26,8 @@ class FolderListView extends StatelessWidget {
               title: folder.name,
               metaContainerMagin: EdgeInsets.only(left: 16),
               imageUrl: folder.cover,
-              titleTextStyle: TextStyle(color: Colors.white),
-              subtitleTextStyle: TextStyle(color: Colors.white),
-              loadingCoverColor: Colors.black26,
-              placeholderColor: Colors.red,
+              loadingCoverColor: Theme.of(context).colorScheme.primary,
+              placeholderColor: Theme.of(context).colorScheme.primary,
               coverHeight: folder.coverHeight,
               coverWidth: 120 * 4 / 3,
               borderRadius: 6,

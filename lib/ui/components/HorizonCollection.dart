@@ -23,7 +23,7 @@ class HorizonCollection extends StatelessWidget {
                 onMore != null ? GestureDetector(
                   child: Text(
                     "more",
-                    style: TextStyle(color: Colors.red),
+                    style: TextStyle(color: Theme.of(context).colorScheme.primary),
                   ),
                   onTap: onMore,
                 ) : Container()

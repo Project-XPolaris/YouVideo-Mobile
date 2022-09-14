@@ -5,6 +5,8 @@ import 'package:youvideo/ui/home/tabs/library/provider.dart';
 import 'package:youvideo/ui/library/library.dart';
 import 'package:youvideo/util/listview.dart';
 
+import '../../layout.dart';
+
 class LibrariesTabPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -12,28 +14,30 @@ class LibrariesTabPage extends StatelessWidget {
         create: (_) => HomeLibrariesProvider(),
         child: Consumer<HomeLibrariesProvider>(
             builder: (context, provider, child) {
-          var controller = createLoadMoreController(() => provider.loadMore());
-          provider.loadData();
-          return Container(
-            child: RefreshIndicator(
-              color: Colors.red,
-              onRefresh: () async {
-                await provider.loadData(force: true);
-              },
-              child: ListView(
-                controller: controller,
-                physics: AlwaysScrollableScrollPhysics(),
-                children: provider.loader.list.map((library) {
-                  return LibraryItem(
-                    library: library,
-                    onTap: () {
-                      LibraryPage.Launch(context, library);
+              var controller = createLoadMoreController(() => provider.loadMore());
+              provider.loadData();
+              return BaseHomeLayout(
+                child: Container(
+                  child: RefreshIndicator(
+                    color: Theme.of(context).colorScheme.primary,
+                    onRefresh: () async {
+                      await provider.loadData(force: true);
                     },
-                  );
-                }).toList(),
-              ),
-            ),
-          );
-        }));
+                    child: ListView(
+                      controller: controller,
+                      physics: AlwaysScrollableScrollPhysics(),
+                      children: provider.loader.list.map((library) {
+                        return LibraryItem(
+                          library: library,
+                          onTap: () {
+                            LibraryPage.Launch(context, library);
+                          },
+                        );
+                      }).toList(),
+                    ),
+                  ),
+                ),
+              );
+            }));
   }
 }

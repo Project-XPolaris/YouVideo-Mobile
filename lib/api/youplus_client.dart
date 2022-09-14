@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
-import 'fetch_entity_by_name_response.dart';
+
 import '../config.dart';
+import 'fetch_entity_by_name_response.dart';
 
 class YouPlusClient {
   static final YouPlusClient _instance = YouPlusClient._internal();

@@ -1,15 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:youvideo/ui/components/VideoFilter.dart';
 import 'package:youvideo/ui/library/provider.dart';
 import 'package:youvideo/ui/library/tabs/videos/list-wrap.dart';
 
-class LibraryVideos extends StatelessWidget {
-  final LibraryProvider provider;
+import '../../layout.dart';
 
-  LibraryVideos({required this.provider});
+class LibraryVideos extends StatelessWidget {
+
+  LibraryVideos();
 
   @override
   Widget build(BuildContext context) {
+    final provider = Provider.of<LibraryProvider>(context);
     return Scaffold(
       endDrawer:MediaQuery.of(context).size.width > 600? Drawer(
         child: VideoFilterView(
@@ -27,9 +30,7 @@ class LibraryVideos extends StatelessWidget {
               onRefresh: () async {
                 await provider.loadVideos(force: true);
               },
-              child: VideoListView(
-                provider: provider,
-              ),
+              child: VideoListView(),
             ),
             Positioned(
               child: FloatingActionButton(

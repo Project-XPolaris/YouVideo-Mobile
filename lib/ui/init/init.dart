@@ -15,16 +15,23 @@ class _InitPageState extends State<InitPage> {
       refreshKey = UniqueKey();
     });
   }
+
   Future<bool> check() async {
-    var ok = await ApplicationConfig().checkConfig();
-    if (!ok) {
-      return false;
-    }
-    ok = await ApplicationConfig().loadConfig();
-    return ok;
+    await ApplicationConfig().loadConfig();
+    return true;
   }
+
   @override
   Widget build(BuildContext context) {
-    return StartPage();
+    return FutureBuilder(
+        future: check(),
+        builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
+          if (snapshot.hasData) {
+
+              return StartPage();
+
+          }
+          return Container();
+        });
   }
 }

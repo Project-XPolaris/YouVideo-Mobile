@@ -27,9 +27,8 @@ class FolderGridView extends StatelessWidget {
               child: CoverTitleGridItem(
                 title: folder.name,
                 imageUrl: folder.cover,
-                titleTextStyle: TextStyle(color: Colors.white),
-                loadingCoverColor: Colors.black26,
-                placeholderColor: Colors.red,
+                loadingCoverColor: Theme.of(context).colorScheme.primary,
+                placeholderColor: Theme.of(context).colorScheme.primary,
                 placeHolderIcon: Icon(Icons.folder, color: Colors.white,),
                 borderRadius: 6,
                 coverWidth: 120 * folder.coverRatio,

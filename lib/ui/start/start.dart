@@ -21,11 +21,6 @@ class _StartPageState extends State<StartPage> {
         },
         title: "YouVideo",
         subtitle: "ProjectXPolaris",
-        mainColor: Colors.red,
-        defaultPort: "7700",
-        subtitleColor: Colors.white,
-        titleColor: Colors.red,
-        backgroundColor: Color(0xFF2b2b2b),
       ),
     );
   }

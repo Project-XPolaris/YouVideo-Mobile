@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:youvideo/api/file.dart';
 import 'package:youvideo/ui/components/VideoFilter.dart';
 import 'package:youvideo/ui/components/VideoItem.dart';
-import 'package:youvideo/ui/video/VideoPage.dart';
 import 'package:youvideo/ui/videos/provider.dart';
 import 'package:youvideo/util/listview.dart';
 
@@ -22,7 +21,6 @@ class VideosVerticalPage extends StatelessWidget {
         title: Text(title),
       ),
       body: Container(
-        color: Color(0xFF121212),
         child: RefreshIndicator(
           onRefresh: () async {
             await provider.loadData(force: true);

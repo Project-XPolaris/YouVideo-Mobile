@@ -4,6 +4,8 @@ import 'package:youvideo/ui/components/FolderListView.dart';
 import 'package:youvideo/ui/components/ScreenWidthSelector.dart';
 import 'package:youvideo/ui/library/provider.dart';
 
+import '../../layout.dart';
+
 class DirectoryListView extends StatelessWidget {
   final LibraryProvider provider;
 

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:youvideo/ui/components/VideoFilter.dart';
 import 'package:youvideo/ui/components/VideoListHorizon.dart';
-import 'package:youvideo/ui/video/VideoPage.dart';
 import 'package:youvideo/ui/video/wrap.dart';
 import 'package:youvideo/ui/videos/provider.dart';
 
@@ -19,7 +18,6 @@ class VideosHorizonPage extends StatelessWidget {
         title: Text(title),
       ),
       body: Container(
-        color: Color(0xFF121212),
         child: RefreshIndicator(
           onRefresh: () async {
             await provider.loadData(force: true);

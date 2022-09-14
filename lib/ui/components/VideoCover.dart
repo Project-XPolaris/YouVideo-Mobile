@@ -1,4 +1,3 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
 class VideoCover extends StatelessWidget {
@@ -23,6 +22,7 @@ class VideoCover extends StatelessWidget {
         child: ClipRRect(
           child: Image.network(
             url,
+            alignment: Alignment.topCenter,
             fit: BoxFit.contain,
             width: width,
             height: height,
@@ -38,11 +38,10 @@ class VideoCover extends StatelessWidget {
         child: Container(
           width: width,
           height: height,
-          color: Colors.redAccent,
+          color: Theme.of(context).colorScheme.primary,
           child: Center(
             child: Icon(
               Icons.videocam_rounded,
-              color: Colors.white,
             ),
           ),
         ),

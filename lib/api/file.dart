@@ -1,7 +1,9 @@
+import 'dart:io' show Platform;
+
 import 'package:filesize/filesize.dart';
 import 'package:youvideo/util/format.dart';
+
 import '../config.dart';
-import 'dart:io' show Platform;
 
 class File {
   int? id;
@@ -37,7 +39,7 @@ class File {
     var coverUrl = cover;
     var serviceUrl = ApplicationConfig().serviceUrl;
     if (coverUrl != null && serviceUrl != null){
-      return serviceUrl + coverUrl + "";
+      return serviceUrl + coverUrl + "?token=${ApplicationConfig().token}";
     }
   }
 
@@ -45,13 +47,20 @@ class File {
     String url = '${ApplicationConfig().serviceUrl}/video/file/$id/stream';
     String? token = ApplicationConfig().token;
     if (token != null){
+      return url += '?token=$token';
       Platform.isAndroid ? url += '?token=$token' : url += "%3ftoken%3d${token}";;
     }
 
     return url;
   }
   String getSubtitlesUrl(){
-    return '${ApplicationConfig().serviceUrl}/video/file/$id/subtitles';
+    return '${ApplicationConfig().serviceUrl}/video/file/$id/subtitles?token=${ApplicationConfig().token}';
+  }
+  String get videoPlayLink {
+    return '${ApplicationConfig().serviceUrl}/link/${id}/video/${ApplicationConfig().token}';
+  }
+  String get subtitlePlayLink {
+    return '${ApplicationConfig().serviceUrl}/link/${id}/subs/${ApplicationConfig().token}';
   }
   String getDurationText(){
 
