@@ -1,21 +1,33 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:youvideo/ui/home/tabs/tags/provider.dart';
+import 'package:youvideo/tag-list/provider.dart';
 import 'package:youvideo/ui/videos/wrap.dart';
 import 'package:youvideo/util/listview.dart';
 
-import '../../layout.dart';
 
-class TagsTabPage extends StatelessWidget {
+class TagListPage extends StatelessWidget {
+  static launch(BuildContext context) {
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (context) => TagListPage()));
+  }
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider<HomeTagsProvider>(
-        create: (_) => HomeTagsProvider(),
-        child: Consumer<HomeTagsProvider>(builder: (context, provider, child) {
+    return ChangeNotifierProvider<TagListProvider>(
+        create: (_) => TagListProvider(),
+        child: Consumer<TagListProvider>(builder: (context, provider, child) {
           var controller = createLoadMoreController(() => provider.loadMore());
           provider.loadData();
-          return BaseHomeLayout(
-            child:Container(
+          return Scaffold(
+            appBar: AppBar(
+              title: Text("Tags"),
+              leading: IconButton(
+                icon: Icon(Icons.arrow_back_rounded),
+                onPressed: () => Navigator.pop(context),
+              ),
+            ),
+            body:Container(
               child: RefreshIndicator(
                 color: Theme.of(context).colorScheme.primary,
                 onRefresh: () async {

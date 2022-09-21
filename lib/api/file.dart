@@ -32,6 +32,9 @@ class File {
     coverHeight = json['coverHeight'];
   }
   double get ratio {
+    if (coverHeight == 0) {
+      return 1;
+    }
     if (coverWidth == null || coverHeight == null) return 1;
     return coverWidth! / coverHeight!;
   }

@@ -2,7 +2,7 @@ import 'package:flutter/widgets.dart';
 import 'package:youvideo/api/history.dart';
 import 'package:youvideo/config.dart';
 
-class HomeHistoryListProvider extends ChangeNotifier {
+class HistoryListProvider extends ChangeNotifier {
   HistoryLoader loader = new HistoryLoader();
   Map<String,String> _getExtraParams() {
     Map<String,String> result = {

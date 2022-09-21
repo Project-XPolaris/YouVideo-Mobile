@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:youvideo/api/client.dart';
 import 'package:youvideo/api/tag.dart';
 
-class HomeTagsProvider extends ChangeNotifier {
+class TagListProvider extends ChangeNotifier {
   TagLoader loader = new TagLoader();
   loadData({force = false}) async {
     if (await loader.loadData(force: force)){

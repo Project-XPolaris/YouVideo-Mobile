@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:youvideo/ui/video/VideoPage.dart';
+import 'package:youvideo/ui/video/vertical.dart';
 import 'package:youvideo/ui/video/provider.dart';
 
 import '../components/FilesSection.dart';
@@ -66,7 +66,7 @@ class VideoHorizonPage extends StatelessWidget {
                                       .colorScheme
                                       .primaryContainer,
                                   child: Icon(
-                                    Icons.arrow_back,
+                                    Icons.arrow_back_rounded,
                                     color: Theme.of(context)
                                         .colorScheme
                                         .onPrimaryContainer,
@@ -121,12 +121,12 @@ class VideoHorizonPage extends StatelessWidget {
                                     videos: provider.getSameDirectoryVideo(),
                                     title: "Same directory",
                                     titleStyle:
-                                        TextStyle(fontWeight: FontWeight.w600),
+                                        TextStyle(),
                                   ),
                                 ),
                               )
                             : Container(),
-                        provider.entity != null
+                        provider.entity != null && provider.entityVideos.isNotEmpty
                             ? Container(
                                 margin: EdgeInsets.only(top: 32),
                                 child: Container(
@@ -136,7 +136,7 @@ class VideoHorizonPage extends StatelessWidget {
                                     videos: provider.entityVideos,
                                     title: "In entity",
                                     titleStyle:
-                                        TextStyle(fontWeight: FontWeight.w600),
+                                        TextStyle(),
                                   ),
                                 ),
                               )

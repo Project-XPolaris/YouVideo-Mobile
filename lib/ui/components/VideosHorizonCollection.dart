@@ -27,12 +27,12 @@ class VideosHorizonCollection extends StatelessWidget {
             width: 180,
             height: 180,
             child: CoverTitleGridItem(
-              placeholderColor: Theme.of(context).colorScheme.primary,
-              placeHolderIcon: Icon(Icons.videocam),
+              placeholderColor: Theme.of(context).colorScheme.secondaryContainer,
+              placeHolderIcon: Icon(Icons.videocam_rounded),
               title: video.getName(),
               metaContainerMagin: EdgeInsets.all(0),
               metaHeight: metaHeight,
-              failedColor: Theme.of(context).colorScheme.primary,
+              failedColor: Theme.of(context).colorScheme.secondaryContainer,
               failedIcon: Icons.videocam,
               imageUrl: video.files[0].getCoverUrl(),
               onTap: () {

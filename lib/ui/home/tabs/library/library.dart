@@ -18,6 +18,7 @@ class LibrariesTabPage extends StatelessWidget {
               provider.loadData();
               return BaseHomeLayout(
                 child: Container(
+                  margin: EdgeInsets.only(left: 16, right: 16),
                   child: RefreshIndicator(
                     color: Theme.of(context).colorScheme.primary,
                     onRefresh: () async {

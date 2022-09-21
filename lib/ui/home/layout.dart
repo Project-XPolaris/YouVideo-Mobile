@@ -24,10 +24,12 @@ class BaseHomeLayout extends StatelessWidget {
         NavigationBarItem(icon: Icon(Icons.home_rounded), label: "Home"),
         NavigationBarItem(icon: Icon(Icons.videocam_rounded), label: "Videos"),
         NavigationBarItem(icon: Icon(Icons.video_library_rounded), label: "Libraries"),
-        NavigationBarItem(icon: Icon(Icons.apps_rounded), label: "Entity"),
-        NavigationBarItem(icon: Icon(Icons.account_tree_rounded), label: "Meta"),
-        NavigationBarItem(icon: Icon(Icons.label_rounded), label: "Tags"),
-        NavigationBarItem(icon: Icon(Icons.history_rounded), label: "History")
+        NavigationBarItem(icon: Icon(Icons.category_rounded), label: "Category"),
+        NavigationBarItem(icon: Icon(Icons.person_rounded), label: "My"),
+        // NavigationBarItem(icon: Icon(Icons.apps_rounded), label: "Entity"),
+        // NavigationBarItem(icon: Icon(Icons.account_tree_rounded), label: "Meta"),
+        // NavigationBarItem(icon: Icon(Icons.label_rounded), label: "Tags"),
+        // NavigationBarItem(icon: Icon(Icons.history_rounded), label: "History")
       ],
       appbar: renderHomeAppBar(context, actions: this.extra),
       // navigationStyle: NavigationStyle(

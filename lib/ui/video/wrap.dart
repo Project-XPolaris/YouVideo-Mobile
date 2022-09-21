@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:youvideo/ui/components/ScreenWidthSelector.dart';
-import 'package:youvideo/ui/video/VideoPage.dart';
+import 'package:youvideo/ui/video/vertical.dart';
 import 'package:youvideo/ui/video/horizon.dart';
 
 import 'provider.dart';

@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:youvideo/ui/components/HistoryListHorizon.dart';
-import 'package:youvideo/ui/home/tabs/history/provider.dart';
 import 'package:youvideo/ui/video/wrap.dart';
 
+import 'provider.dart';
+
 class HistoryListTabPageHorizon extends StatelessWidget {
-  final HomeHistoryListProvider provider;
+  final HistoryListProvider provider;
 
   HistoryListTabPageHorizon({required this.provider});
 

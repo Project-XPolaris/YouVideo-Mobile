@@ -47,7 +47,7 @@ class TagsSection extends StatelessWidget {
                       builder: (BuildContext context) {
                         return Wrap(children: [
                           ListTile(
-                            leading: Icon(Icons.delete),
+                            leading: Icon(Icons.delete_rounded),
                             title: Text("Remove tag"),
                             onTap: () {
                                 onRemove?.call(tag);
@@ -82,7 +82,7 @@ class TagsSection extends StatelessWidget {
             },
             avatar: CircleAvatar(
               backgroundColor: Theme.of(context).colorScheme.primaryContainer,
-              child: Icon(Icons.add,color: Theme.of(context).colorScheme.onPrimaryContainer,),
+              child: Icon(Icons.add_rounded,color: Theme.of(context).colorScheme.onPrimaryContainer,size: 24,),
             ),
           )
         ],

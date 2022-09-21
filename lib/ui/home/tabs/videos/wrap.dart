@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:youvideo/ui/components/ScreenWidthSelector.dart';
 import 'package:youvideo/ui/home/tabs/videos/provider.dart';
-import 'package:youvideo/ui/home/tabs/videos/videos-horizon.dart';
-import 'package:youvideo/ui/home/tabs/videos/videos.dart';
+import 'package:youvideo/ui/home/tabs/videos/horizon.dart';
+import 'package:youvideo/ui/home/tabs/videos/vertical.dart';
 
 import '../../../components/GridViewModeMenu.dart';
 import '../../../components/VideoFilter.dart';

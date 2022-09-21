@@ -24,7 +24,7 @@ class VideoProvider extends ChangeNotifier {
     return _entityLoader.list.first;
   }
   List<Video> get entityVideos {
-    return entity?.videos ?? [];
+    return entity?.videos.where((element) => element.id != videoId).toList() ?? [];
   }
   Future<void> loadData() async {
     if (video != null) {

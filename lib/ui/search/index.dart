@@ -164,6 +164,12 @@ class _SearchPageState extends State<SearchPage> {
           return Scaffold(
             appBar: AppBar(
               elevation: 0,
+              leading: IconButton(
+                icon: Icon(Icons.arrow_back),
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+              ),
               title: Container(
                 height: 48,
                 width: double.infinity,

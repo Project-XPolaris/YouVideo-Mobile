@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:youvideo/entity-list/provider.dart';
 import 'package:youvideo/ui/components/EntityGridView.dart';
 import 'package:youvideo/ui/entity/wrap.dart';
-import 'package:youvideo/ui/home/tabs/entity/provider.dart';
 
 class HomeEntityHorizonView extends StatelessWidget {
   final HomeEntityProvider provider;

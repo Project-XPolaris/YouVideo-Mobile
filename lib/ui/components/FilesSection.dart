@@ -24,7 +24,6 @@ class FilesSection extends StatelessWidget {
             ...files.map((e) => Column(
                   children: [
                     ListTile(
-                      contentPadding: EdgeInsets.all(0),
                       onTap: () {
                         List<ActionItem> actions = [
                           ActionItem(
@@ -90,6 +89,8 @@ class FilesSection extends StatelessWidget {
                         ),
                       ),
                       trailing: Text(e.getDurationText()),
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(8)),
                     ),
                   ],
                 ))

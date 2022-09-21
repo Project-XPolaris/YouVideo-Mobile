@@ -27,11 +27,12 @@ class HomeTabPage extends StatelessWidget {
                 onRefresh: () async {
                   await provider.loadData(force: true);
                 },
+
                 child: ListView(
                   physics: AlwaysScrollableScrollPhysics(),
                   children: [
                     Container(
-                      height: 235,
+                      height: 180,
                       child: VideosHorizonCollection(
                         baseHeight: 160,
                         videos: provider.latestVideoLoader.list,

@@ -3,7 +3,7 @@ import 'package:youvideo/ui/entity/provider.dart';
 import 'package:youvideo/ui/videos/wrap.dart';
 
 import '../components/VideosHorizonCollection.dart';
-import '../video/VideoPage.dart';
+import '../video/vertical.dart';
 
 class EntityHorizonPage extends StatelessWidget {
   final EntityProvider provider;

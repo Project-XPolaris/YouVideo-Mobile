@@ -13,12 +13,14 @@ class VideoItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var baseWidth = 120.toDouble();
-    var height = baseWidth / coverRatio;
+    double ratio = 1;
+    ratio = coverRatio;
+    var height = baseWidth / ratio;
     if (height > 300) {
       height = 120;
     }
     return Padding(
-      padding: EdgeInsets.only(),
+      padding: EdgeInsets.only(left: 16,right: 16),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisAlignment: MainAxisAlignment.start,
@@ -29,6 +31,7 @@ class VideoItem extends StatelessWidget {
               onTap: onTap,
               width: baseWidth,
               height: height,
+              borderRadius: 8,
             ),
           ),
           Expanded(

@@ -19,7 +19,6 @@ class VideoListHorizon extends StatelessWidget {
       this.itemWidth = 180,
       this.directoryView = false})
       : super(key: key);
-
   @override
   Widget build(BuildContext context) {
     var controller = createLoadMoreController(onLoadMore);

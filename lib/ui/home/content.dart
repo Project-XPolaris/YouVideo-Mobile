@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:youvideo/ui/home/provider.dart';
-import 'package:youvideo/ui/home/tabs/entity/wrap.dart';
-import 'package:youvideo/ui/home/tabs/history/wrap.dart';
+import 'package:youvideo/ui/home/tabs/category/wrap.dart';
 import 'package:youvideo/ui/home/tabs/home/HomeTab.dart';
 import 'package:youvideo/ui/home/tabs/library/library.dart';
-import 'package:youvideo/ui/home/tabs/meta/wrap.dart';
-import 'package:youvideo/ui/home/tabs/tags/tags.dart';
+import 'package:youvideo/ui/home/tabs/my/wrap.dart';
 import 'package:youvideo/ui/home/tabs/videos/wrap.dart';
 
 class HomePageContent extends StatelessWidget {
@@ -20,10 +18,8 @@ class HomePageContent extends StatelessWidget {
           HomeTabPage(),
           VideosTabPageWrap(),
           LibrariesTabPage(),
-          HomeEntityWrap(),
-          HomeMetaWrap(),
-          TagsTabPage(),
-          HistoryTabPageWrap()
+          HomeCategoryWrap(),
+          HomeMyWrap(),
         ],
       ),
     );

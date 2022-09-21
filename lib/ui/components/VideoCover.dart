@@ -38,10 +38,11 @@ class VideoCover extends StatelessWidget {
         child: Container(
           width: width,
           height: height,
-          color: Theme.of(context).colorScheme.primary,
+          color: Theme.of(context).colorScheme.secondaryContainer,
           child: Center(
             child: Icon(
               Icons.videocam_rounded,
+              color: Theme.of(context).colorScheme.onSecondaryContainer,
             ),
           ),
         ),

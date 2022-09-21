@@ -1,14 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:youvideo/meta-list/provider.dart';
 import 'package:youvideo/ui/components/ScreenWidthSelector.dart';
-import 'package:youvideo/ui/home/tabs/meta/provider.dart';
 
-import '../../layout.dart';
 import 'horizon.dart';
 
-class HomeMetaWrap extends StatelessWidget {
-  const HomeMetaWrap({Key? key}) : super(key: key);
-
+class MetaListWrap extends StatelessWidget {
+  const MetaListWrap({Key? key}) : super(key: key);
+  static launch(BuildContext context) {
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (context) => MetaListWrap()));
+  }
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider<HomeMetaProvider>(
@@ -16,8 +20,17 @@ class HomeMetaWrap extends StatelessWidget {
         child:
         Consumer<HomeMetaProvider>(builder: (context, provider, child) {
           provider.loadData();
-          return BaseHomeLayout(
-            child: ScreenWidthSelector(
+          return Scaffold(
+            appBar: AppBar(
+              title: Text("Meta List"),
+              leading: IconButton(
+                icon: Icon(Icons.arrow_back_rounded),
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+              ),
+            ),
+            body: ScreenWidthSelector(
               verticalChild: HomeMetaHorizonView(
                 provider: provider,
               ),

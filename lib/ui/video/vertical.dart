@@ -55,12 +55,13 @@ class VideoPageVertical extends StatelessWidget {
                   )
                 ],
               ),
+              provider.infos.isNotEmpty?
               Container(
                 margin: EdgeInsets.only(top: 8, bottom: 8),
                 child: MetasSection(
                   metas: provider.infos,
                 ),
-              ),
+              ):Container(),
               TagsSection(
                 tags: provider.tagLoader.list,
                 onAdd: (tag) {

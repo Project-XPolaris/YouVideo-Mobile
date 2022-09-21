@@ -27,17 +27,18 @@ class VideoItemHorizon extends StatelessWidget {
     return Container(
       padding: padding,
       child: CoverTitleGridItem(
-          borderRadius: 4,
+          borderRadius: 8,
           metaHeight: 32,
-          metaContainerMagin: EdgeInsets.only(),
+          metaContainerMagin: EdgeInsets.only(top: 8),
           title: name,
           imageBoxFit: BoxFit.contain,
           placeHolderIcon: Icon(
-            Icons.videocam,
-            color: Theme.of(context).colorScheme.onPrimaryContainer,
+            Icons.videocam_rounded,
+            color: Theme.of(context).colorScheme.onSecondaryContainer,
             size: 48,
           ),
-          placeholderColor: Theme.of(context).colorScheme.primaryContainer,
+
+          placeholderColor: Theme.of(context).colorScheme.secondaryContainer,
           imageUrl: coverUrl,
           onTap: () {
             onTap?.call();

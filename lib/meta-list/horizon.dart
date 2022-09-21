@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:youvideo/api/meta.dart';
+import 'package:youvideo/meta-list/provider.dart';
 import 'package:youvideo/ui/components/MetaFilter.dart';
-import 'package:youvideo/ui/home/tabs/meta/provider.dart';
 import 'package:youvideo/ui/videos/wrap.dart';
 import 'package:youvideo/util/listview.dart';
 
@@ -27,6 +27,7 @@ class HomeMetaHorizonView extends StatelessWidget {
         return Stack(
           children: [
             Container(
+              padding: EdgeInsets.only(left: 16,right: 16),
               child: RefreshIndicator(
                 onRefresh: () async {
                   await provider.loadData(force: true);
@@ -43,6 +44,9 @@ class HomeMetaHorizonView extends StatelessWidget {
                         },
                         title: Text(meta.value ?? ""),
                         subtitle: Text(meta.key ?? ""),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(8),
+                        ),
                       );
                     },
                   ),
