@@ -20,7 +20,7 @@ class EntityGridView extends StatelessWidget {
         children: this.entities.map((entity) {
           return EntityGridItem(entity: entity,onTap: onItemClick,);
         }).toList(),
-        itemWidth: 180,
+        itemWidth: 160,
       ),
     );
   }

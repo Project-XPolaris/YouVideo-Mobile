@@ -7,6 +7,7 @@ import 'package:youvideo/ui/library/provider.dart';
 
 import '../components/GridViewModeMenu.dart';
 import 'content.dart';
+import 'tabs/entities/list-wrap.dart';
 import 'tabs/folders/folders.dart';
 import 'tabs/videos/videos.dart';
 
@@ -18,7 +19,7 @@ class LibraryLayout extends StatelessWidget {
     final provider = Provider.of<LibraryProvider>(context);
     return ViewportSelector(
       verticalChild: DefaultTabController(
-        length: 2,
+        length: 3,
         child: Scaffold(
           appBar: AppBar(
             title: Text(provider.title),
@@ -26,7 +27,14 @@ class LibraryLayout extends StatelessWidget {
               tabs: [
                 Tab(icon: Icon(Icons.movie_rounded)),
                 Tab(icon: Icon(Icons.folder_rounded)),
+                Tab(icon: Icon(Icons.apps_rounded)),
               ],
+            ),
+            leading: IconButton(
+              icon: Icon(Icons.arrow_back),
+              onPressed: () {
+                Navigator.pop(context);
+              },
             ),
           ),
           body: Container(
@@ -40,7 +48,8 @@ class LibraryLayout extends StatelessWidget {
                   LibraryVideos(),
                   LibraryFolders(
                     provider: provider,
-                  )
+                  ),
+                  EntityListView()
                 ],
               ),
             ),
@@ -55,11 +64,13 @@ class LibraryLayout extends StatelessWidget {
               NavigationBarItem(
                   icon: Icon(Icons.movie_rounded), label: "Videos"),
               NavigationBarItem(
-                  icon: Icon(Icons.folder_rounded), label: "Folders")
+                  icon: Icon(Icons.folder_rounded), label: "Folders"),
+              NavigationBarItem(
+                  icon: Icon(Icons.apps_rounded), label: "Entities")
             ],
             tabIndex: provider.index,
             onTabIndexChange: provider.setIndex,
-            navHeight: 160,
+            navHeight: 220,
             action: Expanded(
                 child: Column(
               children: [

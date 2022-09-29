@@ -46,12 +46,8 @@ abstract class ApiDataLoader<T> {
     var response = await fetchData(params);
     list.addAll(response.result);
     hasMore = response.getPage() * response.getPageSize() < response.getTotal();
-    print("hasMore: $hasMore");
     page = response.getPage();
     pageSize = response.getPageSize();
-    print("page: $page");
-    print("pageSize: $pageSize");
-    print("total: ${response.getTotal()}");
     isLoading = false;
     return true;
   }

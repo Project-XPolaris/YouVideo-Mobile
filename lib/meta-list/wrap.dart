@@ -20,23 +20,12 @@ class MetaListWrap extends StatelessWidget {
         child:
         Consumer<HomeMetaProvider>(builder: (context, provider, child) {
           provider.loadData();
-          return Scaffold(
-            appBar: AppBar(
-              title: Text("Meta List"),
-              leading: IconButton(
-                icon: Icon(Icons.arrow_back_rounded),
-                onPressed: () {
-                  Navigator.pop(context);
-                },
-              ),
+          return ScreenWidthSelector(
+            verticalChild: HomeMetaHorizonView(
+              provider: provider,
             ),
-            body: ScreenWidthSelector(
-              verticalChild: HomeMetaHorizonView(
-                provider: provider,
-              ),
-              horizonChild: HomeMetaHorizonView(
-                provider: provider,
-              ),
+            horizonChild: HomeMetaHorizonView(
+              provider: provider,
             ),
           );
         }));

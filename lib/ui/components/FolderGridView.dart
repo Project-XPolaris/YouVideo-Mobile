@@ -22,26 +22,23 @@ class FolderGridView extends StatelessWidget {
     return ResponsiveGridView(
         controller: controller,
         children: folders.map((folder) {
-          return Center(
-            child: SizedBox(
-              child: CoverTitleGridItem(
-                title: folder.name,
-                imageUrl: folder.cover,
-                loadingCoverColor: Theme.of(context).colorScheme.primary,
-                placeholderColor: Theme.of(context).colorScheme.primary,
-                placeHolderIcon: Icon(Icons.folder, color: Colors.white,),
-                borderRadius: 6,
-                coverWidth: 120 * folder.coverRatio,
-                coverHeight: 120,
-                imageBoxFit: BoxFit.contain,
-                onTap: (){
-                  VideosPageWrap.launchWithFolderDetail(context, folder);
-                },
-              ),
-            ),
+          return CoverTitleGridItem(
+            title: folder.name,
+            imageUrl: folder.cover,
+            loadingCoverColor: Theme.of(context).colorScheme.secondaryContainer,
+            placeholderColor: Theme.of(context).colorScheme.secondaryContainer,
+            placeHolderIcon: Icon(Icons.folder, color: Theme.of(context).colorScheme.onSecondaryContainer,size: 48,),
+            borderRadius: 6,
+            coverWidth: 120 * folder.coverRatio,
+            coverHeight: 120,
+            imageAlignment: Alignment.bottomCenter,
+            imageBoxFit: BoxFit.contain,
+            onTap: (){
+              VideosPageWrap.launchWithFolderDetail(context, folder);
+            },
           );
         }).toList(),
-        itemWidth: 200
+        itemWidth: 180
     );
   }
 }

@@ -5,7 +5,7 @@ import 'package:youvideo/api/meta.dart';
 import 'package:youvideo/ui/components/ScreenWidthSelector.dart';
 import 'package:youvideo/ui/videos/horizon.dart';
 import 'package:youvideo/ui/videos/provider.dart';
-import 'package:youvideo/ui/videos/videos.dart';
+import 'package:youvideo/ui/videos/vertical.dart';
 
 class VideosPageWrap extends StatelessWidget {
   final Map<String,String> filter;

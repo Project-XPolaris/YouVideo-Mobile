@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:youvideo/api/file.dart';
 import 'package:youvideo/ui/components/VideoFilter.dart';
 import 'package:youvideo/ui/components/VideoItem.dart';
+import 'package:youvideo/ui/components/VideoList.dart';
 import 'package:youvideo/ui/videos/provider.dart';
 import 'package:youvideo/util/listview.dart';
 
@@ -17,41 +18,27 @@ class VideosVerticalPage extends StatelessWidget {
     var controller = createLoadMoreController(() => provider.loadMore());
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Color(0x1F1F1F),
         title: Text(title),
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back),
+          onPressed: () {
+            Navigator.pop(context);
+          },
+        ),
       ),
       body: Container(
         child: RefreshIndicator(
           onRefresh: () async {
             await provider.loadData(force: true);
           },
-          child: ListView(
-            controller: controller,
-            physics: AlwaysScrollableScrollPhysics(),
-            children: provider.loader.list.map((video) {
-              File file = video.files.first;
-              return Padding(
-                padding:
-                EdgeInsets.only(right: 4, left: 4, top: 8, bottom: 8),
-                child: VideoItem(
-                  coverRatio: file.ratio,
-                  coverUrl: file.getCoverUrl(),
-                  name: video.getName(),
-                  onTap: () {
-                    var id = video.id;
-                    if (id != null) {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => VideoPageWrap(
-                              videoId: id,
-                            )),
-                      );
-                    }
-                  },
-                ),
-              );
-            }).toList(),
+          child: VideoList(
+            videos: provider.loader.list,
+            onLoadMore: () {
+              controller.loadMore();
+            },
+            onItemClick: (video) {
+              VideoPageWrap.Launch(context, video.id);
+            },
           ),
         ),
       ),

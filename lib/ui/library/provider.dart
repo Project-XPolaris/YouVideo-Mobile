@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:youvideo/api/entity.dart';
 import 'package:youvideo/api/folder.dart';
 import 'package:youvideo/api/video.dart';
 import 'package:youvideo/ui/components/VideoFilter.dart';
@@ -14,6 +15,7 @@ class LibraryProvider extends ChangeNotifier {
   final String title;
   VideoLoader loader = new VideoLoader();
   FolderLoader folderLoader = new FolderLoader();
+  EntitiesLoader entityLoader = new EntitiesLoader();
   String GridViewMode = ApplicationConfig().config.LibraryViewGridViewType;
   Map<String, String> _getVideosExtraParams() {
     Map<String, String> result = {
@@ -34,6 +36,7 @@ class LibraryProvider extends ChangeNotifier {
     first = false;
     await loadVideos();
     await loadDirectory();
+    await loadEntity();
     notifyListeners();
   }
 
@@ -52,6 +55,14 @@ class LibraryProvider extends ChangeNotifier {
       notifyListeners();
     }
   }
+  loadEntity({force = false}) async {
+    await entityLoader.loadData(
+        extraFilter: {"library": libraryId.toString(), "pageSize":"50"},
+        force: force);
+    if (force) {
+      notifyListeners();
+    }
+  }
 
   loadMoreVideo() async {
     if (await loader.loadMore(extraFilter: _getVideosExtraParams())) {
@@ -61,6 +72,13 @@ class LibraryProvider extends ChangeNotifier {
 
   loadMoreFolders() async {
     if (await folderLoader.loadMore(extraFilter: {
+      "library": libraryId.toString(),
+    })) {
+      notifyListeners();
+    }
+  }
+  loadMoreEntity() async {
+    if (await entityLoader.loadMore(extraFilter: {
       "library": libraryId.toString(),
     })) {
       notifyListeners();

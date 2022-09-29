@@ -17,17 +17,13 @@ class MetasSection extends StatelessWidget {
         children: [
           ...metas.map((meta) {
             return Padding(
-              padding: const EdgeInsets.only(right: 8),
-              child: GestureDetector(
-                child: ActionChip(
-                  label: Text(meta.value ?? ""),
-                  onPressed: () {
-                    VideosPageWrap.launchWithMetaVideo(context, meta);
-                  },
-                  avatar: CircleAvatar(
-                    child: Text("#"),
-                  ),
-                ),
+              padding: const EdgeInsets.only(right: 8,bottom: 8),
+              child: ActionChip(
+                label: Text(meta.value ?? ""),
+                onPressed: () {
+                  VideosPageWrap.launchWithMetaVideo(context, meta);
+                },
+                avatar: Text("#"),
               ),
             );
           }).toList(),

@@ -22,14 +22,15 @@ class FolderListView extends StatelessWidget {
         ...folders.map((folder) {
           return Container(
             margin: EdgeInsets.only(bottom: 8),
+            alignment: Alignment.topRight,
             child: CoverTitleListItem(
               title: folder.name,
               metaContainerMagin: EdgeInsets.only(left: 16),
               imageUrl: folder.cover,
               loadingCoverColor: Theme.of(context).colorScheme.primary,
               placeholderColor: Theme.of(context).colorScheme.primary,
-              coverHeight: folder.coverHeight,
-              coverWidth: 120 * 4 / 3,
+              coverHeight: 120 * folder.coverHeightRatio,
+              coverWidth: 120,
               borderRadius: 6,
               imageBoxFit: BoxFit.contain,
               onTap: (){

@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:youvideo/entity-list/provider.dart';
 import 'package:youvideo/ui/components/ScreenWidthSelector.dart';
 
+import '../ui/components/EntityFilter.dart';
 import 'horizon.dart';
 
 
@@ -39,6 +40,22 @@ class EntityListWrap extends StatelessWidget {
               horizonChild: HomeEntityHorizonView(
                 provider: provider,
               ),
+            ),
+            floatingActionButton: FloatingActionButton(
+              onPressed: () {
+                showModalBottomSheet(
+                    context: context,
+                    builder: (ctx) {
+                      return EntityFilterView(
+                        filter: provider.filter,
+                        onChange: (filter) {
+                          provider.filter = filter;
+                          provider.loadData(force: true);
+                        },
+                      );
+                    });
+              },
+              child: Icon(Icons.filter_list),
             ),
           );
         }));

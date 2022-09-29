@@ -21,10 +21,11 @@ class VideosHorizonCollection extends StatelessWidget {
     return HorizonCollection(
         children: videos.map((video) {
           var metaHeight = 24.0;
+          var width = (180 - 24) *  video.files[0].ratio;
           return Container(
             padding: EdgeInsets.all(8),
             margin: EdgeInsets.only(right: 16),
-            width: 180,
+            width: width,
             height: 180,
             child: CoverTitleGridItem(
               placeholderColor: Theme.of(context).colorScheme.secondaryContainer,

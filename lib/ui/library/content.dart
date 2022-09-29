@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:youvideo/ui/library/tabs/entities/entities.dart';
+import 'package:youvideo/ui/library/tabs/entities/list-wrap.dart';
 
 import 'provider.dart';
 import 'tabs/folders/folders.dart';
@@ -18,6 +20,8 @@ class LibraryContent extends StatelessWidget {
         return LibraryFolders(
           provider: provider,
         );
+      case 2:
+        return EntityListView();
     }
     return Container();
   }

@@ -23,7 +23,6 @@ class VideosProvider extends ChangeNotifier {
     return result;
   }
   loadData({force = false}) async {
-    print("loadData");
     if (await loader.loadData(extraFilter: _getVideosExtraParams(),force: force)){
       notifyListeners();
     }

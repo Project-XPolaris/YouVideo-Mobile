@@ -29,7 +29,14 @@ class VideoPageVertical extends StatelessWidget {
                   background: HeaderCover(
                     url: provider.coverUrl,
                   )),
+              leading: IconButton(
+                icon: Icon(Icons.arrow_back),
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+              ),
             ),
+
           ];
         },
         body: Container(

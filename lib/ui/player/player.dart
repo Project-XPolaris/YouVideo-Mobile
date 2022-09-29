@@ -33,7 +33,6 @@ class _PlayerViewState extends State<PlayerView> {
     super.dispose();
   }
   Future<void> initializePlayer() async {
-    print(widget.file.videoPlayLink);
     _videoPlayerController1 =
         VideoPlayerController.network(widget.file.videoPlayLink);
     await Future.wait([
@@ -65,7 +64,7 @@ class _PlayerViewState extends State<PlayerView> {
       ],
 
 
-      subtitle: Subtitles(subtitles),
+      // subtitle: Subtitles(subtitles),
       subtitleBuilder: (context, dynamic subtitle) => Container(
         padding: const EdgeInsets.all(10.0),
         child: subtitle is InlineSpan

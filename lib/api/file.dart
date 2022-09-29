@@ -4,7 +4,20 @@ import 'package:filesize/filesize.dart';
 import 'package:youvideo/util/format.dart';
 
 import '../config.dart';
-
+class Subtitles {
+  int? id;
+  String? label;
+  Subtitles.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    label = json['label'];
+  }
+  String get displayLabel {
+    if (this.label == null || this.label == "") {
+      return "default";
+    }
+    return this.label!;
+  }
+}
 class File {
   int? id;
   String? cover;
@@ -14,7 +27,7 @@ class File {
   int? size;
   String? main_video_codec;
   String? main_audio_codec;
-  String? subtitles;
+  List<Subtitles>? subtitles;
   int? coverWidth;
   int? coverHeight;
 
@@ -27,9 +40,11 @@ class File {
     size = json['size'];
     main_audio_codec = json['main_audio_codec'];
     main_video_codec = json['main_video_codec'];
-    subtitles = json['subtitles'];
     coverWidth = json['coverWidth'];
     coverHeight = json['coverHeight'];
+    if (json.containsKey("subtitles")){
+      subtitles = List<Subtitles>.from(json['subtitles'].map((it) => Subtitles.fromJson(it)).toList());
+    }
   }
   double get ratio {
     if (coverHeight == 0) {
@@ -60,10 +75,13 @@ class File {
     return '${ApplicationConfig().serviceUrl}/video/file/$id/subtitles?token=${ApplicationConfig().token}';
   }
   String get videoPlayLink {
-    return '${ApplicationConfig().serviceUrl}/link/${id}/video/${ApplicationConfig().token}';
+    return '${ApplicationConfig().serviceUrl}/link/${id}/video/${ApplicationConfig().token}/a';
   }
   String get subtitlePlayLink {
-    return '${ApplicationConfig().serviceUrl}/link/${id}/subs/${ApplicationConfig().token}';
+    return '${ApplicationConfig().serviceUrl}/link/${id}/subs/${ApplicationConfig().token}/a';
+  }
+  String getSubtitlePlayLinkWithSubId(int subId) {
+    return '${ApplicationConfig().serviceUrl}/link/${id}/subs/${ApplicationConfig().token}/${subId}';
   }
   String getDurationText(){
 

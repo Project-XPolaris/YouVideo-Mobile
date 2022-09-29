@@ -8,6 +8,8 @@ class ConfigData {
   @JsonKey(required: true)
   String HomeVideosGridViewType = "Medium";
   @JsonKey(required: true)
+  String HomeVideosLayout = "Default";
+  @JsonKey(required: true)
   String LibraryViewGridViewType = "Medium";
 
   factory ConfigData.fromJson(Map<String, dynamic> json) => _$ConfigDataFromJson(json);
@@ -15,6 +17,7 @@ class ConfigData {
   ConfigData.initNew(){
     HomeVideosGridViewType = "Medium";
     LibraryViewGridViewType = "Medium";
+    HomeVideosLayout = "Default";
   }
   ConfigData();
 }

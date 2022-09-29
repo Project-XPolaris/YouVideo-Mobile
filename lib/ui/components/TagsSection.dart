@@ -64,7 +64,6 @@ class TagsSection extends StatelessWidget {
             );
           }).toList(),
           ActionChip(
-            backgroundColor: Theme.of(context).colorScheme.secondaryContainer,
             label: Text("Add"),
             onPressed: () {
               showModalBottomSheet(
@@ -80,10 +79,7 @@ class TagsSection extends StatelessWidget {
                   isScrollControlled: true,
                   useRootNavigator: true);
             },
-            avatar: CircleAvatar(
-              backgroundColor: Theme.of(context).colorScheme.primaryContainer,
-              child: Icon(Icons.add_rounded,color: Theme.of(context).colorScheme.onPrimaryContainer,size: 24,),
-            ),
+            avatar: Icon(Icons.add_rounded,color: Theme.of(context).colorScheme.onPrimaryContainer),
           )
         ],
       ),

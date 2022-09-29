@@ -2,11 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:youvideo/ui/components/ScreenWidthSelector.dart';
 import 'package:youvideo/ui/home/tabs/videos/provider.dart';
-import 'package:youvideo/ui/home/tabs/videos/horizon.dart';
-import 'package:youvideo/ui/home/tabs/videos/vertical.dart';
 
 import '../../../components/GridViewModeMenu.dart';
 import '../../../components/VideoFilter.dart';
+import '../../../components/VideoList.dart';
+import '../../../components/VideoListHorizon.dart';
+import '../../../video/wrap.dart';
 import '../../layout.dart';
 
 class VideosTabPageWrap extends StatelessWidget {
@@ -34,9 +35,53 @@ class VideosTabPageWrap extends StatelessWidget {
               return BaseHomeLayout(
                 child: Scaffold(
                   key: _scaffoldKey,
-                  body: ScreenWidthSelector(
-                    verticalChild: VideosTabPage(provider: provider),
-                    horizonChild: VideosTabPageHorizon(provider: provider),
+                  body: Container(
+                    child: RefreshIndicator(
+                      color: Theme.of(context).colorScheme.primary,
+                      onRefresh: () async {
+                        await provider.loadData(force: true);
+                      },
+                      child: ScreenWidthSelector(
+                        verticalChild: Container(
+                          child: RefreshIndicator(
+                            onRefresh: () async {
+                              await provider.loadData(force: true);
+                            },
+                            child: VideoList(
+                              videos: provider.loader.list,
+                              onItemClick: (video) {
+                                var id = video.id;
+                                if (id != null) {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => VideoPageWrap(
+                                          videoId: id,
+                                        )),
+                                  );
+                                }
+                              },
+                              onLoadMore: () {
+                                if (provider.filter.random) {
+                                  return;
+                                }
+                                provider.loadMore();
+                              },
+                            ),
+                          ),
+                        ),
+                        horizonChild: VideoListHorizon(
+                          videos: provider.loader.list,
+                          onLoadMore: () {
+                            provider.loadMore();
+                          },
+                          onItemClick: (video) {
+                            VideoPageWrap.Launch(context, video.id);
+                          },
+                          itemWidth: provider.gridItemWidth,
+                        ),
+                      ),
+                    ),
                   ),
                 ),
                 extra: [
@@ -49,7 +94,6 @@ class VideosTabPageWrap extends StatelessWidget {
                       },
                       icon: Icon(Icons.filter_list_rounded)),
                   Container(
-                      margin: EdgeInsets.only(top: 8),
                       child: GirdViewModeMenu(
                         onModeChange: (String gridViewMode) {
                           provider.updateGridViewType(gridViewMode);

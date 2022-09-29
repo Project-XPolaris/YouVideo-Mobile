@@ -11,20 +11,19 @@ class EntityGridItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: CoverTitleGridItem(
-          metaHeight: 32,
-          metaContainerMagin: EdgeInsets.only(),
-          title: entity.displayName,
-          imageUrl: entity.coverUrl,
-          borderRadius: 8,
-          placeholderColor: Theme.of(context).colorScheme.primary,
-          placeHolderIcon: Icon(Icons.videocam),
-          failedIcon: Icons.videocam,
-          failedColor: Theme.of(context).colorScheme.primary,
-          onTap: () {
-            onTap?.call(entity);
-          }),
-    );
+    return CoverTitleGridItem(
+        metaHeight: 32,
+        metaContainerMagin: EdgeInsets.only(),
+        title: entity.displayName,
+        imageUrl: entity.coverUrl,
+        borderRadius: 8,
+        placeholderColor: Theme.of(context).colorScheme.secondaryContainer,
+        placeHolderIcon: Icon(Icons.videocam,color: Theme.of(context).colorScheme.onSecondaryContainer,size: 48,),
+        failedIcon: Icons.videocam,
+        imageAlignment: Alignment.bottomCenter,
+        failedColor: Theme.of(context).colorScheme.secondaryContainer,
+        onTap: () {
+          onTap?.call(entity);
+        });
   }
 }

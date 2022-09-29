@@ -14,7 +14,6 @@ class VideoHorizonPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print(provider.tagLoader.list);
     return Scaffold(
       body: Container(
         child: Row(

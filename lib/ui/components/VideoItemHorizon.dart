@@ -27,6 +27,7 @@ class VideoItemHorizon extends StatelessWidget {
     return Container(
       padding: padding,
       child: CoverTitleGridItem(
+          imageAlignment: Alignment.bottomCenter,
           borderRadius: 8,
           metaHeight: 32,
           metaContainerMagin: EdgeInsets.only(top: 8),

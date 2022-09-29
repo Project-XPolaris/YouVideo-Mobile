@@ -13,6 +13,17 @@ class HomeMetaHorizonView extends StatelessWidget {
   Widget build(BuildContext context) {
     var _controller = createLoadMoreController(provider.loadMore);
     return Scaffold(
+      appBar: AppBar(
+        title: Text("Meta"),
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back),
+          onPressed: () {
+            Navigator.pop(context);
+          },
+        ),
+        actions: <Widget>[Container()],
+
+      ),
       endDrawer: Drawer(
         child:MetaFilterView(
           filter: provider.metaFilter,

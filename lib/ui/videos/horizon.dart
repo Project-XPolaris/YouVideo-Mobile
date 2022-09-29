@@ -16,6 +16,12 @@ class VideosHorizonPage extends StatelessWidget {
       appBar: AppBar(
         backgroundColor: Color(0x1F1F1F),
         title: Text(title),
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back),
+          onPressed: () {
+            Navigator.pop(context);
+          },
+        ),
       ),
       body: Container(
         child: RefreshIndicator(
