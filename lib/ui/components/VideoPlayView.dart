@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:youvideo/api/client.dart';
 import 'package:youvideo/ui/video/vertical.dart';
 
 import '../../api/file.dart';
@@ -122,26 +123,30 @@ class _VideoPlayViewState extends State<VideoPlayView> {
                             ),
                             onPressed: () {
                               Navigator.pop(context);
+                              ApiClient()
+                                  .createPlayHistory(widget.file.videoId!);
                               if (Platform.isAndroid) {
                                 MXPlayerPlugin plugin = MXPlayerPlugin();
-                                String playUrl = widget.file.getStreamUrl();
+                                String playUrl = widget.file.videoPlayLink;
                                 if (this.subId == null) {
                                   plugin.play(playUrl);
                                 } else {
                                   plugin.playWithSubtitles(
-                                      playUrl, widget.file.getSubtitlePlayLinkWithSubId(subId!));
+                                      playUrl,
+                                      widget.file.getSubtitlePlayLinkWithSubId(
+                                          subId!));
                                 }
                               }
                               if (Platform.isIOS) {
                                 String _url =
                                     "vlc-x-callback://x-callback-url/stream?url=${widget.file.videoPlayLink}";
                                 if (subId != null) {
-                                  _url += "&sub=${widget.file.getSubtitlePlayLinkWithSubId(subId!)}";
+                                  _url +=
+                                      "&sub=${widget.file.getSubtitlePlayLinkWithSubId(subId!)}";
                                 }
-                                void _launchURL() async =>
-                                    await canLaunch(_url)
-                                        ? await launch(_url)
-                                        : throw 'Could not launch $_url';
+                                void _launchURL() async => await canLaunch(_url)
+                                    ? await launch(_url)
+                                    : throw 'Could not launch $_url';
                                 _launchURL();
                               }
                             },

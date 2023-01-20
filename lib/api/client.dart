@@ -5,6 +5,7 @@ import 'package:youvideo/api/history.dart';
 import 'package:youvideo/api/info.dart';
 import 'package:youvideo/api/library.dart';
 import 'package:youvideo/api/meta.dart';
+import 'package:youvideo/api/search.dart';
 import 'package:youvideo/api/tag.dart';
 import 'package:youvideo/api/user_auth_response.dart';
 import 'package:youvideo/api/user_token.dart';
@@ -33,45 +34,51 @@ class ApiClient {
     return _instance;
   }
 
-  Future<ListResponseWrap<Video>> fetchVideoList(
+  Future<BaseResponse<ListResponseWrap<Video>>> fetchVideoList(
       Map<String, String> params) async {
     var response = await _dio.get("/videos", queryParameters: params);
-    ListResponseWrap<Video> responseBody = ListResponseWrap.fromJson(
-        response.data, (data) => Video.fromJson(data));
-    return responseBody;
+    return BaseResponse<ListResponseWrap<Video>>.fromJson(
+        response.data,
+        (raw) => ListResponseWrap<Video>.fromJson(
+            raw, (data) => Video.fromJson(data)));
   }
 
-  Future<ListResponseWrap<Tag>> fetchTagList(Map<String, String> params) async {
+  Future<BaseResponse<ListResponseWrap<Tag>>> fetchTagList(
+      Map<String, String> params) async {
     var response = await _dio.get("/tag", queryParameters: params);
-    ListResponseWrap<Tag> responseBody =
-        ListResponseWrap.fromJson(response.data, (data) => Tag.fromJson(data));
-    return responseBody;
+    return BaseResponse<ListResponseWrap<Tag>>.fromJson(
+        response.data,
+        (raw) =>
+            ListResponseWrap<Tag>.fromJson(raw, (data) => Tag.fromJson(data)));
   }
 
-  Future<ListResponseWrap<Library>> fetchLibraryList(
+  Future<BaseResponse<ListResponseWrap<Library>>> fetchLibraryList(
       Map<String, String> params) async {
     var response = await _dio.get("/library", queryParameters: params);
-    ListResponseWrap<Library> responseBody = ListResponseWrap.fromJson(
-        response.data, (data) => Library.fromJson(data));
-    return responseBody;
+    return BaseResponse<ListResponseWrap<Library>>.fromJson(
+        response.data,
+        (raw) => ListResponseWrap<Library>.fromJson(
+            raw, (data) => Library.fromJson(data)));
   }
 
-  Future<ListResponseWrap<History>> fetchHistoryList(
+  Future<BaseResponse<ListResponseWrap<History>>> fetchHistoryList(
       Map<String, String> params) async {
     var response = await _dio.get("/history", queryParameters: params);
-    ListResponseWrap<History> responseBody = ListResponseWrap.fromJson(
-        response.data, (data) => History.fromJson(data));
-    return responseBody;
+    return BaseResponse<ListResponseWrap<History>>.fromJson(
+        response.data,
+        (raw) => ListResponseWrap<History>.fromJson(
+            raw, (data) => History.fromJson(data)));
   }
 
-  Future<Video> fetchVideo(int id) async {
+  Future<BaseResponse<Video>> fetchVideo(int id) async {
     var response = await _dio.get("/video/$id");
-    return Video.fromJson(response.data);
+    return BaseResponse<Video>.fromJson(
+        response.data, (data) => Video.fromJson(data));
   }
 
-  Future<ListResponseWrap<Folder>> fetchFolder(Map<String, String> queryParams) async {
-    var response = await _dio.get("/folders",
-        queryParameters: queryParams);
+  Future<ListResponseWrap<Folder>> fetchFolder(
+      Map<String, String> queryParams) async {
+    var response = await _dio.get("/folders", queryParameters: queryParams);
     ListResponseWrap<Folder> responseBody = ListResponseWrap.fromJson(
         response.data, (data) => Folder.fromJson(data));
     return responseBody;
@@ -112,22 +119,29 @@ class ApiClient {
         await _dio.get("/user/auth", queryParameters: {"token": token});
     return UserToken.fromJson(response.data);
   }
-  Future<ListResponseWrap<Entity>> fetchEntityList(
+
+  Future<BaseResponse<ListResponseWrap<Entity>>> fetchEntityList(
       Map<String, String> params) async {
     var response = await _dio.get("/entities", queryParameters: params);
-    ListResponseWrap<Entity> responseBody = ListResponseWrap.fromJson(
-        response.data, (data) => Entity.fromJson(data));
+    BaseResponse<ListResponseWrap<Entity>> responseBody = BaseResponse.fromJson(
+        response.data,
+        (rawData) => ListResponseWrap<Entity>.fromJson(
+            rawData, (data) => Entity.fromJson(data)));
     return responseBody;
   }
-  Future<ListResponseWrap<Meta>> fetchMetaList(
+
+  Future<BaseResponse<ListResponseWrap<Meta>>> fetchMetaList(
       Map<String, String> params) async {
     var response = await _dio.get("/meta", queryParameters: params);
-    ListResponseWrap<Meta> responseBody = ListResponseWrap.fromJson(
-        response.data, (data) => Meta.fromJson(data));
-    return responseBody;
+    return BaseResponse<ListResponseWrap<Meta>>.fromJson(
+        response.data,
+        (raw) => ListResponseWrap<Meta>.fromJson(
+            raw, (data) => Meta.fromJson(data)));
   }
+
   Future<List<CC>> fetchCC(int fileId) async {
-    var response = await _dio.get("/link/${fileId}/cc/${ApplicationConfig().token}");
+    var response =
+        await _dio.get("/link/${fileId}/cc/${ApplicationConfig().token}");
     List<CC> data = [];
     List<dynamic> subs = response.data["subs"] as List<dynamic>;
     for (var sub in subs) {
@@ -135,5 +149,22 @@ class ApiClient {
     }
     return data;
   }
+
+  Future<BaseResponse<Entity>> fetchEntityById(int id) async {
+    var response = await _dio.get("/entity/$id");
+    return BaseResponse<Entity>.fromJson(
+        response.data, (raw) => Entity.fromJson(raw));
+  }
+
+  Future<SearchResult> search(String key) async {
+    var response = await _dio.get("/search", queryParameters: {"q": key});
+    return SearchResult.fromJson(response.data);
+  }
+
+  Future<ListResponseWrap<void>> createPlayHistory(int videoId) async {
+    var response = await _dio.post("/history", data: {"videoId": videoId});
+    return ListResponseWrap.fromJson(response.data, (data) => null);
+  }
+
   ApiClient._internal();
 }

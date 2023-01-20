@@ -8,7 +8,9 @@ import 'package:youvideo/ui/home/tabs/videos/wrap.dart';
 
 class HomePageContent extends StatelessWidget {
   final HomeProvider provider;
-  const HomePageContent({Key? key,required this.provider}) : super(key: key);
+
+  const HomePageContent({Key? key, required this.provider}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return Container(

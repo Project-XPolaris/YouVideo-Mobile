@@ -4,25 +4,24 @@ import 'package:youvideo/ui/components/VideoFilter.dart';
 import 'package:youvideo/ui/library/provider.dart';
 import 'package:youvideo/ui/library/tabs/videos/list-wrap.dart';
 
-import '../../layout.dart';
-
 class LibraryVideos extends StatelessWidget {
-
   LibraryVideos();
 
   @override
   Widget build(BuildContext context) {
     final provider = Provider.of<LibraryProvider>(context);
     return Scaffold(
-      endDrawer:MediaQuery.of(context).size.width > 600? Drawer(
-        child: VideoFilterView(
-          filter: provider.filter,
-          onChange: (filter) {
-            provider.filter = filter;
-            provider.loadVideos(force: true);
-          },
-        ),
-      ):null,
+      endDrawer: MediaQuery.of(context).size.width > 600
+          ? Drawer(
+              child: VideoFilterView(
+                filter: provider.filter,
+                onChange: (filter) {
+                  provider.filter = filter;
+                  provider.loadVideos(force: true);
+                },
+              ),
+            )
+          : null,
       body: Builder(builder: (context) {
         return Stack(
           children: [

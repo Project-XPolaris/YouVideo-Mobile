@@ -1,12 +1,9 @@
 class UserToken {
-   bool? success;
-   String? uid;
-   String? username;
+  bool? success;
+  String? uid;
+  String? username;
 
-  UserToken({
-      this.success,
-      this.uid,
-      this.username});
+  UserToken({this.success, this.uid, this.username});
 
   UserToken.fromJson(dynamic json) {
     success = json["success"];

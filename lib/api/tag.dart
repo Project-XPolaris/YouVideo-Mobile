@@ -10,11 +10,12 @@ class Tag {
     id = json['id'];
     name = json['name'];
   }
-
 }
-class TagLoader extends ApiDataLoader<Tag> {
+
+class TagLoader extends ApiDataLoaderWithBaseResponse<Tag> {
   @override
-  Future<ListResponseWrap<Tag>> fetchData(Map<String, String> params) {
+  Future<BaseResponse<ListResponseWrap<Tag>>> fetchData(
+      Map<String, String> params) {
     return ApiClient().fetchTagList(params);
   }
 }

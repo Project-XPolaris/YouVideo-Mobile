@@ -6,9 +6,11 @@ import 'package:video_player/video_player.dart';
 import '../../api/cc.dart';
 import '../../api/client.dart';
 import '../../api/file.dart';
+
 class PlayerView extends StatefulWidget {
   final File file;
-  const PlayerView({Key? key,required this.file}) : super(key: key);
+
+  const PlayerView({Key? key, required this.file}) : super(key: key);
 
   @override
   State<PlayerView> createState() => _PlayerViewState();
@@ -32,6 +34,7 @@ class _PlayerViewState extends State<PlayerView> {
     _chewieController?.dispose();
     super.dispose();
   }
+
   Future<void> initializePlayer() async {
     _videoPlayerController1 =
         VideoPlayerController.network(widget.file.videoPlayLink);
@@ -63,7 +66,6 @@ class _PlayerViewState extends State<PlayerView> {
         DeviceOrientation.portraitDown
       ],
 
-
       // subtitle: Subtitles(subtitles),
       subtitleBuilder: (context, dynamic subtitle) => Container(
         padding: const EdgeInsets.all(10.0),
@@ -94,34 +96,29 @@ class _PlayerViewState extends State<PlayerView> {
       // autoInitialize: true,
     );
   }
+
   @override
   Widget build(BuildContext context) {
     return Theme(
-      data: ThemeData(
-        useMaterial3: false
-      ),
+      data: ThemeData(useMaterial3: false),
       child: Scaffold(
         body: Container(
-
           color: Colors.black,
           child: Center(
             child: _chewieController != null &&
-                _chewieController!
-                    .videoPlayerController.value.isInitialized
+                    _chewieController!.videoPlayerController.value.isInitialized
                 ? Chewie(
-              controller: _chewieController!,
-
-            )
+                    controller: _chewieController!,
+                  )
                 : Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: const [
-                CircularProgressIndicator(),
-                SizedBox(height: 20),
-                Text('Loading'),
-              ],
-            ),
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: const [
+                      CircularProgressIndicator(),
+                      SizedBox(height: 20),
+                      Text('Loading'),
+                    ],
+                  ),
           ),
-
         ),
       ),
     );

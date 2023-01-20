@@ -7,7 +7,9 @@ import 'package:youvideo/util/listview.dart';
 
 class HomeMetaHorizonView extends StatelessWidget {
   final HomeMetaProvider provider;
-  const HomeMetaHorizonView({Key? key,required this.provider}) : super(key: key);
+
+  const HomeMetaHorizonView({Key? key, required this.provider})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -22,23 +24,22 @@ class HomeMetaHorizonView extends StatelessWidget {
           },
         ),
         actions: <Widget>[Container()],
-
       ),
       endDrawer: Drawer(
-        child:MetaFilterView(
+        child: MetaFilterView(
           filter: provider.metaFilter,
-          onChange: (newFilter){
+          onChange: (newFilter) {
             provider.metaFilter = newFilter;
             provider.loadData(force: true);
           },
           keys: provider.typeLoader.list.map((e) => e.key!).toList(),
         ),
       ),
-      body: Builder(builder: (context){
+      body: Builder(builder: (context) {
         return Stack(
           children: [
             Container(
-              padding: EdgeInsets.only(left: 16,right: 16),
+              padding: EdgeInsets.only(left: 16, right: 16),
               child: RefreshIndicator(
                 onRefresh: () async {
                   await provider.loadData(force: true);
@@ -50,7 +51,7 @@ class HomeMetaHorizonView extends StatelessWidget {
                     itemBuilder: (context, index) {
                       Meta meta = provider.loader.list[index];
                       return ListTile(
-                        onTap: (){
+                        onTap: () {
                           VideosPageWrap.launchWithMetaVideo(context, meta);
                         },
                         title: Text(meta.value ?? ""),

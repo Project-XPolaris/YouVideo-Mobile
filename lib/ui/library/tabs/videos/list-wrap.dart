@@ -6,8 +6,6 @@ import 'package:youvideo/ui/components/VideoListHorizon.dart';
 import 'package:youvideo/ui/library/provider.dart';
 import 'package:youvideo/ui/video/wrap.dart';
 
-import '../../layout.dart';
-
 class VideoListView extends StatelessWidget {
   const VideoListView({Key? key}) : super(key: key);
 

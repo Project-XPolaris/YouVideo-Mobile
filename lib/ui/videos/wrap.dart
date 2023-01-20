@@ -8,11 +8,13 @@ import 'package:youvideo/ui/videos/provider.dart';
 import 'package:youvideo/ui/videos/vertical.dart';
 
 class VideosPageWrap extends StatelessWidget {
-  final Map<String,String> filter;
+  final Map<String, String> filter;
   final String title;
 
-  const VideosPageWrap({Key? key,this.title = "Videos",required this.filter}) : super(key: key);
-  static launchWithFolderDetail(BuildContext context,Folder folder){
+  const VideosPageWrap({Key? key, this.title = "Videos", required this.filter})
+      : super(key: key);
+
+  static launchWithFolderDetail(BuildContext context, Folder folder) {
     int? id = folder.id;
     if (id == null) {
       return;
@@ -21,12 +23,13 @@ class VideosPageWrap extends StatelessWidget {
       context,
       MaterialPageRoute(
           builder: (context) => VideosPageWrap(
-            title: folder.name,
-            filter: {"folder": folder.id.toString()},
-          )),
+                title: folder.name,
+                filter: {"folder": folder.id.toString()},
+              )),
     );
   }
-  static launchWithMetaVideo(BuildContext context,Meta meta){
+
+  static launchWithMetaVideo(BuildContext context, Meta meta) {
     int? id = meta.id;
     if (id == null) {
       return;
@@ -35,11 +38,12 @@ class VideosPageWrap extends StatelessWidget {
       context,
       MaterialPageRoute(
           builder: (context) => VideosPageWrap(
-            title: meta.value ?? "",
-            filter: {"info": id.toString()},
-          )),
+                title: meta.value ?? "",
+                filter: {"info": id.toString()},
+              )),
     );
   }
+
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider<VideosProvider>(

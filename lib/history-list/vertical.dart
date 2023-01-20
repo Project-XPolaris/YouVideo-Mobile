@@ -6,7 +6,9 @@ import 'provider.dart';
 
 class HistoryListVerticalPage extends StatelessWidget {
   final HistoryListProvider provider;
+
   HistoryListVerticalPage({required this.provider});
+
   @override
   Widget build(BuildContext context) {
     return Stack(
@@ -17,13 +19,12 @@ class HistoryListVerticalPage extends StatelessWidget {
             onRefresh: () async {
               provider.loadData(force: true);
             },
-
             child: HistoryList(
-              onLoadMore: (){
+              onLoadMore: () {
                 provider.loadMore();
               },
               historyList: provider.loader.list,
-              onItemClick: (history){
+              onItemClick: (history) {
                 VideoPageWrap.Launch(context, history.videoId);
               },
             ),

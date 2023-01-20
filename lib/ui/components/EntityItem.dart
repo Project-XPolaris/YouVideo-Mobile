@@ -7,7 +7,9 @@ class EntityItem extends StatelessWidget {
   final String name;
   final Function()? onTap;
   final double coverRatio;
-  EntityItem({this.coverUrl, this.name = "Unknown",this.onTap,this.coverRatio = 1});
+
+  EntityItem(
+      {this.coverUrl, this.name = "Unknown", this.onTap, this.coverRatio = 1});
 
   @override
   Widget build(BuildContext context) {
@@ -19,7 +21,7 @@ class EntityItem extends StatelessWidget {
       height = 120;
     }
     return Padding(
-      padding: EdgeInsets.only(left: 16,right: 16),
+      padding: EdgeInsets.only(left: 16, right: 16),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisAlignment: MainAxisAlignment.start,
@@ -35,25 +37,23 @@ class EntityItem extends StatelessWidget {
           ),
           Expanded(
               child: Padding(
-                padding: EdgeInsets.only(left: 16, right: 16),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      name,
-                      style: TextStyle(fontSize: 16),
-                      textAlign: TextAlign.left,
-                      overflow: TextOverflow.ellipsis,
-                      maxLines: 2,
-                    )
-                  ],
-                ),
-              )
-          ),
+            padding: EdgeInsets.only(left: 16, right: 16),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  name,
+                  style: TextStyle(fontSize: 16),
+                  textAlign: TextAlign.left,
+                  overflow: TextOverflow.ellipsis,
+                  maxLines: 2,
+                )
+              ],
+            ),
+          )),
         ],
       ),
     );
   }
 }
-

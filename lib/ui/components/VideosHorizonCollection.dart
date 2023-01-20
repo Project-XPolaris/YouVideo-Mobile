@@ -8,27 +8,33 @@ class VideosHorizonCollection extends StatelessWidget {
   final String title;
   final List<Video> videos;
   final TextStyle? titleStyle;
-  final double baseHeight;
+  final double metaHeight;
+  final double itemHeight;
+  final Function(Video)? onTap;
+  final Function(Video)? onTitleTap;
 
   VideosHorizonCollection(
       {this.videos = const [],
       this.title = "Videos",
-      required this.baseHeight,
+      this.metaHeight = 48.0,
+      this.itemHeight = 180,
+      this.onTap,
+      this.onTitleTap,
       this.titleStyle});
 
   @override
   Widget build(BuildContext context) {
     return HorizonCollection(
         children: videos.map((video) {
-          var metaHeight = 24.0;
-          var width = (180 - 24) *  video.files[0].ratio;
+          var width = (itemHeight - metaHeight) * video.files[0].ratio;
           return Container(
-            padding: EdgeInsets.all(8),
             margin: EdgeInsets.only(right: 16),
             width: width,
-            height: 180,
+            height: itemHeight,
             child: CoverTitleGridItem(
-              placeholderColor: Theme.of(context).colorScheme.secondaryContainer,
+              coverWidth: width,
+              placeholderColor:
+                  Theme.of(context).colorScheme.secondaryContainer,
               placeHolderIcon: Icon(Icons.videocam_rounded),
               title: video.getName(),
               metaContainerMagin: EdgeInsets.all(0),
@@ -37,8 +43,20 @@ class VideosHorizonCollection extends StatelessWidget {
               failedIcon: Icons.videocam,
               imageUrl: video.files[0].getCoverUrl(),
               onTap: () {
-                VideoPageWrap.Launch(context, video.id);
+                if (onTap == null) {
+                  VideoPageWrap.Launch(context, video.id);
+                } else {
+                  onTap!(video);
+                }
               },
+              onTitleTap: () {
+                if (onTitleTap == null) {
+                  VideoPageWrap.Launch(context, video.id);
+                } else {
+                  onTitleTap!(video);
+                }
+              },
+              titleMaxLine: 2,
               borderRadius: 8,
             ),
           );

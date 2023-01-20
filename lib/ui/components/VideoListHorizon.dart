@@ -10,6 +10,7 @@ class VideoListHorizon extends StatelessWidget {
   final Function(Video)? onItemClick;
   final bool directoryView;
   final int itemWidth;
+  final double ratio;
 
   const VideoListHorizon(
       {Key? key,
@@ -17,8 +18,10 @@ class VideoListHorizon extends StatelessWidget {
       required this.videos,
       this.onItemClick,
       this.itemWidth = 180,
+      this.ratio = 1.0,
       this.directoryView = false})
       : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     var controller = createLoadMoreController(onLoadMore);
@@ -33,6 +36,7 @@ class VideoListHorizon extends StatelessWidget {
             },
           );
         }).toList(),
+        aspectRatio: ratio,
         itemWidth: itemWidth);
   }
 }

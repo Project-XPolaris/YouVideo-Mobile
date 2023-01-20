@@ -33,7 +33,7 @@ class FolderListView extends StatelessWidget {
               coverWidth: 120,
               borderRadius: 6,
               imageBoxFit: BoxFit.contain,
-              onTap: (){
+              onTap: () {
                 VideosPageWrap.launchWithFolderDetail(context, folder);
               },
             ),

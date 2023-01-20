@@ -29,7 +29,7 @@ class VideoItemHorizon extends StatelessWidget {
       child: CoverTitleGridItem(
           imageAlignment: Alignment.bottomCenter,
           borderRadius: 8,
-          metaHeight: 32,
+          metaHeight: 64,
           metaContainerMagin: EdgeInsets.only(top: 8),
           title: name,
           imageBoxFit: BoxFit.contain,
@@ -38,7 +38,8 @@ class VideoItemHorizon extends StatelessWidget {
             color: Theme.of(context).colorScheme.onSecondaryContainer,
             size: 48,
           ),
-
+          titleTextStyle: TextStyle(),
+          titleMaxLine: 2,
           placeholderColor: Theme.of(context).colorScheme.secondaryContainer,
           imageUrl: coverUrl,
           onTap: () {

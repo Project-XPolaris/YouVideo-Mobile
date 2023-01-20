@@ -31,19 +31,18 @@ class TagsPage extends StatelessWidget {
                   physics: AlwaysScrollableScrollPhysics(),
                   children: provider.loader.list.map((tag) {
                     return ListTile(
-                      title: Text(tag.name),
-                      leading: Icon(Icons.label),
-                      onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => VideosPageWrap(
-                                    title: tag.name,
-                                    filter: {"tag": tag.id.toString()},
-                                  )),
-                        );
-                      }
-                    );
+                        title: Text(tag.name),
+                        leading: Icon(Icons.label),
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => VideosPageWrap(
+                                      title: tag.name,
+                                      filter: {"tag": tag.id.toString()},
+                                    )),
+                          );
+                        });
                   }).toList(),
                 ),
               ),

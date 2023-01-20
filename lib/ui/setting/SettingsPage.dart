@@ -18,7 +18,10 @@ class SettingsPage extends StatelessWidget {
                 SharedPreferences sha = await SharedPreferences.getInstance();
                 sha.remove("apiUrl");
                 final snackBar = SnackBar(
-                  content: Text('apply it! try to restart',style: TextStyle(color: Colors.white),),
+                  content: Text(
+                    'apply it! try to restart',
+                    style: TextStyle(color: Colors.white),
+                  ),
                   backgroundColor: Colors.black,
                 );
                 ScaffoldMessenger.of(context).showSnackBar(snackBar);

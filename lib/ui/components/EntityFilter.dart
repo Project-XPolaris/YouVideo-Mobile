@@ -15,6 +15,7 @@ const OrderFilterKeys = [
 class EntityFilter {
   String order;
   bool random;
+
   EntityFilter({required this.order, this.random = false});
 }
 
@@ -25,15 +26,16 @@ class EntityFilterView extends StatefulWidget {
   EntityFilterView({required this.filter, required this.onChange});
 
   @override
-  _EntityFilterViewState createState() => _EntityFilterViewState(
-      order: filter.order, random: filter.random);
+  _EntityFilterViewState createState() =>
+      _EntityFilterViewState(order: filter.order, random: filter.random);
 }
 
 class _EntityFilterViewState extends State<EntityFilterView> {
   String order;
   String? year;
 
-  _EntityFilterViewState({required this.order, required this.random, this.year});
+  _EntityFilterViewState(
+      {required this.order, required this.random, this.year});
 
   bool random;
 

@@ -5,8 +5,8 @@ import 'package:youvideo/ui/components/EntityFilter.dart';
 class HomeEntityProvider extends ChangeNotifier {
   EntitiesLoader loader = EntitiesLoader();
   EntityFilter filter = EntityFilter(order: "id desc");
-  Map<String, String> _getVideosExtraParams() {
 
+  Map<String, String> _getVideosExtraParams() {
     Map<String, String> result = {
       "order": filter.order,
     };
@@ -15,13 +15,15 @@ class HomeEntityProvider extends ChangeNotifier {
     }
     return result;
   }
+
   loadData({bool force = false}) async {
-    if (await loader.loadData(force:force,extraFilter: _getVideosExtraParams())){
+    if (await loader.loadData(
+        force: force, extraFilter: _getVideosExtraParams())) {
       notifyListeners();
     }
   }
 
-  loadMore()async {
+  loadMore() async {
     await loader.loadMore(extraFilter: _getVideosExtraParams());
     notifyListeners();
   }

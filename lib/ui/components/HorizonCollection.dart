@@ -5,7 +5,12 @@ class HorizonCollection extends StatelessWidget {
   final String title;
   final Function()? onMore;
   final TextStyle? titleStyle;
-  HorizonCollection({required this.children,required this.title,this.onMore,this.titleStyle = const TextStyle(fontWeight: FontWeight.w600)});
+
+  HorizonCollection(
+      {required this.children,
+      required this.title,
+      this.onMore,
+      this.titleStyle = const TextStyle(fontWeight: FontWeight.w600)});
 
   @override
   Widget build(BuildContext context) {
@@ -19,14 +24,17 @@ class HorizonCollection extends StatelessWidget {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text(title,style: titleStyle),
-                onMore != null ? GestureDetector(
-                  child: Text(
-                    "more",
-                    style: TextStyle(color: Theme.of(context).colorScheme.primary),
-                  ),
-                  onTap: onMore,
-                ) : Container()
+                Text(title, style: titleStyle),
+                onMore != null
+                    ? GestureDetector(
+                        child: Text(
+                          "more",
+                          style: TextStyle(
+                              color: Theme.of(context).colorScheme.primary),
+                        ),
+                        onTap: onMore,
+                      )
+                    : Container()
               ],
             ),
           ),
@@ -35,9 +43,7 @@ class HorizonCollection extends StatelessWidget {
               physics: BouncingScrollPhysics(),
               shrinkWrap: true,
               scrollDirection: Axis.horizontal,
-              children: [
-                ...children
-              ],
+              children: [...children],
             ),
           )
         ],

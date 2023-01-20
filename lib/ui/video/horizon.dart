@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:youvideo/ui/video/vertical.dart';
 import 'package:youvideo/ui/video/provider.dart';
+import 'package:youvideo/ui/video/vertical.dart';
 
 import '../components/FilesSection.dart';
 import '../components/MetasSection.dart';
@@ -116,26 +116,23 @@ class VideoHorizonPage extends StatelessWidget {
                                 child: Container(
                                   height: 180,
                                   child: VideosHorizonCollection(
-                                    baseHeight: 120,
                                     videos: provider.getSameDirectoryVideo(),
                                     title: "Same directory",
-                                    titleStyle:
-                                        TextStyle(),
+                                    titleStyle: TextStyle(),
                                   ),
                                 ),
                               )
                             : Container(),
-                        provider.entity != null && provider.entityVideos.isNotEmpty
+                        provider.entity != null &&
+                                provider.entityVideos.isNotEmpty
                             ? Container(
                                 margin: EdgeInsets.only(top: 32),
                                 child: Container(
                                   height: 180,
                                   child: VideosHorizonCollection(
-                                    baseHeight: 120,
                                     videos: provider.entityVideos,
                                     title: "In entity",
-                                    titleStyle:
-                                        TextStyle(),
+                                    titleStyle: TextStyle(),
                                   ),
                                 ),
                               )

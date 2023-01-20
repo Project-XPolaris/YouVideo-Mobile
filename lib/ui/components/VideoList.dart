@@ -34,16 +34,16 @@ class _VideoListState extends State<VideoList> {
         return Padding(
           padding: EdgeInsets.only(right: 4, left: 4, top: 8, bottom: 8),
           child: VideoItem(
-              coverUrl: file.getCoverUrl(),
-              name: widget.directoryView ? video.getDirname() : video.getName(),
-              coverRatio: file.ratio,
-              onTap: () {
-                var handler = this.widget.onItemClick;
-                if (handler != null) {
-                  handler(video);
-                }
-              },
-              type: video.type),
+            coverUrl: file.getCoverUrl(),
+            name: widget.directoryView ? video.getDirname() : video.getName(),
+            coverRatio: file.ratio,
+            onTap: () {
+              var handler = this.widget.onItemClick;
+              if (handler != null) {
+                handler(video);
+              }
+            },
+          ),
         );
       }).toList(),
     );

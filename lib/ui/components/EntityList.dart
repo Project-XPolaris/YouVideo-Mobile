@@ -1,8 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:youvideo/api/file.dart';
-import 'package:youvideo/api/video.dart';
 import 'package:youvideo/ui/components/EntityItem.dart';
-import 'package:youvideo/ui/components/VideoItem.dart';
 import 'package:youvideo/util/listview.dart';
 
 import '../../api/entity.dart';
@@ -12,13 +9,12 @@ class EntityList extends StatefulWidget {
   final Function(Entity)? onItemClick;
   final List<Entity> entities;
 
-  const EntityList(
-      {Key? key,
-      this.onItemClick,
-      required this.onLoadMore,
-      this.entities = const [],
-      })
-      : super(key: key);
+  const EntityList({
+    Key? key,
+    this.onItemClick,
+    required this.onLoadMore,
+    this.entities = const [],
+  }) : super(key: key);
 
   @override
   _EntityListState createState() => _EntityListState();
@@ -35,15 +31,15 @@ class _EntityListState extends State<EntityList> {
         return Padding(
           padding: EdgeInsets.only(right: 4, left: 4, top: 8, bottom: 8),
           child: EntityItem(
-              coverUrl: entity.coverUrl,
-              name: entity.displayName,
-              coverRatio: entity.ratio,
-              onTap: () {
-                var handler = this.widget.onItemClick;
-                if (handler != null) {
-                  handler(entity);
-                }
-              },
+            coverUrl: entity.coverUrl,
+            name: entity.displayName,
+            coverRatio: entity.ratio,
+            onTap: () {
+              var handler = this.widget.onItemClick;
+              if (handler != null) {
+                handler(entity);
+              }
+            },
           ),
         );
       }).toList(),

@@ -22,7 +22,8 @@ class _SearchPageState extends State<SearchPage> {
         child: Consumer<SearchProvider>(builder: (context, provider, child) {
           List<Widget> renderResultList() {
             List<Widget> widgets = [];
-            if (provider.videoLoader.list.isNotEmpty) {
+            if (provider.searchResult?.videos != null &&
+                provider.searchResult!.videos.isNotEmpty) {
               widgets.add(Row(
                 children: [
                   Expanded(
@@ -54,7 +55,7 @@ class _SearchPageState extends State<SearchPage> {
                       ))
                 ],
               ));
-              provider.videoLoader.list.forEach((video) {
+              provider.searchResult!.videos.forEach((video) {
                 String? coverUrl;
                 if (video.files.isNotEmpty) {
                   var first = video.files[0];
@@ -135,7 +136,7 @@ class _SearchPageState extends State<SearchPage> {
 
           Widget renderResult() {
             if (provider.tagLoader.list.isEmpty &&
-                provider.videoLoader.list.isEmpty) {
+                provider.searchResult == null) {
               return Container(
                 child: (Container(
                   width: double.infinity,
@@ -219,8 +220,7 @@ class _SearchPageState extends State<SearchPage> {
                   ? Center(
                       child: Container(
                         width: 120,
-                        child: LinearProgressIndicator(
-                        ),
+                        child: LinearProgressIndicator(),
                       ),
                     )
                   : renderResult(),

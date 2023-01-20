@@ -12,13 +12,16 @@ class Library {
     name = json['name'];
     path = json['path'];
   }
-  String getName(){
+
+  String getName() {
     return name ?? "Unknown library";
   }
 }
-class LibraryLoader extends ApiDataLoader<Library> {
+
+class LibraryLoader extends ApiDataLoaderWithBaseResponse<Library> {
   @override
-  Future<ListResponseWrap<Library>> fetchData(Map<String, String> params) {
+  Future<BaseResponse<ListResponseWrap<Library>>> fetchData(
+      Map<String, String> params) {
     return ApiClient().fetchLibraryList(params);
   }
 }

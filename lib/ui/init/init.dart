@@ -27,9 +27,7 @@ class _InitPageState extends State<InitPage> {
         future: check(),
         builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
           if (snapshot.hasData) {
-
-              return StartPage();
-
+            return StartPage();
           }
           return Container();
         });

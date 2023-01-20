@@ -6,6 +6,7 @@ class Meta {
   int? id;
   String? key;
   String? value;
+
   Meta.fromJson(Map<String, dynamic> json) {
     id = json['id'] as int?;
     key = json['key'] as String?;
@@ -13,10 +14,10 @@ class Meta {
   }
 }
 
-
-class MetaLoader extends ApiDataLoader<Meta> {
+class MetaLoader extends ApiDataLoaderWithBaseResponse<Meta> {
   @override
-  Future<ListResponseWrap<Meta>> fetchData(Map<String, String> params) {
+  Future<BaseResponse<ListResponseWrap<Meta>>> fetchData(
+      Map<String, String> params) {
     return ApiClient().fetchMetaList(params);
   }
 }

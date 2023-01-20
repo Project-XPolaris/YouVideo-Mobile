@@ -15,18 +15,19 @@ class History {
     cover = json['cover'];
   }
 
-  String? getCoverUrl(){
+  String? getCoverUrl() {
     var coverUrl = cover;
     var serviceUrl = ApplicationConfig().serviceUrl;
-    if (coverUrl != null && serviceUrl != null){
+    if (coverUrl != null && serviceUrl != null) {
       return "${serviceUrl}${coverUrl}?token=${ApplicationConfig().token}";
     }
   }
 }
 
-class HistoryLoader extends ApiDataLoader<History> {
+class HistoryLoader extends ApiDataLoaderWithBaseResponse<History> {
   @override
-  Future<ListResponseWrap<History>> fetchData(Map<String, String> params) {
+  Future<BaseResponse<ListResponseWrap<History>>> fetchData(
+      Map<String, String> params) {
     return ApiClient().fetchHistoryList(params);
   }
 }

@@ -3,14 +3,17 @@ import 'package:flutter/material.dart';
 class ActionItem {
   String title;
   Function()? onTap;
-  ActionItem({required this.title,this.onTap});
+
+  ActionItem({required this.title, this.onTap});
 }
 
 class ActionSelectBottomSheet extends StatelessWidget {
   final List<ActionItem> actions;
   final String title;
   final double height;
-  ActionSelectBottomSheet({this.actions = const[], required this.title,required this.height});
+
+  ActionSelectBottomSheet(
+      {this.actions = const [], required this.title, required this.height});
 
   @override
   Widget build(BuildContext context) {
@@ -22,10 +25,16 @@ class ActionSelectBottomSheet extends StatelessWidget {
         children: [
           Container(
             padding: EdgeInsets.all(16),
-            child: Text(title,style: TextStyle(fontSize: 18,fontWeight: FontWeight.w600),),
+            child: Text(
+              title,
+              style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
+            ),
           ),
           ...actions.map((action) {
-            return ListTile(title: Text(action.title), onTap: action.onTap,);
+            return ListTile(
+              title: Text(action.title),
+              onTap: action.onTap,
+            );
           })
         ],
       ),

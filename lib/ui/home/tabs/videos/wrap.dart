@@ -4,6 +4,7 @@ import 'package:youvideo/ui/components/ScreenWidthSelector.dart';
 import 'package:youvideo/ui/home/tabs/videos/provider.dart';
 
 import '../../../components/GridViewModeMenu.dart';
+import '../../../components/LayoutViewModeMenu.dart';
 import '../../../components/VideoFilter.dart';
 import '../../../components/VideoList.dart';
 import '../../../components/VideoListHorizon.dart';
@@ -42,6 +43,7 @@ class VideosTabPageWrap extends StatelessWidget {
                         await provider.loadData(force: true);
                       },
                       child: ScreenWidthSelector(
+                        forceLayout: provider.layoutType,
                         verticalChild: Container(
                           child: RefreshIndicator(
                             onRefresh: () async {
@@ -56,8 +58,8 @@ class VideosTabPageWrap extends StatelessWidget {
                                     context,
                                     MaterialPageRoute(
                                         builder: (context) => VideoPageWrap(
-                                          videoId: id,
-                                        )),
+                                              videoId: id,
+                                            )),
                                   );
                                 }
                               },
@@ -85,20 +87,22 @@ class VideosTabPageWrap extends StatelessWidget {
                   ),
                 ),
                 extra: [
-                  Container(
-                    margin: EdgeInsets.only(top: 32),
-                  ),
+                  Container(),
                   IconButton(
                       onPressed: () {
                         Scaffold.of(context).openEndDrawer();
                       },
                       icon: Icon(Icons.filter_list_rounded)),
-                  Container(
-                      child: GirdViewModeMenu(
-                        onModeChange: (String gridViewMode) {
-                          provider.updateGridViewType(gridViewMode);
-                        },
-                      )),
+                  Container(child: GirdViewModeMenu(
+                    onModeChange: (String gridViewMode) {
+                      provider.updateGridViewType(gridViewMode);
+                    },
+                  )),
+                  Container(child: LayoutViewModeMenu(
+                    onModeChange: (String mode) {
+                      provider.updateLayoutType(mode);
+                    },
+                  )),
                 ],
               );
             }),

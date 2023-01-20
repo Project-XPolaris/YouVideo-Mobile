@@ -4,7 +4,8 @@ class ListResponseWrap<T> {
   int? page;
   int? pageSize;
 
-  ListResponseWrap({this.count, required this.result, this.page, this.pageSize});
+  ListResponseWrap(
+      {this.count, required this.result, this.page, this.pageSize});
 
   ListResponseWrap.fromJson(
       Map<String, dynamic> json, Function(dynamic) converter) {
@@ -18,18 +19,33 @@ class ListResponseWrap<T> {
       });
     }
   }
-  int getPage(){
+
+  int getPage() {
     return page ?? 1;
   }
-  int getPageSize(){
+
+  int getPageSize() {
     return pageSize ?? 0;
   }
-  int getTotal(){
+
+  int getTotal() {
     return count ?? 0;
   }
 }
 
 class BaseResponse<T> {
-  bool? success;
-  String? reason;
+  late bool success;
+  String? err;
+  String? code;
+  T? data;
+
+  BaseResponse.fromJson(
+      Map<String, dynamic> json, Function(dynamic) converter) {
+    success = json['success'];
+    err = json['err'];
+    code = json['code'];
+    if (json['data'] != null) {
+      data = converter(json['data']);
+    }
+  }
 }

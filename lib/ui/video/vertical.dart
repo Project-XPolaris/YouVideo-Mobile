@@ -36,7 +36,6 @@ class VideoPageVertical extends StatelessWidget {
                 },
               ),
             ),
-
           ];
         },
         body: Container(
@@ -62,13 +61,14 @@ class VideoPageVertical extends StatelessWidget {
                   )
                 ],
               ),
-              provider.infos.isNotEmpty?
-              Container(
-                margin: EdgeInsets.only(top: 8, bottom: 8),
-                child: MetasSection(
-                  metas: provider.infos,
-                ),
-              ):Container(),
+              provider.infos.isNotEmpty
+                  ? Container(
+                      margin: EdgeInsets.only(top: 8, bottom: 8),
+                      child: MetasSection(
+                        metas: provider.infos,
+                      ),
+                    )
+                  : Container(),
               TagsSection(
                 tags: provider.tagLoader.list,
                 onAdd: (tag) {
@@ -87,9 +87,7 @@ class VideoPageVertical extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    FilesSection(files:provider.files)
-                  ],
+                  children: [FilesSection(files: provider.files)],
                 ),
               ),
               provider.getSameDirectoryVideo().isNotEmpty
@@ -97,7 +95,6 @@ class VideoPageVertical extends StatelessWidget {
                       margin: EdgeInsets.only(top: 32),
                       height: 260,
                       child: VideosHorizonCollection(
-                        baseHeight: 120,
                         videos: provider.getSameDirectoryVideo(),
                         title: "Same directory",
                         titleStyle: TextStyle(fontWeight: FontWeight.w600),
@@ -109,7 +106,6 @@ class VideoPageVertical extends StatelessWidget {
                       margin: EdgeInsets.only(top: 32),
                       height: 260,
                       child: VideosHorizonCollection(
-                        baseHeight: 120,
                         videos: provider.getSameDirectoryVideo(),
                         title: "In entity",
                         titleStyle: TextStyle(fontWeight: FontWeight.w600),

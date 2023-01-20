@@ -6,9 +6,11 @@ import 'package:youvideo/ui/videos/provider.dart';
 
 class VideosHorizonPage extends StatelessWidget {
   final String title;
-  final Map<String,String> filter;
+  final Map<String, String> filter;
   final VideosProvider provider;
-  VideosHorizonPage({this.title = "Videos",required this.filter,required this.provider});
+
+  VideosHorizonPage(
+      {this.title = "Videos", required this.filter, required this.provider});
 
   @override
   Widget build(BuildContext context) {
@@ -30,7 +32,7 @@ class VideosHorizonPage extends StatelessWidget {
           },
           child: VideoListHorizon(
             videos: provider.loader.list,
-            onLoadMore: (){
+            onLoadMore: () {
               provider.loadMore();
             },
             onItemClick: (video) {

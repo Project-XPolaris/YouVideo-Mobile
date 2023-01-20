@@ -1,14 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:youui/components/cover-title-grid-item.dart';
 import 'package:youvideo/api/history.dart';
-import 'package:youvideo/ui/components/VideoCover.dart';
 import 'package:youvideo/util/listview.dart';
 
 class HistoryListHorizon extends StatelessWidget {
   final Function onLoadMore;
   final List<History> historyList;
   final Function(History)? onItemClick;
-  const HistoryListHorizon({Key? key,required this.onLoadMore,required this.historyList,this.onItemClick}) : super(key: key);
+
+  const HistoryListHorizon(
+      {Key? key,
+      required this.onLoadMore,
+      required this.historyList,
+      this.onItemClick})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -37,12 +42,11 @@ class HistoryListHorizon extends StatelessWidget {
                 size: 48,
               ),
               placeholderColor: Theme.of(context).colorScheme.primaryContainer,
-              imageUrl:e.getCoverUrl(),
+              imageUrl: e.getCoverUrl(),
               onTap: () {
                 this.onItemClick?.call(e);
               });
-        })
-        ,
+        }),
       ],
     );
   }

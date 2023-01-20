@@ -5,11 +5,13 @@ import 'package:youvideo/ui/entity/wrap.dart';
 
 class HomeEntityHorizonView extends StatelessWidget {
   final HomeEntityProvider provider;
-  const HomeEntityHorizonView({Key? key,required this.provider}) : super(key: key);
+
+  const HomeEntityHorizonView({Key? key, required this.provider})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-     return Stack(
+    return Stack(
       children: [
         Container(
           child: RefreshIndicator(
@@ -19,11 +21,11 @@ class HomeEntityHorizonView extends StatelessWidget {
             },
             child: Container(
               child: EntityGridView(
-               entities: provider.loader.list,
+                entities: provider.loader.list,
                 onItemClick: (entity) {
                   EntityPage.Launch(context, entity.id);
                 },
-                onLoadMore: (){
+                onLoadMore: () {
                   provider.loadMore();
                 },
               ),

@@ -4,7 +4,8 @@ import 'package:youvideo/api/library.dart';
 class LibraryItem extends StatelessWidget {
   final Library library;
   final Function() onTap;
-  LibraryItem({required this.library,required this.onTap});
+
+  LibraryItem({required this.library, required this.onTap});
 
   @override
   Widget build(BuildContext context) {

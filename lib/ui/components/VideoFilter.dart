@@ -53,58 +53,56 @@ class _VideoFilterViewState extends State<VideoFilterView> {
       return random ? ["random"] : [];
     }
 
-    return FilterView(
-        padding: EdgeInsets.only(left: 16, right: 16),
-        children: [
-          SigleSelectFilterView(
-              value: order,
-              selectedColor: Theme.of(context).colorScheme.primaryContainer,
-              options: [
-                ...OrderFilterKeys.map((key) {
-                  return SelectOption(label: key, key: key);
-                })
-              ],
-              onSelectChange: (option) {
-                widget.filter.order = option.key;
-                widget.onChange(widget.filter);
-                setState(() {
-                  order = option.key;
-                });
-              },
-              title: "order"),
-          CheckChipFilterView(
-              title: "other",
-              options: [SelectOption(label: "Random", key: "random")],
-              checked: getRandomCheck(),
-              selectedColor: Theme.of(context).colorScheme.primaryContainer,
-              onValueChange: (option,isChecked,values) {
-                bool isRandom = values.contains("random");
-                widget.filter.random = isRandom;
-                widget.onChange(widget.filter);
-                setState(() {
-                  random = isRandom;
-                });
-              }),
-          SigleSelectFilterView(
-              value: year,
-              selectedColor: Theme.of(context).colorScheme.primaryContainer,
-              options: [
-                ...getYearFilter().map((key) {
-                  return SelectOption(label: key, key: key);
-                })
-              ],
-              onSelectChange: (option) {
-                if (option.key == year) {
-                  widget.filter.year = null;
-                } else {
-                  widget.filter.year = option.key;
-                }
-                setState(() {
-                  year = widget.filter.year;
-                });
-                widget.onChange(widget.filter);
-              },
-              title: "years"),
-        ]);
+    return FilterView(padding: EdgeInsets.only(left: 16, right: 16), children: [
+      SigleSelectFilterView(
+          value: order,
+          selectedColor: Theme.of(context).colorScheme.primaryContainer,
+          options: [
+            ...OrderFilterKeys.map((key) {
+              return SelectOption(label: key, key: key);
+            })
+          ],
+          onSelectChange: (option) {
+            widget.filter.order = option.key;
+            widget.onChange(widget.filter);
+            setState(() {
+              order = option.key;
+            });
+          },
+          title: "order"),
+      CheckChipFilterView(
+          title: "other",
+          options: [SelectOption(label: "Random", key: "random")],
+          checked: getRandomCheck(),
+          selectedColor: Theme.of(context).colorScheme.primaryContainer,
+          onValueChange: (option, isChecked, values) {
+            bool isRandom = values.contains("random");
+            widget.filter.random = isRandom;
+            widget.onChange(widget.filter);
+            setState(() {
+              random = isRandom;
+            });
+          }),
+      SigleSelectFilterView(
+          value: year,
+          selectedColor: Theme.of(context).colorScheme.primaryContainer,
+          options: [
+            ...getYearFilter().map((key) {
+              return SelectOption(label: key, key: key);
+            })
+          ],
+          onSelectChange: (option) {
+            if (option.key == year) {
+              widget.filter.year = null;
+            } else {
+              widget.filter.year = option.key;
+            }
+            setState(() {
+              year = widget.filter.year;
+            });
+            widget.onChange(widget.filter);
+          },
+          title: "years"),
+    ]);
   }
 }

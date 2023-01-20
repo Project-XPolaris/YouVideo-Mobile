@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:youvideo/ui/components/ScreenWidthSelector.dart';
-import 'package:youvideo/ui/video/vertical.dart';
 import 'package:youvideo/ui/video/horizon.dart';
+import 'package:youvideo/ui/video/vertical.dart';
 
 import 'provider.dart';
 
@@ -16,8 +16,7 @@ class VideoPageWrap extends StatelessWidget {
       Navigator.push(
         context,
         MaterialPageRoute(
-            builder: (context) =>
-                VideoPageWrap(
+            builder: (context) => VideoPageWrap(
                   videoId: id,
                 )),
       );
@@ -31,8 +30,12 @@ class VideoPageWrap extends StatelessWidget {
         child: Consumer<VideoProvider>(builder: (context, provider, child) {
           provider.loadData();
           return ScreenWidthSelector(
-            verticalChild: VideoPageVertical(provider: provider,),
-            horizonChild: VideoHorizonPage(provider: provider,),
+            verticalChild: VideoPageVertical(
+              provider: provider,
+            ),
+            horizonChild: VideoHorizonPage(
+              provider: provider,
+            ),
           );
         }));
   }

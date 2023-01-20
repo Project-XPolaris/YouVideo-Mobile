@@ -36,32 +36,30 @@ class _MetaFilterViewState extends State<MetaFilterView> {
 
   @override
   Widget build(BuildContext context) {
-    return FilterView(
-        padding: EdgeInsets.only(left: 16, right: 16),
-        children: [
-          SigleSelectFilterView(
-              value: key,
-              selectedColor: Theme.of(context).colorScheme.primaryContainer,
-              options: [
-                ...widget.keys.map((key) {
-                  return SelectOption(label: key, key: key);
-                })
-              ],
-              onSelectChange: (option) {
-                if (option.key == key) {
-                  setState(() {
-                    key = null;
-                  });
-                  widget.filter.key = null;
-                } else {
-                  setState(() {
-                    key = option.key;
-                  });
-                  widget.filter.key = key;
-                }
-                widget.onChange(widget.filter);
-              },
-              title: "by key"),
-        ]);
+    return FilterView(padding: EdgeInsets.only(left: 16, right: 16), children: [
+      SigleSelectFilterView(
+          value: key,
+          selectedColor: Theme.of(context).colorScheme.primaryContainer,
+          options: [
+            ...widget.keys.map((key) {
+              return SelectOption(label: key, key: key);
+            })
+          ],
+          onSelectChange: (option) {
+            if (option.key == key) {
+              setState(() {
+                key = null;
+              });
+              widget.filter.key = null;
+            } else {
+              setState(() {
+                key = option.key;
+              });
+              widget.filter.key = key;
+            }
+            widget.onChange(widget.filter);
+          },
+          title: "by key"),
+    ]);
   }
 }

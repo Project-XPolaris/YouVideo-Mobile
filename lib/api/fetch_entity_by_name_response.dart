@@ -2,9 +2,7 @@ class FetchEntityByNameResponse {
   Entity? entity;
   bool? success;
 
-  FetchEntityByNameResponse({
-      this.entity, 
-      this.success});
+  FetchEntityByNameResponse({this.entity, this.success});
 
   FetchEntityByNameResponse.fromJson(dynamic json) {
     entity = json["entity"] != null ? Entity.fromJson(json["entity"]) : null;
@@ -19,12 +17,7 @@ class Entity {
   int? version;
   Export? export;
 
-  Entity({
-      this.name, 
-      this.state, 
-      this.instance, 
-      this.version, 
-      this.export});
+  Entity({this.name, this.state, this.instance, this.version, this.export});
 
   Entity.fromJson(dynamic json) {
     name = json["name"];
@@ -37,7 +30,9 @@ class Entity {
 
 class Export {
   List<String> urls = [];
+
   Export({required this.urls});
+
   Export.fromJson(dynamic json) {
     urls = json["urls"] != null ? json["urls"].cast<String>() : [];
   }

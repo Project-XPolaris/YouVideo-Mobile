@@ -3,6 +3,7 @@ class CC {
   String? text;
   int? start;
   int? end;
+
   CC.fromJson(Map<String, dynamic> json) {
     index = json['index'];
     text = json['text'];

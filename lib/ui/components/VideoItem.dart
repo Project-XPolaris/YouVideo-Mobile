@@ -5,10 +5,11 @@ import 'VideoCover.dart';
 class VideoItem extends StatelessWidget {
   final String? coverUrl;
   final String name;
-  final String type;
   final Function()? onTap;
   final double coverRatio;
-  VideoItem({this.coverUrl, this.name = "Unknown",this.onTap,this.type = "video",this.coverRatio = 1});
+
+  VideoItem(
+      {this.coverUrl, this.name = "Unknown", this.onTap, this.coverRatio = 1});
 
   @override
   Widget build(BuildContext context) {
@@ -20,7 +21,7 @@ class VideoItem extends StatelessWidget {
       height = 120;
     }
     return Padding(
-      padding: EdgeInsets.only(left: 16,right: 16),
+      padding: EdgeInsets.only(left: 16, right: 16),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisAlignment: MainAxisAlignment.start,
@@ -36,25 +37,23 @@ class VideoItem extends StatelessWidget {
           ),
           Expanded(
               child: Padding(
-                padding: EdgeInsets.only(left: 16, right: 16),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      name,
-                      style: TextStyle(fontSize: 16),
-                      textAlign: TextAlign.left,
-                      overflow: TextOverflow.ellipsis,
-                      maxLines: 2,
-                    )
-                  ],
-                ),
-              )
-          ),
+            padding: EdgeInsets.only(left: 16, right: 16),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  name,
+                  style: TextStyle(fontSize: 16),
+                  textAlign: TextAlign.left,
+                  overflow: TextOverflow.ellipsis,
+                  maxLines: 2,
+                )
+              ],
+            ),
+          )),
         ],
       ),
     );
   }
 }
-

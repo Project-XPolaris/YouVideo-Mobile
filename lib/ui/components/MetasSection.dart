@@ -17,7 +17,7 @@ class MetasSection extends StatelessWidget {
         children: [
           ...metas.map((meta) {
             return Padding(
-              padding: const EdgeInsets.only(right: 8,bottom: 8),
+              padding: const EdgeInsets.only(right: 8, bottom: 8),
               child: ActionChip(
                 label: Text(meta.value ?? ""),
                 onPressed: () {

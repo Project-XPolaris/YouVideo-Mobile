@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:youvideo/api/file.dart';
 import 'package:youvideo/ui/components/VideoFilter.dart';
-import 'package:youvideo/ui/components/VideoItem.dart';
 import 'package:youvideo/ui/components/VideoList.dart';
 import 'package:youvideo/ui/videos/provider.dart';
 import 'package:youvideo/util/listview.dart';
@@ -10,9 +8,11 @@ import '../video/wrap.dart';
 
 class VideosVerticalPage extends StatelessWidget {
   final String title;
-  final Map<String,String> filter;
+  final Map<String, String> filter;
   final VideosProvider provider;
-  VideosVerticalPage({this.title = "Videos",required this.filter,required this.provider});
+
+  VideosVerticalPage(
+      {this.title = "Videos", required this.filter, required this.provider});
 
   Widget build(BuildContext context) {
     var controller = createLoadMoreController(() => provider.loadMore());

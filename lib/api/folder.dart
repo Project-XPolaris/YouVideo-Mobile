@@ -48,7 +48,6 @@ class Folder {
         for (var file in video.files) {
           if (file.getCoverUrl() != null) {
             cover = file.getCoverUrl();
-            type = video.type;
             return;
           }
         }

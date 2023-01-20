@@ -14,22 +14,22 @@ class LoginHistory {
     username = json['username'];
     token = json['token'];
   }
+
   Map<String, dynamic> toJson() =>
-      {
-        'apiUrl': apiUrl,
-        'username': username,
-        "token":token
-      };
+      {'apiUrl': apiUrl, 'username': username, "token": token};
 }
+
 class LoginHistoryManager {
   List<LoginHistory> list = [];
   static final LoginHistoryManager _singleton = LoginHistoryManager._internal();
   String? serviceUrl;
   String? token;
+
   factory LoginHistoryManager() {
     return _singleton;
   }
-  refreshHistory() async{
+
+  refreshHistory() async {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     String? raw = sharedPreferences.getString("loginHistory");
     if (raw == null) {
@@ -38,15 +38,20 @@ class LoginHistoryManager {
     List<dynamic> rawList = json.decode(raw);
     list = rawList.map((e) => LoginHistory.fromJson(e)).toList();
   }
+
   add(LoginHistory history) async {
-    list.removeWhere((element) => element.apiUrl == history.apiUrl && element.username == history.username);
+    list.removeWhere((element) =>
+        element.apiUrl == history.apiUrl &&
+        element.username == history.username);
     list.insert(0, history);
     await save();
   }
-  save() async{
+
+  save() async {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     String raw = jsonEncode(list);
     sharedPreferences.setString("loginHistory", raw);
   }
+
   LoginHistoryManager._internal();
 }

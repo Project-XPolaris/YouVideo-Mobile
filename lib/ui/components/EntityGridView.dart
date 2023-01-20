@@ -8,19 +8,32 @@ class EntityGridView extends StatelessWidget {
   final List<Entity> entities;
   final Function(Entity)? onItemClick;
   final Function()? onLoadMore;
-  const EntityGridView({Key? key, required this.entities,this.onItemClick,this.onLoadMore}) : super(key: key);
+  final ScrollPhysics? physics;
+
+  const EntityGridView(
+      {Key? key,
+      required this.entities,
+      this.onItemClick,
+      this.onLoadMore,
+      this.physics})
+      : super(key: key);
+
   @override
   Widget build(BuildContext context) {
-    var _controller = createLoadMoreController((){
+    var _controller = createLoadMoreController(() {
       onLoadMore?.call();
     });
     return Container(
       child: ResponsiveGridView(
+        physics: physics,
         controller: _controller,
         children: this.entities.map((entity) {
-          return EntityGridItem(entity: entity,onTap: onItemClick,);
+          return EntityGridItem(
+            entity: entity,
+            onTap: onItemClick,
+          );
         }).toList(),
-        itemWidth: 160,
+        itemWidth: 180,
       ),
     );
   }

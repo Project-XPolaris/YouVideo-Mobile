@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:youvideo/api/entity.dart';
 import 'package:youvideo/api/folder.dart';
 import 'package:youvideo/api/video.dart';
+import 'package:youvideo/ui/components/EntityFilter.dart';
 import 'package:youvideo/ui/components/VideoFilter.dart';
 
 import '../../config.dart';
@@ -11,17 +12,22 @@ class LibraryProvider extends ChangeNotifier {
   bool first = true;
   VideoFilter filter = new VideoFilter(order: "id desc");
   int index = 0;
-  LibraryProvider({required this.libraryId,required this.title});
+
+  LibraryProvider({required this.libraryId, required this.title});
+
   final String title;
   VideoLoader loader = new VideoLoader();
   FolderLoader folderLoader = new FolderLoader();
   EntitiesLoader entityLoader = new EntitiesLoader();
-  String GridViewMode = ApplicationConfig().config.LibraryViewGridViewType;
+  String GridViewMode =
+      ApplicationConfig().config.LibraryViewGridViewType ?? "Medium";
+  EntityFilter entityFilter = new EntityFilter(order: "id desc");
+
   Map<String, String> _getVideosExtraParams() {
     Map<String, String> result = {
       "order": filter.order,
       "library": libraryId.toString(),
-      "pageSize":"100",
+      "pageSize": "100",
     };
     if (filter.random) {
       result["random"] = "1";
@@ -41,9 +47,11 @@ class LibraryProvider extends ChangeNotifier {
   }
 
   loadDirectory({force = false}) async {
-    await folderLoader.loadData(
-        extraFilter: {"library": libraryId.toString(), "group": "base_dir","pageSize":"50"},
-        force: force);
+    await folderLoader.loadData(extraFilter: {
+      "library": libraryId.toString(),
+      "group": "base_dir",
+      "pageSize": "50"
+    }, force: force);
     if (force) {
       notifyListeners();
     }
@@ -55,10 +63,22 @@ class LibraryProvider extends ChangeNotifier {
       notifyListeners();
     }
   }
+
+  Map<String, String> _getEntityExtraParams() {
+    Map<String, String> result = {};
+    if (this.entityFilter.random) {
+      result["random"] = "1";
+    } else {
+      result["order"] = this.entityFilter.order;
+    }
+    return result;
+  }
+
   loadEntity({force = false}) async {
-    await entityLoader.loadData(
-        extraFilter: {"library": libraryId.toString(), "pageSize":"50"},
-        force: force);
+    await entityLoader.loadData(extraFilter: {
+      "library": libraryId.toString(),
+      ..._getEntityExtraParams()
+    }, force: force);
     if (force) {
       notifyListeners();
     }
@@ -77,17 +97,21 @@ class LibraryProvider extends ChangeNotifier {
       notifyListeners();
     }
   }
+
   loadMoreEntity() async {
     if (await entityLoader.loadMore(extraFilter: {
       "library": libraryId.toString(),
+      ..._getEntityExtraParams()
     })) {
       notifyListeners();
     }
   }
-  setIndex(int index){
+
+  setIndex(int index) {
     this.index = index;
     notifyListeners();
   }
+
   int get gridItemWidth {
     if (GridViewMode == "Small") {
       return 150;

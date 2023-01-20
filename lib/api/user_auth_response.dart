@@ -3,10 +3,7 @@ class UserAuthResponse {
   String? token;
   String? uid;
 
-  UserAuthResponse({
-      this.success, 
-      this.token, 
-      this.uid});
+  UserAuthResponse({this.success, this.token, this.uid});
 
   UserAuthResponse.fromJson(dynamic json) {
     success = json["success"];

@@ -1,15 +1,8 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
-import 'package:url_launcher/url_launcher.dart';
 import 'package:youui/components/TitleSection.dart';
-import 'package:youvideo/config.dart';
-import 'package:youvideo/plugin/mx.dart';
 import 'package:youvideo/ui/components/VideoPlayView.dart';
 
 import '../../api/file.dart';
-import '../player/player.dart';
-import 'ActionSelectBottomSheet.dart';
 
 class FilesSection extends StatelessWidget {
   final List<File> files;
@@ -22,53 +15,10 @@ class FilesSection extends StatelessWidget {
         title: "Files",
         child: Column(
           children: [
-            ...files.map((e) =>
-                Column(
+            ...files.map((e) => Column(
                   children: [
                     ListTile(
                       onTap: () {
-                        List<ActionItem> actions = [
-                          ActionItem(
-                              title: "YouVideo player",
-                              onTap: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) =>
-                                          PlayerView(file: e)),
-                                );
-                              }),
-                          ActionItem(
-                              title: "External player",
-                              onTap: () async {
-                                Navigator.pop(context);
-                                if (Platform.isAndroid) {
-                                  MXPlayerPlugin plugin = MXPlayerPlugin();
-                                  var config = ApplicationConfig();
-                                  String playUrl = e.getStreamUrl();
-                                  var token = config.token;
-                                  if (e.subtitles == null) {
-                                    plugin.play(playUrl);
-                                  } else {
-                                    plugin.playWithSubtitles(
-                                        playUrl, e.getSubtitlesUrl());
-                                  }
-                                }
-                                if (Platform.isIOS) {
-                                  String _url =
-                                      "vlc-x-callback://x-callback-url/stream?url=${e
-                                      .videoPlayLink}";
-                                  if (e.subtitles != null) {
-                                    _url += "&sub=${e.subtitlePlayLink}";
-                                  }
-                                  void _launchURL() async =>
-                                      await canLaunch(_url)
-                                          ? await launch(_url)
-                                          : throw 'Could not launch $_url';
-                                  _launchURL();
-                                }
-                              })
-                        ];
                         showModalBottomSheet(
                             constraints: BoxConstraints(maxWidth: 1200),
                             context: context,
@@ -77,8 +27,7 @@ class FilesSection extends StatelessWidget {
                             ),
                             builder: (ctx) {
                               return VideoPlayView(
-                                  file: e,
-
+                                file: e,
                               );
                             });
                       },
@@ -86,14 +35,10 @@ class FilesSection extends StatelessWidget {
                       subtitle: Text(e.getDescriptionText()),
                       leading: CircleAvatar(
                         backgroundColor:
-                        Theme
-                            .of(context)
-                            .colorScheme
-                            .secondaryContainer,
+                            Theme.of(context).colorScheme.secondaryContainer,
                         child: Icon(
                           Icons.videocam_rounded,
-                          color: Theme
-                              .of(context)
+                          color: Theme.of(context)
                               .colorScheme
                               .onSecondaryContainer,
                         ),

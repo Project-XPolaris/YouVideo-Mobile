@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:youvideo/ui/library/tabs/entities/entities.dart';
 import 'package:youvideo/ui/library/tabs/entities/list-wrap.dart';
 
 import 'provider.dart';
@@ -14,13 +13,13 @@ class LibraryContent extends StatelessWidget {
   Widget build(BuildContext context) {
     final provider = Provider.of<LibraryProvider>(context);
     switch (provider.index) {
-      case 0:
-        return LibraryVideos();
       case 1:
+        return LibraryVideos();
+      case 2:
         return LibraryFolders(
           provider: provider,
         );
-      case 2:
+      case 0:
         return EntityListView();
     }
     return Container();

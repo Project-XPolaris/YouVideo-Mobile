@@ -19,25 +19,34 @@ class HomeMyHorizon extends StatelessWidget {
                   width: 96,
                   height: 96,
                   child: CircleAvatar(
-                    child: Icon(Icons.person_rounded,color: Theme.of(context).colorScheme.onSecondaryContainer,size: 48,),
-                    backgroundColor: Theme.of(context).colorScheme.secondaryContainer,
+                    child: Icon(
+                      Icons.person_rounded,
+                      color: Theme.of(context).colorScheme.onSecondaryContainer,
+                      size: 48,
+                    ),
+                    backgroundColor:
+                        Theme.of(context).colorScheme.secondaryContainer,
                   ),
                 ),
                 Container(
                   margin: EdgeInsets.only(top: 8),
-                  child: Text("My",style: TextStyle(fontSize: 22,fontWeight: FontWeight.w200),),
+                  child: Text(
+                    "My",
+                    style: TextStyle(fontSize: 22, fontWeight: FontWeight.w200),
+                  ),
                 )
               ],
             ),
           ),
-          Expanded(child: Container(
-            padding: EdgeInsets.only(left: 16,right: 16,top: 32),
-            child:ListView(
+          Expanded(
+              child: Container(
+            padding: EdgeInsets.only(left: 16, right: 16, top: 32),
+            child: ListView(
               children: [
                 ListTile(
                   leading: Icon(Icons.bookmark_rounded),
                   title: Text("Tag"),
-                  onTap: (){
+                  onTap: () {
                     TagListPage.launch(context);
                   },
                   shape: RoundedRectangleBorder(
@@ -47,7 +56,7 @@ class HomeMyHorizon extends StatelessWidget {
                 ListTile(
                   leading: Icon(Icons.history_rounded),
                   title: Text("History"),
-                  onTap: (){
+                  onTap: () {
                     HistoryListPageWrap.launch(context);
                   },
                   shape: RoundedRectangleBorder(

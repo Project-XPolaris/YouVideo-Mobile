@@ -10,7 +10,8 @@ class LibraryPage extends StatelessWidget {
   final Library library;
 
   LibraryPage({required this.title, required this.library});
-  static Launch(BuildContext context,Library library){
+
+  static Launch(BuildContext context, Library library) {
     if (library.id == null) {
       return;
     }
@@ -18,15 +19,17 @@ class LibraryPage extends StatelessWidget {
       context,
       MaterialPageRoute(
           builder: (context) => LibraryPage(
-            title: library.name ?? "",
-            library: library,
-          )),
+                title: library.name ?? "",
+                library: library,
+              )),
     );
   }
+
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider<LibraryProvider>(
-        create: (_) => LibraryProvider(libraryId: library.id ?? 0,title: title),
+        create: (_) =>
+            LibraryProvider(libraryId: library.id ?? 0, title: title),
         child: Consumer<LibraryProvider>(builder: (context, provider, child) {
           provider.loadData();
           return LibraryLayout();

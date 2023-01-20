@@ -24,11 +24,9 @@ class _AddTagBottomDialogState extends State<AddTagBottomDialog> {
             children: [
               TextField(
                 decoration: const InputDecoration(
-                  border: InputBorder.none,
-                  hintText: 'New tag name',
-                  prefixIcon: Icon(Icons.tag)
-                ),
-
+                    border: InputBorder.none,
+                    hintText: 'New tag name',
+                    prefixIcon: Icon(Icons.tag)),
                 onChanged: (text) => this.setState(() {
                   inputText = text;
                 }),
@@ -36,9 +34,9 @@ class _AddTagBottomDialogState extends State<AddTagBottomDialog> {
               TextButton(
                   onPressed: () {
                     var text = inputText;
-                      if (text != null && text.isNotEmpty) {
-                        widget.onCreate(text);
-                      }
+                    if (text != null && text.isNotEmpty) {
+                      widget.onCreate(text);
+                    }
                   },
                   child: Text("Create"))
             ],

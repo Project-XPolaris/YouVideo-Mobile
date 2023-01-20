@@ -1,24 +1,30 @@
 import 'dart:convert';
 
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:json_annotation/json_annotation.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
 part 'config.g.dart';
+
 @JsonSerializable()
 class ConfigData {
-  @JsonKey(required: true)
-  String HomeVideosGridViewType = "Medium";
-  @JsonKey(required: true)
-  String HomeVideosLayout = "Default";
-  @JsonKey(required: true)
-  String LibraryViewGridViewType = "Medium";
+  @JsonKey()
+  String? HomeVideosGridViewType = "Medium";
+  @JsonKey()
+  String? HomeVideosLayout = "Default";
+  @JsonKey()
+  String? LibraryViewGridViewType = "Medium";
 
-  factory ConfigData.fromJson(Map<String, dynamic> json) => _$ConfigDataFromJson(json);
+  factory ConfigData.fromJson(Map<String, dynamic> json) =>
+      _$ConfigDataFromJson(json);
+
   Map<String, dynamic> toJson() => _$ConfigDataToJson(this);
-  ConfigData.initNew(){
+
+  ConfigData.initNew() {
     HomeVideosGridViewType = "Medium";
     LibraryViewGridViewType = "Medium";
     HomeVideosLayout = "Default";
   }
+
   ConfigData();
 }
 
@@ -37,12 +43,12 @@ class ApplicationConfig {
   Future<bool> loadConfig() async {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     serviceUrl = sharedPreferences.getString("apiUrl");
-    if (sharedPreferences.containsKey("configData")){
+    if (sharedPreferences.containsKey("configData")) {
       String? raw = sharedPreferences.getString("configData");
       if (raw != null) {
         config = ConfigData.fromJson(json.decode(raw));
       }
-    }else{
+    } else {
       config = ConfigData.initNew();
     }
     return true;

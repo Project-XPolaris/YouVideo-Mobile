@@ -11,7 +11,9 @@ class HomePageWrap extends StatelessWidget {
     return ChangeNotifierProvider<HomeProvider>(
         create: (_) => HomeProvider(),
         child: Consumer<HomeProvider>(builder: (context, provider, child) {
-          return HomePageContent(provider: provider,);
+          return HomePageContent(
+            provider: provider,
+          );
         }));
   }
 }

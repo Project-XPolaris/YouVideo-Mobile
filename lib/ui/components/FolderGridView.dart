@@ -27,18 +27,21 @@ class FolderGridView extends StatelessWidget {
             imageUrl: folder.cover,
             loadingCoverColor: Theme.of(context).colorScheme.secondaryContainer,
             placeholderColor: Theme.of(context).colorScheme.secondaryContainer,
-            placeHolderIcon: Icon(Icons.folder, color: Theme.of(context).colorScheme.onSecondaryContainer,size: 48,),
+            placeHolderIcon: Icon(
+              Icons.folder,
+              color: Theme.of(context).colorScheme.onSecondaryContainer,
+              size: 48,
+            ),
             borderRadius: 6,
             coverWidth: 120 * folder.coverRatio,
             coverHeight: 120,
             imageAlignment: Alignment.bottomCenter,
             imageBoxFit: BoxFit.contain,
-            onTap: (){
+            onTap: () {
               VideosPageWrap.launchWithFolderDetail(context, folder);
             },
           );
         }).toList(),
-        itemWidth: 180
-    );
+        itemWidth: 180);
   }
 }

@@ -9,7 +9,9 @@ class TagsSection extends StatelessWidget {
   final List<Tag> tags;
   final Function(Tag)? onRemove;
   final Function(String)? onAdd;
-  const TagsSection({Key? key,this.tags = const [],this.onRemove,this.onAdd}) : super(key: key);
+
+  const TagsSection({Key? key, this.tags = const [], this.onRemove, this.onAdd})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -27,18 +29,22 @@ class TagsSection extends StatelessWidget {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) =>
-                              VideosPageWrap(
+                          builder: (context) => VideosPageWrap(
                                 title: tag.name,
-                                filter: {
-                                  "tag": tag.id.toString()
-                                },
+                                filter: {"tag": tag.id.toString()},
                               )),
                     );
                   },
                   avatar: CircleAvatar(
-                    backgroundColor: Theme.of(context).colorScheme.secondaryContainer,
-                    child: Text("#",style: TextStyle(color: Theme.of(context).colorScheme.onSecondaryContainer),),
+                    backgroundColor:
+                        Theme.of(context).colorScheme.secondaryContainer,
+                    child: Text(
+                      "#",
+                      style: TextStyle(
+                          color: Theme.of(context)
+                              .colorScheme
+                              .onSecondaryContainer),
+                    ),
                   ),
                 ),
                 onLongPress: () {
@@ -50,8 +56,8 @@ class TagsSection extends StatelessWidget {
                             leading: Icon(Icons.delete_rounded),
                             title: Text("Remove tag"),
                             onTap: () {
-                                onRemove?.call(tag);
-                                Navigator.pop(context);
+                              onRemove?.call(tag);
+                              Navigator.pop(context);
                             },
                           ),
                           Container(
@@ -79,7 +85,8 @@ class TagsSection extends StatelessWidget {
                   isScrollControlled: true,
                   useRootNavigator: true);
             },
-            avatar: Icon(Icons.add_rounded,color: Theme.of(context).colorScheme.onPrimaryContainer),
+            avatar: Icon(Icons.add_rounded,
+                color: Theme.of(context).colorScheme.onPrimaryContainer),
           )
         ],
       ),

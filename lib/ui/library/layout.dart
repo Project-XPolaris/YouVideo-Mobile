@@ -25,9 +25,9 @@ class LibraryLayout extends StatelessWidget {
             title: Text(provider.title),
             bottom: TabBar(
               tabs: [
+                Tab(icon: Icon(Icons.apps_rounded)),
                 Tab(icon: Icon(Icons.movie_rounded)),
                 Tab(icon: Icon(Icons.folder_rounded)),
-                Tab(icon: Icon(Icons.apps_rounded)),
               ],
             ),
             leading: IconButton(
@@ -45,11 +45,11 @@ class LibraryLayout extends StatelessWidget {
               },
               child: TabBarView(
                 children: [
+                  EntityListView(),
                   LibraryVideos(),
                   LibraryFolders(
                     provider: provider,
                   ),
-                  EntityListView()
                 ],
               ),
             ),
@@ -62,11 +62,11 @@ class LibraryLayout extends StatelessWidget {
             showBack: true,
             navItems: [
               NavigationBarItem(
+                  icon: Icon(Icons.apps_rounded), label: "Entities"),
+              NavigationBarItem(
                   icon: Icon(Icons.movie_rounded), label: "Videos"),
               NavigationBarItem(
                   icon: Icon(Icons.folder_rounded), label: "Folders"),
-              NavigationBarItem(
-                  icon: Icon(Icons.apps_rounded), label: "Entities")
             ],
             tabIndex: provider.index,
             onTabIndexChange: provider.setIndex,
@@ -74,7 +74,7 @@ class LibraryLayout extends StatelessWidget {
             action: Expanded(
                 child: Column(
               children: [
-                provider.index == 0
+                provider.index == 1
                     ? GirdViewModeMenu(onModeChange: (mode) {
                         provider.updateGridViewType(mode);
                       })
