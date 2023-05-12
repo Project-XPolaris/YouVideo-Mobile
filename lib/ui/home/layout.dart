@@ -19,7 +19,6 @@ class BaseHomeLayout extends StatelessWidget {
     return ResponsiveTabPageLayout(
       onTabIndexChange: provider.setActiveTab,
       tabIndex: provider.activeTab,
-      verticalNavHeight: 320,
       navItems: [
         NavigationBarItem(icon: Icon(Icons.home_rounded), label: "Home"),
         NavigationBarItem(icon: Icon(Icons.videocam_rounded), label: "Videos"),
@@ -28,16 +27,8 @@ class BaseHomeLayout extends StatelessWidget {
         NavigationBarItem(
             icon: Icon(Icons.category_rounded), label: "Category"),
         NavigationBarItem(icon: Icon(Icons.person_rounded), label: "My"),
-        // NavigationBarItem(icon: Icon(Icons.apps_rounded), label: "Entity"),
-        // NavigationBarItem(icon: Icon(Icons.account_tree_rounded), label: "Meta"),
-        // NavigationBarItem(icon: Icon(Icons.label_rounded), label: "Tags"),
-        // NavigationBarItem(icon: Icon(Icons.history_rounded), label: "History")
       ],
       appbar: renderHomeAppBar(context, actions: this.extra),
-      // navigationStyle: NavigationStyle(
-      //   selectedItemColor: Colors.red,
-      //   unselectedItemColor: Colors.white54,
-      // ),
       body: child,
       action: Expanded(
         child: Container(

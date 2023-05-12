@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:youvideo/api/client.dart';
 import 'package:youvideo/api/entity.dart';
+import 'package:youvideo/api/video.dart';
 
 class EntityProvider extends ChangeNotifier {
   final int id;
@@ -16,7 +17,10 @@ class EntityProvider extends ChangeNotifier {
 
   get infos => entity?.infos ?? [];
 
-  get videos => entity?.videos ?? [];
+  List<Video>? get displayEPS =>
+      entity?.videos.where((element) => element.ep != null).toList();
+
+  List<Video> get videos => entity?.videos ?? [];
 
   List<EntityTag> get tags =>
       (entity?.tags ?? []).where((element) => element.name == "Tag").toList();

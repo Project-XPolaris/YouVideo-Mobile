@@ -2,6 +2,7 @@ import 'package:expandable_text/expandable_text.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:youvideo/api/client.dart';
+import 'package:youvideo/api/video.dart';
 import 'package:youvideo/ui/entity/provider.dart';
 
 import '../components/MetasSection.dart';
@@ -15,6 +16,21 @@ class EntityHorizonPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final provider = Provider.of<EntityProvider>(context);
+    onVideoTap(Video video) async {
+      var resp = await ApiClient().fetchVideo(video.id!);
+      showModalBottomSheet(
+          constraints: BoxConstraints(maxWidth: 1200),
+          context: context,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(16),
+          ),
+          builder: (ctx) {
+            return VideoPlayView(
+              file: resp.data!.files.first,
+            );
+          });
+    }
+
     return Scaffold(
       body: Container(
         child: Row(
@@ -126,6 +142,118 @@ class EntityHorizonPage extends StatelessWidget {
                     padding: EdgeInsets.all(16),
                     child: ListView(
                       children: [
+                        provider.displayEPS != null && provider.displayEPS!.isNotEmpty
+                            ? Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text("Episode"),
+                                  Container(
+                                    margin: EdgeInsets.only(top: 8),
+                                    child: Container(
+                                      height: 64,
+                                      child: ListView(
+                                        scrollDirection: Axis.horizontal,
+                                        children: () {
+                                          provider.displayEPS!.sort((a, b) {
+                                            if ((a.order ?? double.infinity) >
+                                                (b.order ?? double.infinity)) {
+                                              return 1;
+                                            }
+                                            return -1;
+                                          });
+                                          return provider.displayEPS!.map((e) {
+                                            return GestureDetector(
+                                              onTap: () {
+                                                onVideoTap(e);
+                                              },
+                                              child: Container(
+                                                width: 64,
+                                                height: 64,
+                                                margin:
+                                                    EdgeInsets.only(right: 8),
+                                                decoration: BoxDecoration(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            8),
+                                                    color: Theme.of(context)
+                                                        .colorScheme
+                                                        .secondaryContainer),
+                                                padding: EdgeInsets.all(8),
+                                                child: Center(
+                                                  child: Text(
+                                                    e.ep ?? e.name ?? "",
+                                                  ),
+                                                ),
+                                              ),
+                                            );
+                                          }).toList();
+                                        }(),
+                                      ),
+                                    ),
+                                  )
+                                ],
+                              )
+                            : Container(),
+                        provider.metas.isNotEmpty?
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Container(
+                                    margin: EdgeInsets.only(top: 16),
+                                    child: Text(
+                                      "Info",
+                                      style: TextStyle(),
+                                    )),
+                                Container(
+                                  margin: EdgeInsets.only(top: 16),
+                                  height: 120,
+                                  child: ListView(
+                                    children: [
+                                      ...provider.metas.map((meta) {
+                                        return Container(
+                                          margin: EdgeInsets.only(right: 8, bottom: 16),
+                                          padding: EdgeInsets.all(8),
+                                          width: 120,
+                                          child: Column(
+                                            children: [
+                                              Expanded(
+                                                  child: Container(
+                                                    child: Center(
+                                                      child: Text(
+                                                        meta.value ?? "",
+                                                        overflow: TextOverflow.ellipsis,
+                                                        maxLines: 3,
+                                                        style: TextStyle(fontSize: 13),
+                                                        textAlign: TextAlign.center,
+                                                      ),
+                                                    ),
+                                                  )),
+                                              Container(
+                                                child: Text(
+                                                  meta.name ?? "",
+                                                  style: TextStyle(
+                                                      fontSize: 12,
+                                                      color: Theme.of(context)
+                                                          .colorScheme
+                                                          .secondary,
+                                                      fontWeight: FontWeight.w200),
+                                                ),
+                                              )
+                                            ],
+                                          ),
+                                          decoration: BoxDecoration(
+                                              borderRadius: BorderRadius.circular(8),
+                                              color: Theme.of(context)
+                                                  .colorScheme
+                                                  .secondaryContainer),
+                                        );
+                                      })
+                                    ],
+                                    scrollDirection: Axis.horizontal,
+                                  ),
+                                ),
+                              ],
+                            ):Container(),
                         provider.entity != null
                             ? Container(
                                 margin: EdgeInsets.only(top: 32),
@@ -135,21 +263,7 @@ class EntityHorizonPage extends StatelessWidget {
                                     videos: provider.videos,
                                     title: "Videos",
                                     onTap: (video) async {
-                                      var resp = await ApiClient()
-                                          .fetchVideo(video.id!);
-                                      showModalBottomSheet(
-                                          constraints:
-                                              BoxConstraints(maxWidth: 1200),
-                                          context: context,
-                                          shape: RoundedRectangleBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(16),
-                                          ),
-                                          builder: (ctx) {
-                                            return VideoPlayView(
-                                              file: resp.data!.files.first,
-                                            );
-                                          });
+                                      onVideoTap(video);
                                     },
                                     titleStyle:
                                         TextStyle(fontWeight: FontWeight.w600),
@@ -157,55 +271,6 @@ class EntityHorizonPage extends StatelessWidget {
                                 ),
                               )
                             : Container(),
-                        Container(
-                          margin: EdgeInsets.only(top: 32),
-                          height: 120,
-                          child: ListView(
-                            children: [
-                              ...provider.metas.map((meta) {
-                                return Container(
-                                  margin: EdgeInsets.only(
-                                      left: 8, right: 8, bottom: 16),
-                                  padding: EdgeInsets.all(8),
-                                  width: 120,
-                                  child: Column(
-                                    children: [
-                                      Expanded(
-                                          child: Container(
-                                        child: Center(
-                                          child: Text(
-                                            meta.value ?? "",
-                                            overflow: TextOverflow.ellipsis,
-                                            maxLines: 3,
-                                            style: TextStyle(fontSize: 13),
-                                            textAlign: TextAlign.center,
-                                          ),
-                                        ),
-                                      )),
-                                      Container(
-                                        child: Text(
-                                          meta.name ?? "",
-                                          style: TextStyle(
-                                              fontSize: 12,
-                                              color: Theme.of(context)
-                                                  .colorScheme
-                                                  .secondary,
-                                              fontWeight: FontWeight.w200),
-                                        ),
-                                      )
-                                    ],
-                                  ),
-                                  decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(8),
-                                      color: Theme.of(context)
-                                          .colorScheme
-                                          .secondaryContainer),
-                                );
-                              })
-                            ],
-                            scrollDirection: Axis.horizontal,
-                          ),
-                        )
                       ],
                     )))
           ],
@@ -214,3 +279,4 @@ class EntityHorizonPage extends StatelessWidget {
     );
   }
 }
+

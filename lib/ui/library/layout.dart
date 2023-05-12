@@ -70,7 +70,6 @@ class LibraryLayout extends StatelessWidget {
             ],
             tabIndex: provider.index,
             onTabIndexChange: provider.setIndex,
-            navHeight: 220,
             action: Expanded(
                 child: Column(
               children: [

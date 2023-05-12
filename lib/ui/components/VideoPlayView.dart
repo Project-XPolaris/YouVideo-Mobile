@@ -8,6 +8,7 @@ import 'package:youvideo/ui/video/vertical.dart';
 import '../../api/file.dart';
 import '../../plugin/mx.dart';
 import '../player/player.dart';
+import '../player/player2.dart';
 
 class VideoPlayView extends StatefulWidget {
   final File file;
@@ -108,8 +109,8 @@ class _VideoPlayViewState extends State<VideoPlayView> {
                               context,
                               MaterialPageRoute(
                                   builder: (context) =>
-                                      PlayerView(file: widget.file)),
-                            );
+                                      ChewieDemo(file: widget.file,),
+                            ));
                           },
                           child: Text("Internal player")),
                       margin: EdgeInsets.only(right: 16),

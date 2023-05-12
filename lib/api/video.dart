@@ -15,6 +15,8 @@ class Video {
   int? entityId;
   List<File> files = [];
   List<Meta> infos = [];
+  int? order;
+  String? ep;
 
   Video.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -24,6 +26,8 @@ class Video {
     dirName = json['dirName'];
     entityId = json['entityId'];
     libraryId = json['library_id'];
+    order = json['order'];
+    ep = json['ep'];
     if (json.containsKey("files")) {
       files = List<File>.from(
           json['files'].map((it) => File.fromJson(it)).toList());

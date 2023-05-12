@@ -141,7 +141,7 @@ class ApiClient {
 
   Future<List<CC>> fetchCC(int fileId) async {
     var response =
-        await _dio.get("/link/${fileId}/cc/${ApplicationConfig().token}");
+        await _dio.get("/link/${fileId}/cc/${ApplicationConfig().token}/ccfile");
     List<CC> data = [];
     List<dynamic> subs = response.data["subs"] as List<dynamic>;
     for (var sub in subs) {

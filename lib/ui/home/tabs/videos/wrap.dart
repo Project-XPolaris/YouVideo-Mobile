@@ -87,7 +87,9 @@ class VideosTabPageWrap extends StatelessWidget {
                   ),
                 ),
                 extra: [
-                  Container(),
+                  Container(
+                    margin: EdgeInsets.only(top: 16),
+                  ),
                   IconButton(
                       onPressed: () {
                         Scaffold.of(context).openEndDrawer();
