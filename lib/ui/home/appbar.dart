@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+// Removed logout from AppBar; related imports cleaned up
 import 'package:youvideo/ui/search/index.dart';
 
 renderHomeAppBar(BuildContext context, {List<Widget> actions = const []}) {
@@ -8,13 +9,14 @@ renderHomeAppBar(BuildContext context, {List<Widget> actions = const []}) {
     actions: [
       ...actions,
       IconButton(
-          onPressed: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => SearchPage()),
-            );
-          },
-          icon: Icon(Icons.search))
+        onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => SearchPage()),
+          );
+        },
+        icon: Icon(Icons.search),
+      ),
     ],
   );
 }

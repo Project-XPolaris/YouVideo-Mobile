@@ -43,6 +43,7 @@ class ApplicationConfig {
   Future<bool> loadConfig() async {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     serviceUrl = sharedPreferences.getString("apiUrl");
+    token = sharedPreferences.getString("token");
     if (sharedPreferences.containsKey("configData")) {
       String? raw = sharedPreferences.getString("configData");
       if (raw != null) {
@@ -67,5 +68,13 @@ class ApplicationConfig {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     sharedPreferences.setString("configData", jsonEncode(config));
     this.config = configData;
+  }
+
+  Future<void> saveAuth({required String apiUrl, required String token}) async {
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    await sharedPreferences.setString("apiUrl", apiUrl);
+    await sharedPreferences.setString("token", token);
+    serviceUrl = apiUrl;
+    this.token = token;
   }
 }

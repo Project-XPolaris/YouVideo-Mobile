@@ -36,11 +36,10 @@ class _PlayerViewState extends State<PlayerView> {
   }
 
   Future<void> initializePlayer() async {
-    _videoPlayerController1 =
-        VideoPlayerController.network(widget.file.videoPlayLink);
-    await Future.wait([
-      _videoPlayerController1.initialize(),
-    ]);
+    _videoPlayerController1 = VideoPlayerController.networkUrl(
+      Uri.parse(widget.file.videoPlayLink),
+    );
+    await Future.wait([_videoPlayerController1.initialize()]);
     var cc = await ApiClient().fetchCC(widget.file.id!);
     _createChewieController(subs: cc);
     setState(() {});
@@ -48,12 +47,14 @@ class _PlayerViewState extends State<PlayerView> {
 
   void _createChewieController({List<CC> subs = const []}) {
     final subtitles = [
-      ...subs.map((sub) => Subtitle(
-            index: sub.index!,
-            start: Duration(milliseconds: sub.start!),
-            end: Duration(milliseconds: sub.end!),
-            text: sub.text!,
-          )),
+      ...subs.map(
+        (sub) => Subtitle(
+          index: sub.index!,
+          start: Duration(milliseconds: sub.start!),
+          end: Duration(milliseconds: sub.end!),
+          text: sub.text!,
+        ),
+      ),
     ];
 
     _chewieController = ChewieController(
@@ -63,16 +64,14 @@ class _PlayerViewState extends State<PlayerView> {
       looping: false,
       deviceOrientationsAfterFullScreen: [
         DeviceOrientation.portraitUp,
-        DeviceOrientation.portraitDown
+        DeviceOrientation.portraitDown,
       ],
 
       // subtitle: Subtitles(subtitles),
       subtitleBuilder: (context, dynamic subtitle) => Container(
         padding: const EdgeInsets.all(10.0),
         child: subtitle is InlineSpan
-            ? RichText(
-                text: subtitle,
-              )
+            ? RichText(text: subtitle)
             : Text(
                 subtitle.toString(),
                 style: const TextStyle(color: Colors.black),
@@ -105,11 +104,10 @@ class _PlayerViewState extends State<PlayerView> {
         body: Container(
           color: Colors.black,
           child: Center(
-            child: _chewieController != null &&
+            child:
+                _chewieController != null &&
                     _chewieController!.videoPlayerController.value.isInitialized
-                ? Chewie(
-                    controller: _chewieController!,
-                  )
+                ? Chewie(controller: _chewieController!)
                 : Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: const [

@@ -5,21 +5,24 @@ import 'package:youvideo/ui/components/ScreenWidthSelector.dart';
 
 import '../ui/components/EntityFilter.dart';
 import 'horizon.dart';
+import 'vertical.dart';
 
 class EntityListWrap extends StatelessWidget {
   const EntityListWrap({Key? key}) : super(key: key);
 
   static launch(BuildContext context) {
     Navigator.push(
-        context, MaterialPageRoute(builder: (context) => EntityListWrap()));
+      context,
+      MaterialPageRoute(builder: (context) => EntityListWrap()),
+    );
   }
 
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider<HomeEntityProvider>(
-        create: (_) => HomeEntityProvider(),
-        child:
-            Consumer<HomeEntityProvider>(builder: (context, provider, child) {
+      create: (_) => HomeEntityProvider(),
+      child: Consumer<HomeEntityProvider>(
+        builder: (context, provider, child) {
           provider.loadData();
           return Scaffold(
             appBar: AppBar(
@@ -32,30 +35,29 @@ class EntityListWrap extends StatelessWidget {
               ),
             ),
             body: ScreenWidthSelector(
-              verticalChild: HomeEntityHorizonView(
-                provider: provider,
-              ),
-              horizonChild: HomeEntityHorizonView(
-                provider: provider,
-              ),
+              verticalChild: HomeEntityVerticalView(provider: provider),
+              horizonChild: HomeEntityHorizonView(provider: provider),
             ),
             floatingActionButton: FloatingActionButton(
               onPressed: () {
                 showModalBottomSheet(
-                    context: context,
-                    builder: (ctx) {
-                      return EntityFilterView(
-                        filter: provider.filter,
-                        onChange: (filter) {
-                          provider.filter = filter;
-                          provider.loadData(force: true);
-                        },
-                      );
-                    });
+                  context: context,
+                  builder: (ctx) {
+                    return EntityFilterView(
+                      filter: provider.filter,
+                      onChange: (filter) {
+                        provider.filter = filter;
+                        provider.loadData(force: true);
+                      },
+                    );
+                  },
+                );
               },
               child: Icon(Icons.filter_list),
             ),
           );
-        }));
+        },
+      ),
+    );
   }
 }

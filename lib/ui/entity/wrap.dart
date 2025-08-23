@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:youui/components/viewport-selector.dart';
 import 'package:youvideo/ui/entity/horizon.dart';
+import 'package:youvideo/ui/entity/vertical.dart';
 
 import 'provider.dart';
 
@@ -14,10 +15,7 @@ class EntityPage extends StatelessWidget {
     if (id != null) {
       Navigator.push(
         context,
-        MaterialPageRoute(
-            builder: (context) => EntityPage(
-                  id: id,
-                )),
+        MaterialPageRoute(builder: (context) => EntityPage(id: id)),
       );
     }
   }
@@ -25,13 +23,16 @@ class EntityPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider<EntityProvider>(
-        create: (_) => EntityProvider(id: id),
-        child: Consumer<EntityProvider>(builder: (context, provider, child) {
+      create: (_) => EntityProvider(id: id),
+      child: Consumer<EntityProvider>(
+        builder: (context, provider, child) {
           provider.loadData();
           return ViewportSelector(
-            verticalChild: EntityHorizonPage(),
+            verticalChild: EntityVerticalPage(),
             horizonChild: EntityHorizonPage(),
           );
-        }));
+        },
+      ),
+    );
   }
 }

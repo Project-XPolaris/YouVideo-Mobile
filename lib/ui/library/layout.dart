@@ -18,41 +18,55 @@ class LibraryLayout extends StatelessWidget {
   Widget build(BuildContext context) {
     final provider = Provider.of<LibraryProvider>(context);
     return ViewportSelector(
-      verticalChild: DefaultTabController(
-        length: 3,
-        child: Scaffold(
-          appBar: AppBar(
-            title: Text(provider.title),
-            bottom: TabBar(
-              tabs: [
-                Tab(icon: Icon(Icons.apps_rounded)),
-                Tab(icon: Icon(Icons.movie_rounded)),
-                Tab(icon: Icon(Icons.folder_rounded)),
+      verticalChild: Scaffold(
+        appBar: AppBar(
+          title: Text(provider.title),
+          leading: IconButton(
+            icon: Icon(Icons.arrow_back),
+            onPressed: () {
+              Navigator.pop(context);
+            },
+          ),
+        ),
+        body: Container(
+          child: RefreshIndicator(
+            onRefresh: () async {
+              provider.loader.firstLoad = true;
+              await provider.loader.loadData();
+            },
+            child: IndexedStack(
+              index: provider.index,
+              children: [
+                EntityListView(),
+                LibraryVideos(),
+                LibraryFolders(provider: provider),
               ],
             ),
-            leading: IconButton(
-              icon: Icon(Icons.arrow_back),
-              onPressed: () {
-                Navigator.pop(context);
-              },
-            ),
           ),
-          body: Container(
-            child: RefreshIndicator(
-              onRefresh: () async {
-                provider.loader.firstLoad = true;
-                await provider.loader.loadData();
-              },
-              child: TabBarView(
-                children: [
-                  EntityListView(),
-                  LibraryVideos(),
-                  LibraryFolders(
-                    provider: provider,
-                  ),
-                ],
+        ),
+        bottomNavigationBar: SafeArea(
+          child: NavigationBar(
+            selectedIndex: provider.index,
+            onDestinationSelected: (value) {
+              provider.setIndex(value);
+            },
+            destinations: const [
+              NavigationDestination(
+                icon: Icon(Icons.apps_outlined),
+                selectedIcon: Icon(Icons.apps_rounded),
+                label: 'Entities',
               ),
-            ),
+              NavigationDestination(
+                icon: Icon(Icons.movie_outlined),
+                selectedIcon: Icon(Icons.movie_rounded),
+                label: 'Videos',
+              ),
+              NavigationDestination(
+                icon: Icon(Icons.folder_outlined),
+                selectedIcon: Icon(Icons.folder_rounded),
+                label: 'Folders',
+              ),
+            ],
           ),
         ),
       ),
@@ -62,24 +76,33 @@ class LibraryLayout extends StatelessWidget {
             showBack: true,
             navItems: [
               NavigationBarItem(
-                  icon: Icon(Icons.apps_rounded), label: "Entities"),
+                icon: Icon(Icons.apps_rounded),
+                label: "Entities",
+              ),
               NavigationBarItem(
-                  icon: Icon(Icons.movie_rounded), label: "Videos"),
+                icon: Icon(Icons.movie_rounded),
+                label: "Videos",
+              ),
               NavigationBarItem(
-                  icon: Icon(Icons.folder_rounded), label: "Folders"),
+                icon: Icon(Icons.folder_rounded),
+                label: "Folders",
+              ),
             ],
             tabIndex: provider.index,
             onTabIndexChange: provider.setIndex,
             action: Expanded(
-                child: Column(
-              children: [
-                provider.index == 1
-                    ? GirdViewModeMenu(onModeChange: (mode) {
-                        provider.updateGridViewType(mode);
-                      })
-                    : Container(),
-              ],
-            )),
+              child: Column(
+                children: [
+                  provider.index == 1
+                      ? GirdViewModeMenu(
+                          onModeChange: (mode) {
+                            provider.updateGridViewType(mode);
+                          },
+                        )
+                      : Container(),
+                ],
+              ),
+            ),
           ),
           body: LibraryContent(),
         ),

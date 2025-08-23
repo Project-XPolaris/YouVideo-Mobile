@@ -1,23 +1,26 @@
-import 'package:youui/account/entry.dart';
 import 'package:youvideo/api/video.dart';
+import 'package:youvideo/api/entity.dart' as yv;
 
 class SearchResult {
   List<Video> videos = [];
-  List<Entity> entities = [];
+  List<yv.Entity> entities = [];
 
   SearchResult.fromJson(Map<String, dynamic> json) {
     videos = [];
     entities = [];
-    List<dynamic>? rawVideos = json['result']['videos'];
-    if (rawVideos != null) {
-      for (var value in rawVideos) {
-        videos.add(Video.fromJson(value));
+    final Map<String, dynamic>? data = json['data'];
+    if (data != null) {
+      List<dynamic>? rawVideos = data['videos'];
+      if (rawVideos != null) {
+        for (var value in rawVideos) {
+          videos.add(Video.fromJson(value));
+        }
       }
-    }
-    List<dynamic>? rawEntities = json['result']['entities'];
-    if (rawEntities != null) {
-      for (var value in rawEntities) {
-        entities.add(Entity.fromJson(value));
+      List<dynamic>? rawEntities = data['entities'];
+      if (rawEntities != null) {
+        for (var value in rawEntities) {
+          entities.add(yv.Entity.fromJson(value));
+        }
       }
     }
   }

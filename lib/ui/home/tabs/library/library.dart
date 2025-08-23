@@ -5,19 +5,26 @@ import 'package:youvideo/ui/home/tabs/library/provider.dart';
 import 'package:youvideo/ui/library/library.dart';
 import 'package:youvideo/util/listview.dart';
 
-import '../../layout.dart';
-
 class LibrariesTabPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider<HomeLibrariesProvider>(
-        create: (_) => HomeLibrariesProvider(),
-        child: Consumer<HomeLibrariesProvider>(
-            builder: (context, provider, child) {
+      create: (_) => HomeLibrariesProvider(),
+      child: Consumer<HomeLibrariesProvider>(
+        builder: (context, provider, child) {
           var controller = createLoadMoreController(() => provider.loadMore());
           provider.loadData();
-          return BaseHomeLayout(
-            child: Container(
+          return Scaffold(
+            appBar: AppBar(
+              title: Text("Libraries"),
+              leading: IconButton(
+                icon: Icon(Icons.arrow_back_rounded),
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+              ),
+            ),
+            body: Container(
               margin: EdgeInsets.only(left: 16, right: 16),
               child: RefreshIndicator(
                 color: Theme.of(context).colorScheme.primary,
@@ -39,6 +46,8 @@ class LibrariesTabPage extends StatelessWidget {
               ),
             ),
           );
-        }));
+        },
+      ),
+    );
   }
 }

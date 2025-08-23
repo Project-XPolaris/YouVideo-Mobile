@@ -8,29 +8,28 @@ class HistoryListHorizon extends StatelessWidget {
   final List<History> historyList;
   final Function(History)? onItemClick;
 
-  const HistoryListHorizon(
-      {Key? key,
-      required this.onLoadMore,
-      required this.historyList,
-      this.onItemClick})
-      : super(key: key);
+  const HistoryListHorizon({
+    Key? key,
+    required this.onLoadMore,
+    required this.historyList,
+    this.onItemClick,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    var width = MediaQuery.of(context).size.width;
-    var crossAxisCount = width ~/ 200;
     var controller = createLoadMoreController(onLoadMore);
-    return GridView.count(
+    return ListView.builder(
       controller: controller,
-      primary: false,
-      padding: const EdgeInsets.all(20),
-      crossAxisSpacing: 10,
-      mainAxisSpacing: 10,
+      scrollDirection: Axis.horizontal,
       physics: AlwaysScrollableScrollPhysics(),
-      crossAxisCount: crossAxisCount,
-      children: <Widget>[
-        ...historyList.map((e) {
-          return CoverTitleGridItem(
+      itemCount: historyList.length,
+      itemBuilder: (context, index) {
+        final e = historyList[index];
+        return Padding(
+          padding: const EdgeInsets.only(right: 10),
+          child: SizedBox(
+            width: 140,
+            child: CoverTitleGridItem(
               borderRadius: 4,
               metaHeight: 32,
               metaContainerMagin: EdgeInsets.only(),
@@ -45,9 +44,11 @@ class HistoryListHorizon extends StatelessWidget {
               imageUrl: e.getCoverUrl(),
               onTap: () {
                 this.onItemClick?.call(e);
-              });
-        }),
-      ],
+              },
+            ),
+          ),
+        );
+      },
     );
   }
 }

@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:youvideo/ui/home/provider.dart';
 import 'package:youvideo/ui/home/tabs/category/wrap.dart';
 import 'package:youvideo/ui/home/tabs/home/HomeTab.dart';
-import 'package:youvideo/ui/home/tabs/library/library.dart';
 import 'package:youvideo/ui/home/tabs/my/wrap.dart';
 import 'package:youvideo/ui/home/tabs/videos/wrap.dart';
 
@@ -19,7 +18,6 @@ class HomePageContent extends StatelessWidget {
         children: <Widget>[
           HomeTabPage(),
           VideosTabPageWrap(),
-          LibrariesTabPage(),
           HomeCategoryWrap(),
           HomeMyWrap(),
         ],

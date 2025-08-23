@@ -21,13 +21,15 @@ class History {
     if (coverUrl != null && serviceUrl != null) {
       return "${serviceUrl}${coverUrl}?token=${ApplicationConfig().token}";
     }
+    return null;
   }
 }
 
 class HistoryLoader extends ApiDataLoaderWithBaseResponse<History> {
   @override
   Future<BaseResponse<ListResponseWrap<History>>> fetchData(
-      Map<String, String> params) {
+    Map<String, String> params,
+  ) {
     return ApiClient().fetchHistoryList(params);
   }
 }

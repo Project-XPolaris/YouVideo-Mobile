@@ -1,55 +1,86 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:youui/components/navigation.dart';
-import 'package:youui/layout/home/home.dart';
 import 'package:youvideo/ui/home/appbar.dart';
 import 'package:youvideo/ui/home/provider.dart';
-import 'package:youvideo/ui/search/index.dart';
 
 class BaseHomeLayout extends StatelessWidget {
   final Widget? child;
   final List<Widget> extra;
 
   const BaseHomeLayout({Key? key, this.child, this.extra = const []})
-      : super(key: key);
+    : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     HomeProvider provider = Provider.of<HomeProvider>(context);
-    return ResponsiveTabPageLayout(
-      onTabIndexChange: provider.setActiveTab,
-      tabIndex: provider.activeTab,
-      navItems: [
-        NavigationBarItem(icon: Icon(Icons.home_rounded), label: "Home"),
-        NavigationBarItem(icon: Icon(Icons.videocam_rounded), label: "Videos"),
-        NavigationBarItem(
-            icon: Icon(Icons.video_library_rounded), label: "Libraries"),
-        NavigationBarItem(
-            icon: Icon(Icons.category_rounded), label: "Category"),
-        NavigationBarItem(icon: Icon(Icons.person_rounded), label: "My"),
-      ],
-      appbar: renderHomeAppBar(context, actions: this.extra),
-      body: child,
-      action: Expanded(
-        child: Container(
-          padding: EdgeInsets.only(bottom: 16),
-          child: Column(
-            children: [
-              Expanded(
-                child: Container(child: Column(children: extra)),
-              ),
-              IconButton(
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => SearchPage()),
-                    );
-                  },
-                  icon: Icon(Icons.search_rounded))
-            ],
-          ),
+    bool isWide = MediaQuery.of(context).size.width > 600;
+    return Scaffold(
+      appBar: renderHomeAppBar(context, actions: this.extra),
+      body: Container(
+        child: Row(
+          children: [
+            isWide
+                ? NavigationRail(
+                    destinations: [
+                      NavigationRailDestination(
+                        icon: Icon(Icons.home_rounded),
+                        label: Text('Home'),
+                      ),
+                      NavigationRailDestination(
+                        icon: Icon(Icons.videocam_rounded),
+                        label: Text('Videos'),
+                      ),
+                      NavigationRailDestination(
+                        icon: Icon(Icons.explore_rounded),
+                        label: Text('Explore'),
+                      ),
+                      NavigationRailDestination(
+                        icon: Icon(Icons.person_rounded),
+                        label: Text('My'),
+                      ),
+                    ],
+                    selectedIndex: provider.activeTab,
+                    onDestinationSelected: (index) {
+                      provider.setActiveTab(index);
+                    },
+                  )
+                : Container(),
+            Expanded(child: Container(child: child)),
+          ],
         ),
       ),
+      bottomNavigationBar: isWide
+          ? null
+          : SafeArea(
+              child: NavigationBar(
+                selectedIndex: provider.activeTab,
+                onDestinationSelected: (index) {
+                  provider.setActiveTab(index);
+                },
+                destinations: const [
+                  NavigationDestination(
+                    icon: Icon(Icons.home_outlined),
+                    selectedIcon: Icon(Icons.home_rounded),
+                    label: 'Home',
+                  ),
+                  NavigationDestination(
+                    icon: Icon(Icons.videocam_outlined),
+                    selectedIcon: Icon(Icons.videocam_rounded),
+                    label: 'Videos',
+                  ),
+                  NavigationDestination(
+                    icon: Icon(Icons.explore_outlined),
+                    selectedIcon: Icon(Icons.explore_rounded),
+                    label: 'Explore',
+                  ),
+                  NavigationDestination(
+                    icon: Icon(Icons.person_outline_rounded),
+                    selectedIcon: Icon(Icons.person_rounded),
+                    label: 'My',
+                  ),
+                ],
+              ),
+            ),
     );
   }
 }

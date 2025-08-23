@@ -48,7 +48,8 @@ class File {
     videoId = json['video_id'];
     if (json.containsKey("subtitles")) {
       subtitles = List<Subtitles>.from(
-          json['subtitles'].map((it) => Subtitles.fromJson(it)).toList());
+        json['subtitles'].map((it) => Subtitles.fromJson(it)).toList(),
+      );
     }
   }
 
@@ -66,6 +67,7 @@ class File {
     if (coverUrl != null && serviceUrl != null) {
       return serviceUrl + coverUrl + "?token=${ApplicationConfig().token}";
     }
+    return null;
   }
 
   String get videoPlayLink {
@@ -88,7 +90,7 @@ class File {
     List<String> parts = [
       getSizeText(),
       main_video_codec ?? "Unknown video codec",
-      main_audio_codec ?? "Unknown audio codec"
+      main_audio_codec ?? "Unknown audio codec",
     ];
     return parts.join(" | ");
   }
